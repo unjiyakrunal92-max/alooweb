@@ -1,0 +1,464 @@
+/* =============================================
+   Rules.css — Rules Page
+   AlooSMP — Blue Theme
+   ============================================= */
+
+.rulespage {
+  min-height: 100vh;
+  background: var(--theme-dark);
+  padding: 52px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rulespage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 80% 0%, rgba(26,111,255,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 10% 90%, rgba(232,52,74,0.04) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.rulespage-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ══════════════════════════════
+   HEADER
+══════════════════════════════ */
+.rp-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.rp-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(26,111,255,0.1);
+  border: 1px solid rgba(26,111,255,0.25);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--theme-main);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+}
+
+.rp-tag svg { font-size: 14px; }
+
+.rp-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.rp-title span { color: var(--theme-main); }
+
+.rp-desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: #4a6fa0;
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ══════════════════════════════
+   WARNING BANNER
+══════════════════════════════ */
+.rp-warning {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(232,52,74,0.06);
+  border: 2px solid rgba(232,52,74,0.2);
+  border-radius: 18px;
+  padding: 20px 26px;
+  margin: 36px 0 40px;
+}
+
+.rp-warning-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(232,52,74,0.12);
+  border: 1px solid rgba(232,52,74,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--accent-red);
+  flex-shrink: 0;
+}
+
+.rp-warning-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.rp-warning-text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #4a6fa0;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════
+   CATEGORY TABS
+══════════════════════════════ */
+.rp-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.rp-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 2px solid rgba(26,111,255,0.12);
+  background: #0d1a2e;
+  color: #4a6fa0;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rp-tab-btn svg { font-size: 16px; }
+
+.rp-tab-btn:hover {
+  border-color: rgba(26,111,255,0.3);
+  color: #ffffff;
+}
+
+.rp-tab-btn.active {
+  background: var(--theme-main);
+  border-color: var(--theme-main);
+  color: #ffffff;
+}
+
+/* ══════════════════════════════
+   RULE CARDS
+══════════════════════════════ */
+.rp-rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 56px;
+}
+
+.rp-rule-card {
+  background: #0d1a2e;
+  border: 2px solid rgba(26,111,255,0.1);
+  border-radius: 16px;
+  padding: 20px 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+  opacity: 0;
+  animation: ruleIn 0.4s ease forwards;
+}
+
+@keyframes ruleIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.rp-rule-card:hover {
+  border-color: rgba(26,111,255,0.3);
+  transform: translateX(4px);
+}
+
+/* number badge */
+.rp-rule-num {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: rgba(26,111,255,0.1);
+  border: 1px solid rgba(26,111,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--theme-main);
+  flex-shrink: 0;
+}
+
+.rp-rule-body { flex: 1; }
+
+.rp-rule-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.rp-rule-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.rp-rule-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #4a6fa0;
+  line-height: 1.65;
+}
+
+/* severity badges */
+.rp-severity {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.rp-severity svg { font-size: 11px; }
+
+.rp-severity.low {
+  background: rgba(74,222,128,0.1);
+  border: 1px solid rgba(74,222,128,0.25);
+  color: var(--accent-green);
+}
+
+.rp-severity.medium {
+  background: rgba(255,215,0,0.1);
+  border: 1px solid rgba(255,215,0,0.25);
+  color: #FFD700;
+}
+
+.rp-severity.high {
+  background: rgba(232,52,74,0.1);
+  border: 1px solid rgba(232,52,74,0.2);
+  color: var(--accent-red);
+}
+
+.rp-severity.ban {
+  background: rgba(232,52,74,0.18);
+  border: 1px solid rgba(232,52,74,0.4);
+  color: #ff6b7d;
+}
+
+/* ══════════════════════════════
+   PUNISHMENT TABLE
+══════════════════════════════ */
+.rp-punish-section {
+  margin-bottom: 56px;
+}
+
+.rp-section-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  color: #4a6fa0;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rp-punish-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.rp-punish-card {
+  background: #0d1a2e;
+  border: 2px solid rgba(26,111,255,0.1);
+  border-radius: 16px;
+  padding: 20px 18px;
+  text-align: center;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.rp-punish-card:hover {
+  transform: translateY(-3px);
+}
+
+.rp-punish-card.warn   { border-color: rgba(74,222,128,0.2); }
+.rp-punish-card.warn:hover   { border-color: rgba(74,222,128,0.4); }
+.rp-punish-card.mute   { border-color: rgba(255,215,0,0.2); }
+.rp-punish-card.mute:hover   { border-color: rgba(255,215,0,0.4); }
+.rp-punish-card.tempban{ border-color: rgba(255,140,0,0.2); }
+.rp-punish-card.tempban:hover{ border-color: rgba(255,140,0,0.4); }
+.rp-punish-card.ban    { border-color: rgba(232,52,74,0.2); }
+.rp-punish-card.ban:hover    { border-color: rgba(232,52,74,0.4); }
+
+.rp-punish-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 12px;
+}
+
+.rp-punish-card.warn .rp-punish-icon    { background: rgba(74,222,128,0.1); color: var(--accent-green); }
+.rp-punish-card.mute .rp-punish-icon    { background: rgba(255,215,0,0.1); color: #FFD700; }
+.rp-punish-card.tempban .rp-punish-icon { background: rgba(255,140,0,0.1); color: #ff8c00; }
+.rp-punish-card.ban .rp-punish-icon     { background: rgba(232,52,74,0.1); color: var(--accent-red); }
+
+.rp-punish-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.rp-punish-desc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: #4a6fa0;
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════
+   AGREEMENT BANNER
+══════════════════════════════ */
+.rp-agreement {
+  background: linear-gradient(135deg, #0d1a2e 0%, #0a1628 100%);
+  border: 2px solid rgba(26,111,255,0.2);
+  border-radius: 22px;
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.rp-agreement::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(26,111,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,111,255,0.04) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.rp-agreement-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: rgba(26,111,255,0.12);
+  border: 2px solid rgba(26,111,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: var(--theme-main);
+  margin: 0 auto 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.rp-agreement-title {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.rp-agreement-title span { color: var(--theme-main); }
+
+.rp-agreement-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #4a6fa0;
+  max-width: 480px;
+  margin: 0 auto 24px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+.rp-agreement-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--theme-main);
+  color: #ffffff;
+  border: 3px solid #000;
+  border-radius: 999px;
+  padding: 14px 30px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.rp-agreement-btn:hover {
+  transform: translate(-2px,-2px);
+  box-shadow: 6px 6px 0 #000;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .rp-punish-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .rulespage      { padding: 40px 14px 60px; }
+  .rp-warning     { flex-direction: column; text-align: center; }
+  .rp-rule-card   { flex-direction: column; }
+  .rp-rule-top    { flex-direction: column; align-items: flex-start; }
+  .rp-agreement   { padding: 28px 20px; }
+}

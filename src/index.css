@@ -1,0 +1,87 @@
+/* =============================================
+   index.css — Global Design Tokens & Reset
+   Blue Theme SMP Site
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* ── RESET ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── CSS VARIABLES (used across ALL components) ── */
+:root {
+  /* Brand */
+  --theme-main:        #1a6fff;        /* primary blue */
+  --theme-dark:        #0a1628;        /* deep navy (replaces Gemini's dark) */
+  --theme-mid:         #1258d4;        /* darker blue hover */
+  --theme-light:       #e8f1ff;        /* very light blue bg */
+
+  /* Accents */
+  --accent-green:      #4ade80;        /* green pill — STORE / success */
+  --accent-red:        #e8344a;        /* red pill — PATRONS */
+  --accent-bg:         rgba(26,111,255,0.1);
+  --accent-border:     rgba(26,111,255,0.4);
+
+  /* Borders & Shadows */
+  --border-thick:      3px solid #0a1628;
+  --border-thin:       1.5px solid #0a1628;
+  --shadow-flat:       5px 5px 0px #0a1628;
+  --shadow-flat-sm:    3px 3px 0px #0a1628;
+
+  /* Typography */
+  --font-display:      'Nunito', sans-serif;
+  --font-body:         'Space Grotesk', sans-serif;
+
+  /* Text */
+  --text-primary:      #0a1628;
+  --text-muted:        #475569;
+  --text-light:        #94a3b8;
+
+  /* Page */
+  --bg-page:           #f0f4ff;
+  --bg-white:          #ffffff;
+  --bg-card:           #ffffff;
+}
+
+/* ── BASE ── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--text-primary);
+}
+
+button {
+  font-family: var(--font-display);
+  cursor: pointer;
+}
+
+/* ── APP SHELL ── */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar       { width: 7px; }
+::-webkit-scrollbar-track { background: #e2e8f0; }
+::-webkit-scrollbar-thumb { background: var(--theme-main); border-radius: 4px; }

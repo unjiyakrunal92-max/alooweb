@@ -1,0 +1,341 @@
+/* =============================================
+   Navbar.css — Navbar Component Styles
+   Blue Theme — Pill (desktop) + Hamburger (mobile)
+   ============================================= */
+
+/* ── OUTER WRAPPER ── */
+.navbar-outer {
+  width: 100%;
+  padding: 14px 20px;
+  background-color: var(--bg-page);
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* ── THE PILL (desktop) ── */
+.navbar-pill {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1140px;
+  background-color: var(--theme-main);
+  border: var(--border-thick);
+  border-radius: 999px;
+  padding: 7px 8px 7px 10px;
+  box-shadow: var(--shadow-flat);
+  gap: 4px;
+}
+
+/* ── LOGO ── */
+.navbar-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: var(--border-thick);
+  background-color: var(--bg-white);
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.navbar-logo:hover {
+  transform: scale(1.06);
+}
+
+.navbar-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── LINKS ROW ── */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  flex-wrap: nowrap;
+}
+
+/* ── BASE NAV BUTTON ── */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 15px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 1;
+  transition: background 0.15s ease, transform 0.1s ease;
+  text-decoration: none;
+}
+
+.nav-btn svg {
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  transform: scale(1.04);
+}
+
+/* ── ACTIVE — dark filled pill ── */
+.nav-btn.nav-active {
+  background-color: var(--theme-dark);
+  color: #ffffff;
+}
+.nav-btn.nav-active:hover {
+  background-color: #1a2744;
+}
+
+/* ── PATRONS — red pill ── */
+.nav-btn.nav-patrons {
+  background-color: var(--accent-red);
+  color: #ffffff;
+}
+.nav-btn.nav-patrons:hover {
+  background-color: #cf2a3e;
+}
+
+/* ── SPACER ── */
+.navbar-spacer {
+  flex: 1;
+  min-width: 8px;
+}
+
+/* ── STORE — green pill ── */
+.nav-btn.nav-store {
+  background-color: var(--accent-green);
+  color: var(--theme-dark);
+  border: var(--border-thick);
+  font-weight: 900;
+  margin-left: 2px;
+}
+.nav-btn.nav-store svg {
+  color: var(--theme-dark);
+}
+.nav-btn.nav-store:hover {
+  background-color: #22c55e;
+  transform: scale(1.04);
+}
+
+/* ── HAMBURGER BUTTON (hidden on desktop) ── */
+.navbar-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--theme-dark);
+  border: var(--border-thick);
+  border-radius: 999px;
+  color: #ffffff;
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: background 0.15s ease;
+}
+.navbar-hamburger:hover {
+  background-color: #1a2744;
+}
+
+/* ── MOBILE DRAWER ── */
+.mobile-drawer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+}
+
+/* dark overlay behind drawer */
+.drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* the panel itself */
+.drawer-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 260px;
+  height: 100%;
+  background: var(--theme-main);
+  border-left: var(--border-thick);
+  box-shadow: -4px 0 0 #000;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  gap: 8px;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+}
+
+/* open state */
+.mobile-drawer.open {
+  display: block;
+}
+.mobile-drawer.open .drawer-panel {
+  transform: translateX(0);
+}
+
+/* ── DRAWER HEADER ── */
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.drawer-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: var(--border-thick);
+  background: var(--bg-white);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.drawer-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.drawer-close {
+  background: var(--theme-dark);
+  border: var(--border-thick);
+  border-radius: 999px;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.drawer-close:hover {
+  background: #1a2744;
+}
+
+/* ── DRAWER NAV BUTTONS ── */
+.drawer-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+.drawer-btn svg {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.drawer-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+.drawer-btn.nav-active {
+  background: var(--theme-dark);
+  color: #fff;
+}
+.drawer-btn.nav-patrons {
+  background: var(--accent-red);
+  color: #fff;
+}
+.drawer-btn.nav-patrons:hover {
+  background: #cf2a3e;
+}
+.drawer-btn.nav-store {
+  background: var(--accent-green);
+  color: var(--theme-dark);
+  border: var(--border-thick);
+  font-weight: 900;
+  margin-top: 4px;
+}
+.drawer-btn.nav-store:hover {
+  background: #22c55e;
+}
+
+/* ── TABLET: shrink labels ── */
+@media (max-width: 960px) {
+  .navbar-pill {
+    padding: 6px 7px;
+    gap: 2px;
+  }
+  .nav-btn {
+    padding: 9px 11px;
+    font-size: 12px;
+    gap: 5px;
+  }
+  .nav-label {
+    display: none;
+  }
+  .navbar-logo {
+    width: 42px;
+    height: 42px;
+    margin-right: 4px;
+  }
+}
+
+/* ── MOBILE: show hamburger, hide pill links ── */
+@media (max-width: 640px) {
+  .navbar-outer {
+    padding: 10px 14px;
+  }
+
+  /* keep pill but only show logo + hamburger */
+  .navbar-pill {
+    border-radius: 60px;
+    padding: 7px 10px;
+    gap: 0;
+  }
+
+  .navbar-links {
+    display: none;
+  }
+
+  .navbar-hamburger {
+    display: flex;
+  }
+}

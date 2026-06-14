@@ -1,0 +1,529 @@
+/* =============================================
+   Contact.css — Contact / Discord Page
+   AlooSMP — Blue Theme
+   ============================================= */
+
+.contact-page {
+  min-height: 100vh;
+  background: var(--theme-dark);
+  padding: 52px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 70% 0%, rgba(88,101,242,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 10% 90%, rgba(26,111,255,0.06) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+.contact-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ══════════════════════════════
+   HERO BANNER
+══════════════════════════════ */
+.contact-hero {
+  background: linear-gradient(135deg, #0d1a2e 0%, #131c3a 50%, #0d1a2e 100%);
+  border: 2px solid rgba(88,101,242,0.2);
+  border-radius: 24px;
+  padding: 56px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.contact-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(88,101,242,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88,101,242,0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* glowing orbs */
+.contact-hero-glow1, .contact-hero-glow2 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.contact-hero-glow1 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(88,101,242,0.15) 0%, transparent 70%);
+  top: -100px; left: -60px;
+  animation: glowFloat1 9s ease-in-out infinite;
+}
+
+.contact-hero-glow2 {
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(26,111,255,0.12) 0%, transparent 70%);
+  bottom: -90px; right: -40px;
+  animation: glowFloat2 11s ease-in-out infinite;
+}
+
+@keyframes glowFloat1 {
+  0%,100% { transform: translate(0,0); }
+  50%      { transform: translate(30px,20px); }
+}
+@keyframes glowFloat2 {
+  0%,100% { transform: translate(0,0); }
+  50%      { transform: translate(-25px,-15px); }
+}
+
+/* discord icon bounce */
+.contact-discord-icon {
+  width: 84px;
+  height: 84px;
+  border-radius: 22px;
+  background: rgba(88,101,242,0.12);
+  border: 2px solid rgba(88,101,242,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: #5865f2;
+  margin: 0 auto 22px;
+  position: relative;
+  z-index: 1;
+  animation: discordBounce 3s ease-in-out infinite;
+}
+
+@keyframes discordBounce {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-8px) rotate(-4deg); }
+}
+
+.contact-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 5vw, 44px);
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-hero-title span { color: #5865f2; }
+
+.contact-hero-desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: #4a6fa0;
+  max-width: 480px;
+  margin: 0 auto 28px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+/* members live counter */
+.contact-hero-stats {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-hero-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contact-hero-stat svg { font-size: 15px; }
+
+.contact-online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  animation: contactPulse 2s ease-in-out infinite;
+}
+
+@keyframes contactPulse {
+  0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
+  50%      { opacity: 0.6; box-shadow: 0 0 0 5px rgba(74,222,128,0); }
+}
+
+/* Big discord button */
+.contact-discord-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #5865f2;
+  color: #ffffff;
+  border: 3px solid #000;
+  border-radius: 999px;
+  padding: 16px 36px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 5px 5px 0 #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-discord-btn svg { font-size: 22px; }
+
+.contact-discord-btn:hover {
+  transform: translate(-3px,-3px);
+  box-shadow: 8px 8px 0 #000;
+}
+
+.contact-discord-btn:active {
+  transform: translate(1px,1px);
+  box-shadow: 2px 2px 0 #000;
+}
+
+/* ══════════════════════════════
+   SUPPORT CHANNELS GRID
+══════════════════════════════ */
+.contact-section-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  color: #4a6fa0;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-channels-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.contact-channel-card {
+  background: #0d1a2e;
+  border: 2px solid rgba(26,111,255,0.1);
+  border-radius: 18px;
+  padding: 24px 22px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-channel-card:hover {
+  border-color: rgba(26,111,255,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+
+.contact-channel-card::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  right: -16px;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(26,111,255,0.06), transparent 70%);
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.contact-channel-card:hover::after { transform: scale(1.5); }
+
+.contact-channel-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: rgba(26,111,255,0.1);
+  border: 1px solid rgba(26,111,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  color: var(--theme-main);
+  margin-bottom: 16px;
+  transition: transform 0.25s ease;
+}
+
+.contact-channel-card:hover .contact-channel-icon { transform: scale(1.08) rotate(-4deg); }
+
+.contact-channel-card.support .contact-channel-icon { background: rgba(74,222,128,0.1); border-color: rgba(74,222,128,0.2); color: var(--accent-green); }
+.contact-channel-card.report .contact-channel-icon  { background: rgba(232,52,74,0.1); border-color: rgba(232,52,74,0.2); color: var(--accent-red); }
+.contact-channel-card.business .contact-channel-icon{ background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.2); color: #FFD700; }
+
+.contact-channel-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.contact-channel-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #4a6fa0;
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+
+.contact-channel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--theme-main);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contact-channel-link svg { font-size: 14px; }
+
+/* ══════════════════════════════
+   STAFF TEAM
+══════════════════════════════ */
+.contact-staff-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 48px;
+}
+
+.contact-staff-card {
+  background: #0d1a2e;
+  border: 2px solid rgba(26,111,255,0.1);
+  border-radius: 16px;
+  padding: 20px 16px;
+  text-align: center;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.contact-staff-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(26,111,255,0.3);
+}
+
+.contact-staff-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: #1a2a40;
+  border: 2px solid rgba(26,111,255,0.2);
+  overflow: hidden;
+  margin: 0 auto 12px;
+}
+
+.contact-staff-avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.contact-staff-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.contact-staff-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contact-staff-role svg { font-size: 11px; }
+
+.contact-staff-role.owner    { background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.25); color: #FFD700; }
+.contact-staff-role.admin    { background: rgba(232,52,74,0.1); border: 1px solid rgba(232,52,74,0.2); color: var(--accent-red); }
+.contact-staff-role.mod      { background: rgba(26,111,255,0.1); border: 1px solid rgba(26,111,255,0.25); color: var(--theme-main); }
+.contact-staff-role.helper   { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25); color: var(--accent-green); }
+
+/* ══════════════════════════════
+   TICKET STEPS
+══════════════════════════════ */
+.contact-ticket-section {
+  background: #0d1a2e;
+  border: 2px solid rgba(26,111,255,0.1);
+  border-radius: 22px;
+  padding: 36px 32px;
+  margin-bottom: 48px;
+}
+
+.contact-ticket-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.contact-ticket-title span { color: var(--theme-main); }
+
+.contact-ticket-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.contact-ticket-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.contact-ticket-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(26,111,255,0.1);
+  border: 2px solid rgba(26,111,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--theme-main);
+}
+
+.contact-ticket-step-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.contact-ticket-step-desc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: #4a6fa0;
+  line-height: 1.6;
+  max-width: 200px;
+}
+
+/* ══════════════════════════════
+   SOCIAL LINKS ROW
+══════════════════════════════ */
+.contact-socials-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.contact-social-card {
+  background: #0d1a2e;
+  border: 2px solid rgba(26,111,255,0.1);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.contact-social-card:hover {
+  transform: translateY(-3px);
+}
+
+.contact-social-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.contact-social-card.discord .contact-social-icon { background: rgba(88,101,242,0.12); color: #5865f2; }
+.contact-social-card.youtube .contact-social-icon { background: rgba(255,68,68,0.1); color: #ff4444; }
+.contact-social-card.twitter .contact-social-icon { background: rgba(26,111,255,0.1); color: var(--theme-main); }
+.contact-social-card.instagram .contact-social-icon { background: rgba(225,48,108,0.1); color: #e1306c; }
+
+.contact-social-card.discord:hover { border-color: rgba(88,101,242,0.4); }
+.contact-social-card.youtube:hover { border-color: rgba(255,68,68,0.3); }
+.contact-social-card.twitter:hover { border-color: rgba(26,111,255,0.3); }
+.contact-social-card.instagram:hover { border-color: rgba(225,48,108,0.3); }
+
+.contact-social-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.contact-social-handle {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: #3a5570;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .contact-channels-grid { grid-template-columns: 1fr; }
+  .contact-staff-grid    { grid-template-columns: repeat(2, 1fr); }
+  .contact-ticket-steps  { grid-template-columns: 1fr 1fr; gap: 28px 16px; }
+  .contact-socials-grid  { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .contact-page  { padding: 40px 14px 60px; }
+  .contact-hero  { padding: 40px 20px; }
+  .contact-hero-stats { flex-direction: column; align-items: center; }
+  .contact-staff-grid { grid-template-columns: 1fr 1fr; }
+  .contact-ticket-steps { grid-template-columns: 1fr; }
+}

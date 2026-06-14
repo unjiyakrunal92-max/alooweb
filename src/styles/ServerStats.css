@@ -1,0 +1,144 @@
+/* =============================================
+   ServerStats.css — Stats Strip Section
+   AlooSMP — Blue Theme
+   ============================================= */
+
+.stats-section {
+  width: 100%;
+  background: #0a1628;
+  border-top: 2px solid rgba(26,111,255,0.15);
+  border-bottom: 2px solid rgba(26,111,255,0.15);
+  padding: 0 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* subtle top glow line */
+.stats-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--theme-main), transparent);
+}
+
+.stats-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+/* ── SINGLE STAT CARD ── */
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 36px 20px;
+  border-right: 1px solid rgba(26,111,255,0.1);
+  position: relative;
+  cursor: default;
+  transition: background 0.2s ease;
+}
+
+.stat-card:last-child {
+  border-right: none;
+}
+
+.stat-card:hover {
+  background: rgba(26,111,255,0.05);
+}
+
+/* top accent line on hover */
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 2px;
+  background: var(--theme-main);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  border-radius: 0 0 4px 4px;
+}
+
+.stat-card:hover::after {
+  transform: scaleX(1);
+}
+
+/* ── ICON BUBBLE ── */
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(26,111,255,0.12);
+  border: 1px solid rgba(26,111,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--theme-main);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.stat-card:hover .stat-icon {
+  background: rgba(26,111,255,0.2);
+  transform: scale(1.08);
+}
+
+/* ── NUMBER ── */
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+.stat-number.blue  { color: var(--theme-main); }
+.stat-number.green { color: var(--accent-green); }
+.stat-number.white { color: #ffffff; }
+
+/* ── LABEL ── */
+.stat-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: #4a6fa0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .stats-inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-card:nth-child(2) {
+    border-right: none;
+  }
+
+  .stat-card:nth-child(1),
+  .stat-card:nth-child(2) {
+    border-bottom: 1px solid rgba(26,111,255,0.1);
+  }
+}
+
+@media (max-width: 420px) {
+  .stats-inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-card {
+    padding: 28px 12px;
+  }
+
+  .stat-number {
+    font-size: 24px;
+  }
+}   

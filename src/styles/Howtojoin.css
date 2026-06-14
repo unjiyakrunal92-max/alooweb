@@ -1,0 +1,476 @@
+/* =============================================
+   HowToJoin.css — Join Steps Section
+   AlooSMP — Blue Theme
+   ============================================= */
+
+.join-section {
+  width: 100%;
+  background: var(--theme-dark);
+  padding: 90px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.join-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 80% 50%, rgba(26,111,255,0.07) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.join-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ── */
+.join-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.join-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(26,111,255,0.1);
+  border: 1px solid rgba(26,111,255,0.25);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--theme-main);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+}
+
+.join-tag svg { font-size: 14px; }
+
+.join-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.join-title span { color: var(--theme-main); }
+
+.join-desc {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: #4a6fa0;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── Steps Grid ── */
+.join-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+  margin-bottom: 52px;
+}
+
+/* connecting dashed line between steps */
+.join-steps::before {
+  content: '';
+  position: absolute;
+  top: 36px;
+  left: calc(12.5% + 8px);
+  right: calc(12.5% + 8px);
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(26,111,255,0.3) 0px,
+    rgba(26,111,255,0.3) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  z-index: 0;
+}
+
+/* ── Single Step ── */
+.join-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Step Number Circle ── */
+.step-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #0d1a2e;
+  border: 3px solid rgba(26,111,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.join-step:hover .step-circle {
+  border-color: var(--theme-main);
+  background: rgba(26,111,255,0.12);
+}
+
+.step-circle-icon {
+  font-size: 28px;
+  color: var(--theme-main);
+  transition: transform 0.25s ease;
+}
+
+.join-step:hover .step-circle-icon {
+  transform: scale(1.15);
+}
+
+.step-num-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--theme-main);
+  border: 2px solid var(--theme-dark);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 900;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.step-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #4a6fa0;
+  line-height: 1.65;
+}
+
+.step-desc strong {
+  color: var(--theme-main);
+  font-weight: 700;
+}
+
+/* ── Join CTA Box ── */
+.join-cta-box {
+  background: #0d1a2e;
+  border: 2px solid rgba(26,111,255,0.15);
+  border-radius: 20px;
+  padding: 36px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+  
+.join-cta-label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 800;
+  color: #4a6fa0;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+.join-cta-ip {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.join-cta-ip span { color: var(--theme-main); }
+
+.join-cta-right {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-join-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--theme-main);
+  color: #ffffff;
+  border: 3px solid #000;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn-join-primary:hover {
+  transform: translate(-2px,-2px);
+  box-shadow: 6px 6px 0 #000;
+}
+
+.btn-join-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-join-secondary:hover {
+  border-color: var(--theme-main);
+  color: var(--theme-main);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .join-steps {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  .join-steps::before { display: none; }
+}
+
+@media (max-width: 560px) {
+  .join-section { padding: 60px 16px; }
+  .join-steps   { grid-template-columns: 1fr; gap: 28px; }
+  .join-cta-box { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+}
+
+/* =============================================
+   FAQ.css — Accordion FAQ Section
+   ============================================= */
+
+.faq-section {
+  width: 100%;
+  background: #090f1a;
+  padding: 90px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.faq-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 30% 50%, rgba(26,111,255,0.05) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.faq-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── FAQ Header ── */
+.faq-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.faq-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(26,111,255,0.08);
+  border: 1px solid rgba(26,111,255,0.2);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--theme-main);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+}
+
+.faq-tag svg { font-size: 14px; }
+
+.faq-title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.5vw, 38px);
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.faq-title span { color: var(--theme-main); }
+
+.faq-subtitle {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: #4a6fa0;
+}
+
+/* ── Accordion ── */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faq-item {
+  background: #0d1a2e;
+  border: 2px solid rgba(26,111,255,0.1);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.faq-item.open {
+  border-color: rgba(26,111,255,0.3);
+}
+
+/* ── Question Row ── */
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.faq-question:hover {
+  background: rgba(26,111,255,0.04);
+}
+
+.faq-q-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.faq-q-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(26,111,255,0.1);
+  border: 1px solid rgba(26,111,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  color: var(--theme-main);
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.faq-item.open .faq-q-icon {
+  background: rgba(26,111,255,0.2);
+}
+
+.faq-q-text {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.faq-chevron {
+  font-size: 22px;
+  color: #4a6fa0;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, color 0.2s ease;
+}
+
+.faq-item.open .faq-chevron {
+  transform: rotate(180deg);
+  color: var(--theme-main);
+}
+
+/* ── Answer ── */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.25s ease;
+  padding: 0 24px;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 300px;
+  padding: 0 24px 20px;
+}
+
+.faq-answer p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: #4a6fa0;
+  line-height: 1.75;
+  padding-left: 50px;
+  border-top: 1px solid rgba(26,111,255,0.08);
+  padding-top: 16px;
+}
+
+.faq-answer a {
+  color: var(--theme-main);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.faq-answer a:hover {
+  text-decoration: underline;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 560px) {
+  .faq-section    { padding: 60px 16px; }
+  .faq-q-text     { font-size: 12px; }
+  .faq-answer p   { padding-left: 0; }
+}
