@@ -17,6 +17,7 @@ import {
   MdShield,
 } from 'react-icons/md';
 import { fetchPlayers, fetchServerInfo } from '../utils/api';
+import CountUp from './CountUp';
 
 // ── Server Info ──
 const JAVA_IP      = 'play.mralooyt.fun';
@@ -184,25 +185,31 @@ const Hero = () => {
             )}
           </div>
 
-          {/* Players online — live from API */}
+          {/* Players online — live from API, animated */}
           <div className="hero-stat-row">
             <div className="stat-row-label">
               <div className="stat-row-icon"><MdPeople /></div>
               Players Online
             </div>
             <span className="stat-row-value green">
-              {statsLoading ? '...' : `${onlineCount} / ${MAX_PLAYERS}`}
+              {statsLoading ? '...' : (
+                <>
+                  <CountUp value={onlineCount} format={false} /> / {MAX_PLAYERS}
+                </>
+              )}
             </span>
           </div>
 
-          {/* Total players — live from API */}
+          {/* Total players — live from API, animated */}
           <div className="hero-stat-row">
             <div className="stat-row-label">
               <div className="stat-row-icon"><MdStar /></div>
               Total Players
             </div>
             <span className="stat-row-value blue">
-              1024+
+              {statsLoading ? '...' : (
+                <CountUp value={totalPlayers} suffix="+" />
+              )}
             </span>
           </div>
 

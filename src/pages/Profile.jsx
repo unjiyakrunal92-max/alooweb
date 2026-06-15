@@ -26,7 +26,6 @@ import {
   getAvatarUrl,
   formatMoney,
   formatPlaytime,
-  formatKD,
   formatDate,
   timeAgo,
   sortPlayers,
@@ -34,6 +33,7 @@ import {
 } from '../utils/api';
 import PrefixBadge from '../components/PrefixBadge';
 import DemoBanner from '../components/DemoBanner';
+import CountUp from '../components/CountUp';
 
 const Profile = () => {
   const { username } = useParams();
@@ -106,18 +106,16 @@ const Profile = () => {
     );
   }
 
-  const kd = formatKD(player.kills, player.deaths);
-
-  // ── ALL stat cards (same data shown on leaderboard, plus extras) ──
+  // ── ALL stat cards — raw value + optional formatter for CountUp animation ──
   const STAT_CARDS = [
-    { icon: <MdFlashOn />,      val: player.kills,                          label: 'Kills',       color: 'green'  },
-    { icon: <MdGavel />,        val: player.deaths,                         label: 'Deaths',      color: 'red'    },
-    { icon: <MdAttachMoney />,  val: formatMoney(player.money),             label: 'Net Worth',   color: 'gold'   },
-    { icon: <MdAccessTime />,   val: formatPlaytime(player.playtime_minutes), label: 'Playtime',  color: 'blue'   },
-    { icon: <MdTrendingUp />,   val: kd,                                     label: 'K/D Ratio',   color: 'cyan'   },
-    { icon: <MdPets />,         val: player.mob_kills,                      label: 'Mob Kills',   color: 'purple' },
-    { icon: <MdConstruction />, val: `${(player.blocks_mined/1000).toFixed(1)}K`, label: 'Blocks Mined', color: 'orange' },
-    { icon: <MdStar />,         val: Number(player.score).toFixed(0),       label: 'Total Score', color: 'pink'   },
+    { icon: <MdFlashOn />,      value: player.kills,            label: 'Kills',       color: 'green'  },
+    { icon: <MdGavel />,        value: player.deaths,           label: 'Deaths',      color: 'red'    },
+    { icon: <MdAttachMoney />,  value: player.money,            label: 'Net Worth',   color: 'gold',   formatter: formatMoney },
+    { icon: <MdAccessTime />,   value: player.playtime_minutes, label: 'Playtime',    color: 'blue',   formatter: formatPlaytime },
+    { icon: <MdTrendingUp />,   value: player.deaths === 0 ? player.kills : player.kills / player.deaths, label: 'K/D Ratio', color: 'cyan', decimals: 1 },
+    { icon: <MdPets />,         value: player.mob_kills,        label: 'Mob Kills',   color: 'purple' },
+    { icon: <MdConstruction />, value: player.blocks_mined / 1000, label: 'Blocks Mined', color: 'orange', decimals: 1, suffix: 'K', format: false },
+    { icon: <MdStar />,         value: Number(player.score),    label: 'Total Score', color: 'pink' },
   ];
 
   return (
@@ -171,7 +169,15 @@ const Profile = () => {
             <div className="profile-stat-card" key={s.label} style={{ animationDelay: `${i * 0.05}s` }}>
               <div className={`profile-stat-icon ${s.color}`}>{s.icon}</div>
               <div className="profile-stat-text">
-                <div className={`profile-stat-val ${s.color}`}>{s.val}</div>
+                <div className={`profile-stat-val ${s.color}`}>
+                  <CountUp
+                    value={s.value}
+                    formatter={s.formatter}
+                    decimals={s.decimals || 0}
+                    suffix={s.suffix || ''}
+                    format={s.format !== undefined ? s.format : true}
+                  />
+                </div>
                 <div className="profile-stat-label">{s.label}</div>
               </div>
             </div>

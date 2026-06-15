@@ -19,6 +19,7 @@ import {
 } from '../utils/api';
 import PrefixBadge from '../components/PrefixBadge';
 import DemoBanner from '../components/DemoBanner';
+import CountUp from '../components/CountUp';
 
 const getRankClass = (rank) => {
   if (rank === 1) return 'r1';
@@ -146,15 +147,15 @@ const Leaderboard = () => {
                 <div className="podium-level"><MdStar /> Level {p.player_level}</div>
                 <div className="podium-stats">
                   <div className="podium-stat">
-                    <span className="podium-stat-val green">{p.kills}</span>
+                    <span className="podium-stat-val green"><CountUp value={p.kills} format={false} /></span>
                     <span className="podium-stat-lbl">Kills</span>
                   </div>
                   <div className="podium-stat">
-                    <span className="podium-stat-val red">{p.deaths}</span>
+                    <span className="podium-stat-val red"><CountUp value={p.deaths} format={false} /></span>
                     <span className="podium-stat-lbl">Deaths</span>
                   </div>
                   <div className="podium-stat">
-                    <span className="podium-stat-val blue">{formatMoney(p.money)}</span>
+                    <span className="podium-stat-val blue"><CountUp value={p.money} formatter={formatMoney} /></span>
                     <span className="podium-stat-lbl">Worth</span>
                   </div>
                 </div>
@@ -211,12 +212,12 @@ const Leaderboard = () => {
                   <div className="lb-player-level"><MdStar /> Level {p.player_level}</div>
                 </div>
               </div>
-              <div className="lb-cell green worth-col">{formatMoney(p.money)}</div>
-              <div className="lb-cell">{p.kills}<span className="lb-cell-sub">kills</span></div>
-              <div className="lb-cell red">{p.deaths}<span className="lb-cell-sub">deaths</span></div>
+              <div className="lb-cell green worth-col"><CountUp value={p.money} formatter={formatMoney} /></div>
+              <div className="lb-cell"><CountUp value={p.kills} format={false} /><span className="lb-cell-sub">kills</span></div>
+              <div className="lb-cell red"><CountUp value={p.deaths} format={false} /><span className="lb-cell-sub">deaths</span></div>
               <div className="lb-cell muted time-col">
                 <MdAccessTime style={{verticalAlign:'middle',marginRight:'4px',fontSize:'13px'}} />
-                {formatPlaytime(p.playtime_minutes)}
+                <CountUp value={p.playtime_minutes} formatter={formatPlaytime} />
               </div>
             </Link>
           ))}

@@ -8,7 +8,7 @@ import Gallery from '../components/Gallery'
 import Footer from '../components/Footer'
 
 // Coming soon:
-import HowToJoin from '../components/HowToJoin'
+// import HowToJoin from '../components/HowToJoin'
 // import Footer    from '../components/Footer'
 
 const Home = () => {
@@ -21,7 +21,7 @@ const Home = () => {
       <HowToJoinAndFAQ/>
       <Community />
       <Footer />   
-      <HowToJoin />
+      {/* <HowToJoin /> */}
     </>
   )
 }
