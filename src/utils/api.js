@@ -7,7 +7,7 @@
 import { MOCK_PLAYERS, getMockPlayer } from './mockData';
 
 // ── Config ──
-export const API_BASE = 'http://premium-01.gladbyte.in:25841/api';
+export const API_BASE = '/api/proxy';
 export const API_KEY  = 'mralooyt-2026-x7Kp9-secret';
 
 const FETCH_TIMEOUT_MS = 5000;
