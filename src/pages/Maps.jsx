@@ -7,7 +7,6 @@ import {
   MdAutoAwesome,
   MdFullscreen,
   MdStraighten,
-  MdLocationOn,
   MdTerrain,
   MdGroups,
   MdShield,
@@ -17,7 +16,7 @@ import Footer from '../components/Footer';
 // ── World Tabs ──
 // These IDs match exactly what Squaremap uses to load your worlds
 const WORLDS = [
-  { id: 'playworld',         label: 'Overworld', icon: <MdPublic />,            cls: '' },
+  { id: 'playworld',         label: 'Overworld', icon: <MdPublic />,             cls: '' },
   { id: 'playworld_nether',  label: 'Nether',    icon: <MdLocalFireDepartment />, cls: 'nether' },
   { id: 'playworld_the_end', label: 'The End',   icon: <MdAutoAwesome />,       cls: 'end' },
 ];
@@ -47,12 +46,12 @@ const WORLD_INFO = {
 // ── Points of Interest ──
 const POI = {
   playworld: [
-    { name: 'Spawn Town',   coords: 'X: 0, Z: 0',       desc: 'The main hub — shops, portals, and player markets.' },
+    { name: 'Spawn Town',   coords: 'X: 0, Z: 0',     desc: 'The main hub — shops, portals, and player markets.' },
     { name: 'Mining Valley',coords: 'X: 850, Z: -320',  desc: 'Resource-rich biome with diamond and ancient debris veins.' },
     { name: 'Sky Islands',  coords: 'X: -600, Z: 1200', desc: 'Floating islands with rare loot chests and elytra routes.' },
   ],
   playworld_nether: [
-    { name: 'Fortress Alpha',  coords: 'X: 120, Z: 80',   desc: 'Largest nether fortress — blaze farms and wither skeletons.' },
+    { name: 'Fortress Alpha',  coords: 'X: 120, Z: 80',    desc: 'Largest nether fortress — blaze farms and wither skeletons.' },
     { name: 'Bastion Remnant', coords: 'X: -300, Z: 410', desc: 'Piglin outpost with netherite gear and ancient debris.' },
     { name: 'Lava Ocean',      coords: 'X: 0, Z: -500',   desc: 'Massive lava sea — dangerous but rich in resources.' },
   ],
@@ -66,8 +65,13 @@ const POI = {
 const Maps = () => {
   const [world, setWorld] = useState('playworld');
 
-  // Your server IP and Squaremap port
-  const MAP_BASE_URL = "/live-map-proxy/";
+  // 1. Check if you are running on localhost
+  const isLocalhost = window.location.hostname === 'localhost';
+
+  // 2. Select the base URL depending on development vs production env
+  const MAP_BASE_URL = isLocalhost 
+    ? 'http://163.61.39.244:25880' 
+    : '/live-map-proxy';
 
   // The URL changes dynamically when a user clicks a tab
   const currentMapUrl = `${MAP_BASE_URL}/?world=${world}`;
@@ -149,7 +153,6 @@ const Maps = () => {
         </div>
 
         {/* Points of Interest */}
-    
         
         <Footer />
 

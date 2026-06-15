@@ -22,3 +22,51 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# 1. Update vercel.json (For the live website)
+# Open your vercel.json file and swap out the old Gladbyte links with your new host's details under destination:
+
+# JSON
+# {
+#   "rewrites": [
+#     {
+#       "source": "/api/proxy/(.*)",
+#       "destination": "http://NEW_HOST_IP_OR_DOMAIN:NEW_API_PORT/api/$1"
+#     },
+#     {
+#       "source": "/live-map-proxy/(.*)",
+#       "destination": "http://NEW_HOST_IP_OR_DOMAIN:NEW_MAP_PORT/$1"
+#     },
+#     {
+#       "source": "/(.*)",
+#       "destination": "/index.html"
+#     }
+#   ]
+# }
+# 2. Update vite.config.js (For localhost development)
+# Open your vite.config.js file and update the target address under the proxy settings so it matches your new API link:
+
+# JavaScript
+# import { defineConfig } from 'vite';
+# import react from '@vitejs/plugin-react';
+
+# export default defineConfig({
+#   plugins: [react()],
+#   server: {
+#     proxy: {
+#       '/api/proxy': {
+#         target: 'http://NEW_HOST_IP_OR_DOMAIN:NEW_API_PORT/api',
+#         changeOrigin: true,
+#         rewrite: (path) => path.replace(/^\/api\/proxy/, ''),
+#       },
+#     },
+#   },
+# });
+# 3. Save and Deploy
+# Once you fill in the new IP and ports:
+
+# Save both files.
+
+# Push the changes to your GitHub repository (git add ., git commit, git push).
+
+# Vercel will automatically redeploy the site, and it will immediately start fetching data from your new host!
