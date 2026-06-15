@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/Howtojoin.css';
+import '../styles/HowToJoin.css'
 import {
   MdDownload,
   MdDns,
