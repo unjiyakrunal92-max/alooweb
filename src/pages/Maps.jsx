@@ -67,7 +67,7 @@ const Maps = () => {
   const [world, setWorld] = useState('playworld');
 
   // Your server IP and Squaremap port
-  const MAP_BASE_URL = "http://play.mralooyt.fun:25880";
+  const MAP_BASE_URL = "/live-map-proxy/";
 
   // The URL changes dynamically when a user clicks a tab
   const currentMapUrl = `${MAP_BASE_URL}/?world=${world}`;

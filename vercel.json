@@ -5,8 +5,8 @@
       "destination": "http://premium-01.gladbyte.in:25841/api/$1"
     },
     {
-      "source": "/live-map-proxy",
-      "destination": "http://play.mralooyt.fun:25880/"
+      "source": "/live-map-proxy/(.*)",
+      "destination": "http://163.61.39.244:25880/$1"
     },
     {
       "source": "/(.*)",
