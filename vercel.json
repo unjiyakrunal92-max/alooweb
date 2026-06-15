@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/api/minecraft-players",
+      "destination": "http://premium-01.gladbyte.in:25841/api/players?api_key=mralooyt-2026-x7Kp9-secret&limit=100"
+    },
+    {
+      "source": "/live-map-proxy",
+      "destination": "http://play.mralooyt.fun:25880/"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
