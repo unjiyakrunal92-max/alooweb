@@ -3,9 +3,10 @@ import Hero        from '../components/Hero'
 import ServerStats from '../components/ServerStats'
 import Features    from '../components/Features'
 import Community   from '../components/Community'
-import HowToJoinAndFAQ from '../components/HowToJoin'
+import HowToJoin from '../components/HowToJoin'
 import Gallery from '../components/Gallery'
 import Footer from '../components/Footer'
+import { FAQ } from '../components/FAQ'
 
 // Coming soon:
 // import HowToJoin from '../components/HowToJoin'
@@ -18,12 +19,12 @@ const Home = () => {
       <ServerStats />
       <Features />
       <Gallery/>
-      <HowToJoinAndFAQ/>
+      <HowToJoin />
+      <FAQ></FAQ>
       <Community />
       <Footer />   
-      {/* <HowToJoin /> */}
     </>
   )
 }
 
-export default Home
+export default Home 

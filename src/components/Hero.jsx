@@ -89,7 +89,7 @@ const Hero = () => {
             <span className="hero-badge-dot" />
             <span className="hero-badge-text">
               <MdBolt style={{ fontSize: '13px', marginRight: '4px', verticalAlign: 'middle' }} />
-              Season 1 is Live
+              Season 5 is Live
             </span>
           </div>
 
@@ -219,7 +219,7 @@ const Hero = () => {
               <div className="stat-row-icon"><MdShield /></div>
               Current Season
             </div>
-            <span className="stat-row-value">Season 1</span>
+            <span className="stat-row-value">Season 5</span>
           </div>
 
           <div className="hero-card-divider" />
