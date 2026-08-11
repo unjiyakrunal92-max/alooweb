@@ -192,7 +192,12 @@ const Navbar = () => {
             </button>
 
             {/* Store button */}
-            <a href="#" className="nav-btn-store">
+            <a
+              href="https://discord.gg/Ecf6UJq8MR"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-btn-store"
+            >
               <MdStorefront />
               <span className="nav-label">Store</span>
             </a>
@@ -287,7 +292,13 @@ const Navbar = () => {
               {copied ? 'Copied!' : `Copy IP — ${SERVER_IP}`}
             </button>
 
-            <a href="#" className="drawer-store-btn" onClick={() => setDrawer(false)}>
+            <a
+              href="https://discord.gg/Ecf6UJq8MR"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="drawer-store-btn"
+              onClick={() => setDrawer(false)}
+            >
               <MdStorefront />
               Visit Store
             </a>

@@ -87,6 +87,15 @@ const Hero = () => {
   return (
     <section className="hero-section">
 
+      {/* Top Right Floating Corner Badge */}
+      <div className="hero-corner-dev-pill">
+        <span className="dev-pill-icon">⚡</span>
+        <div className="dev-pill-content">
+          <span className="dev-pill-title">Website Created by <strong>Krunal Patel</strong></span>
+          <span className="dev-pill-sub">AlooSMP Co-Owner & Dev • Discord: <strong>ITZ_KRUNAL</strong></span>
+        </div>
+      </div>
+
       {/* Animated background */}
       <div className="hero-grid-bg" />
       <div className="hero-glow-1" />
@@ -251,6 +260,18 @@ const Hero = () => {
               <span className="version-tag">
                 <MdPublic /> India Hosted
               </span>
+            </div>
+          </div>
+
+          {/* Developer / Co-Owner Credit Badge */}
+          <div className="hero-dev-card stat-anim" style={{ animationDelay: '0.55s' }}>
+            <div className="dev-card-left">
+              <div className="dev-card-badge">DEV</div>
+            </div>
+            <div className="dev-card-info">
+              <div className="dev-card-by">Website Created by <span>Krunal Patel</span></div>
+              <div className="dev-card-role">AlooSMP Co-Owner & Dev</div>
+              <div className="dev-card-discord">Discord: <span>ITZ_KRUNAL</span></div>
             </div>
           </div>
 
