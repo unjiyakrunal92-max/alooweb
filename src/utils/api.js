@@ -7,15 +7,10 @@
 import { MOCK_PLAYERS, getMockPlayer } from './mockData';
 
 // ── Config ──
-// Using Vercel rewrite proxy: vercel.json routes /api/proxy/* → your real API
 export const API_BASE = '/api/proxy';
 export const API_KEY  = 'mralooyt-2026-x7Kp9-secret';
 
-// Increased timeout — Vercel's edge proxy to a custom port can be slower
-// than a direct connection, especially on cold starts.
-const FETCH_TIMEOUT_MS = 10000;
-
-// Set to true temporarily to see exactly what's failing in the browser console
+const FETCH_TIMEOUT_MS = 15000;
 const DEBUG = true;
 
 let usingMockData = false;
@@ -31,39 +26,64 @@ function log(...args) {
   if (DEBUG) console.log('[api.js]', ...args);
 }
 
+// ── In-Flight Request Deduplication & Response Caching ──
+const inFlightPromises = new Map();
+const responseCache = new Map();
+const CACHE_TTL_MS = 10000; // 10 second cache
+
 async function fetchWithTimeout(url, ms = FETCH_TIMEOUT_MS) {
+  // 1. Return cached data if fresh
+  const cached = responseCache.get(url);
+  if (cached && (Date.now() - cached.timestamp < CACHE_TTL_MS)) {
+    log('Cache HIT for:', url);
+    return cached.data;
+  }
+
+  // 2. Return pending in-flight promise if identical request is running
+  if (inFlightPromises.has(url)) {
+    log('Deduplicating in-flight fetch for:', url);
+    return inFlightPromises.get(url);
+  }
+
+  // 3. Initiate new fetch
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), ms);
   log('Fetching:', url);
-  try {
-    const res = await fetch(url, { signal: controller.signal });
-    clearTimeout(timer);
-    log('Response status:', res.status, 'for', url);
-    if (!res.ok) {
-      const text = await res.text().catch(() => '');
-      log('Response body (error):', text.slice(0, 300));
-      throw new Error(`HTTP ${res.status}`);
+
+  const fetchPromise = (async () => {
+    try {
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timer);
+      log('Response status:', res.status, 'for', url);
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      responseCache.set(url, { data, timestamp: Date.now() });
+      return data;
+    } catch (err) {
+      clearTimeout(timer);
+      throw err;
+    } finally {
+      inFlightPromises.delete(url);
     }
-    return res;
-  } catch (err) {
-    clearTimeout(timer);
-    log('Fetch FAILED:', err.name, err.message, 'for', url);
-    throw err;
-  }
+  })();
+
+  inFlightPromises.set(url, fetchPromise);
+  return fetchPromise;
 }
 
 // GET /api/players?limit=N
 export async function fetchPlayers(limit = 100) {
   try {
-    const res = await fetchWithTimeout(`${API_BASE}/players?api_key=${API_KEY}&limit=${limit}`);
-    const data = await res.json();
+    const data = await fetchWithTimeout(`${API_BASE}/players?api_key=${API_KEY}&limit=${limit}`);
     usingMockData = false;
-    log('fetchPlayers SUCCESS — real data, count:', Array.isArray(data) ? data.length : (data.players || []).length);
-    return Array.isArray(data) ? data : (data.players || []);
+    const playersList = Array.isArray(data) ? data : (data && data.players ? data.players : []);
+    log('fetchPlayers SUCCESS — real data, count:', playersList.length);
+    return playersList;
   } catch (err) {
     usingMockData = true;
     log('fetchPlayers FALLBACK to mock data. Reason:', err.message);
-    // Mark all mock players as offline so Hero shows "0 / 100" not fake counts
     return MOCK_PLAYERS.slice(0, limit).map(p => ({ ...p, is_online: false }));
   }
 }
@@ -71,33 +91,32 @@ export async function fetchPlayers(limit = 100) {
 // GET /api/player/:username
 export async function fetchPlayer(username) {
   try {
-    const res = await fetchWithTimeout(`${API_BASE}/player/${encodeURIComponent(username)}?api_key=${API_KEY}`);
-    const data = await res.json();
+    const data = await fetchWithTimeout(`${API_BASE}/player/${encodeURIComponent(username)}?api_key=${API_KEY}`);
     usingMockData = false;
-    return data.player || data;
+    const pData = data.player || data;
+    if (pData && !pData.error && pData.username) {
+      return pData;
+    }
+    throw new Error('Player object not found in API response');
   } catch (err) {
     usingMockData = true;
     log('fetchPlayer FALLBACK to mock data. Reason:', err.message);
     const mock = getMockPlayer(username);
     if (mock) return mock;
-    throw new Error('Server offline — demo data only has sample players');
+    throw new Error('Player not found or server offline');
   }
 }
 
 // GET /api/server
 export async function fetchServerInfo() {
   try {
-    const res = await fetchWithTimeout(`${API_BASE}/server?api_key=${API_KEY}`);
-    const data = await res.json();
+    const data = await fetchWithTimeout(`${API_BASE}/server?api_key=${API_KEY}`);
     usingMockData = false;
     log('fetchServerInfo SUCCESS — real data:', data);
-    // If the API responds at all → server is online regardless of player count
-    // Inject online:true so Hero badge shows correctly even with 0 players
-    return { ...data, online: true };
+    return { ...(data || {}), online: true };
   } catch (err) {
     usingMockData = true;
     log('fetchServerInfo FALLBACK to mock data. Reason:', err.message);
-    // API is unreachable → server is genuinely offline
     return {
       online: false,
       players_online: 0,
@@ -111,10 +130,10 @@ export async function fetchServerInfo() {
 // GET /api/leaderboard/:type  (money | kills)
 export async function fetchLeaderboard(type = 'kills', page = 1, limit = 10) {
   try {
-    const res = await fetchWithTimeout(`${API_BASE}/leaderboard/${type}?api_key=${API_KEY}&page=${page}&limit=${limit}`);
-    const data = await res.json();
+    const data = await fetchWithTimeout(`${API_BASE}/leaderboard/${type}?api_key=${API_KEY}&page=${page}&limit=${limit}`);
     usingMockData = false;
-    return Array.isArray(data) ? data : (data.players || data.leaderboard || []);
+    const list = Array.isArray(data) ? data : (data && (data.players || data.leaderboard) ? (data.players || data.leaderboard) : []);
+    return list;
   } catch (err) {
     usingMockData = true;
     log('fetchLeaderboard FALLBACK to mock data. Reason:', err.message);
