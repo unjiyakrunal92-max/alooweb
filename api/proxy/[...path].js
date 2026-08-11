@@ -1,5 +1,5 @@
 // Vercel Serverless Function: Proxy to game server API
-// Routes: /api/proxy/* → http://premium-01.gladbyte.in:25841/api/*
+// Routes: /api/proxy/* → http://in2.primenodes.in:19145/api/*
 
 export default async function handler(req, res) {
   // Extract the path segments after /api/proxy/
@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   const targetPath = Array.isArray(path) ? path.join('/') : (path || '');
   
   // Build target URL
-  const targetUrl = `http://premium-01.gladbyte.in:25841/api/${targetPath}`;
+  const targetUrl = `http://in2.primenodes.in:19145/api/${targetPath}`;
   
   // Forward query string (except 'path' which is the catch-all param)
   const url = new URL(targetUrl);
