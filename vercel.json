@@ -6,15 +6,15 @@
   },
   "rewrites": [
     {
-      "source": "/api/proxy/:path*",
-      "destination": "/api/proxy/:path*"
+      "source": "/live-map-proxy/(.*)",
+      "destination": "/api/live-map-proxy/$1"
     },
     {
-      "source": "/live-map-proxy/:path*",
-      "destination": "/api/live-map-proxy/:path*"
+      "source": "/live-map-proxy",
+      "destination": "/api/live-map-proxy"
     },
     {
-      "source": "/((?!api/|live-map-proxy/).*)",
+      "source": "/((?!api/|live-map-proxy).*)",
       "destination": "/index.html"
     }
   ],
