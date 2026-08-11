@@ -29,7 +29,7 @@ const STATS = [
   {
     id: 'season',
     icon: <MdEmojiEvents />,
-    number: 'S1',
+    number: 'S5',
     suffix: '',
     label: 'Current Season',
     color: 'white',

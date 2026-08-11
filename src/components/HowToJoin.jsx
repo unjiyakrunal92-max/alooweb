@@ -13,6 +13,7 @@ import {
   MdPhoneAndroid,
   MdSecurity,
   MdPeople,
+
   MdPayment,
   MdBugReport,
 } from 'react-icons/md';
@@ -30,7 +31,7 @@ const STEPS = [
     id: 2,
     icon: <MdDns />,
     title: 'Add Server',
-    desc: (<>Go to Multiplayer → Add Server. Enter IP: <strong>play.mralooyt.fun</strong> Bedrock port: <strong>25573</strong></>),
+    desc: (<>Go to Multiplayer → Add Server. Enter IP: <strong>play.aloosmp.fun</strong> Bedrock port: <strong>19132</strong></>),
   },
   {
     id: 3,

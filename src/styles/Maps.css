@@ -75,6 +75,18 @@
   margin-top: 8px;
 }
 
+.maps-coming-soon-badge {
+  background: rgba(251, 146, 60, 0.15);
+  border: 1px solid rgba(251, 146, 60, 0.35);
+  color: #fb923c;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-left: 6px;
+}
+
 /* ── Live world pill ── */
 .maps-live-pill {
   display: inline-flex;
@@ -92,12 +104,23 @@
   letter-spacing: 1px;
 }
 
+.maps-live-pill.coming-soon {
+  background: rgba(251, 146, 60, 0.08);
+  border-color: rgba(251, 146, 60, 0.25);
+  color: #fb923c;
+}
+
 .maps-live-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--accent-green);
   animation: mapsPulse 2s ease-in-out infinite;
+}
+
+.maps-live-dot.orange {
+  background: #fb923c;
+  box-shadow: 0 0 8px #fb923c;
 }
 
 @keyframes mapsPulse {
@@ -174,6 +197,70 @@
   height: 100%;
   border: none;
   display: block;
+}
+
+/* ── COMING SOON OVERLAY ── */
+.maps-coming-soon-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  background: rgba(6, 13, 24, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  border-radius: 16px;
+}
+
+.maps-cs-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 440px;
+}
+
+.maps-cs-icon {
+  font-size: 42px;
+  margin-bottom: 4px;
+  animation: csBounce 3s ease-in-out infinite;
+}
+
+@keyframes csBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.maps-cs-tag {
+  background: rgba(251, 146, 60, 0.12);
+  border: 1px solid rgba(251, 146, 60, 0.3);
+  color: #fb923c;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.maps-cs-title {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 3.5vw, 28px);
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.maps-cs-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #7aaaff;
+  line-height: 1.6;
 }
 
 /* ── Placeholder (when BlueMap not yet connected) ── */

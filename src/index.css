@@ -85,3 +85,88 @@ button {
 ::-webkit-scrollbar       { width: 7px; }
 ::-webkit-scrollbar-track { background: #e2e8f0; }
 ::-webkit-scrollbar-thumb { background: var(--theme-main); border-radius: 4px; }
+
+/* ══════════════════════════════
+   GLOBAL UI ENHANCEMENTS
+══════════════════════════════ */
+
+/* Selection styling */
+::selection {
+  background: rgba(26, 111, 255, 0.3);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: rgba(26, 111, 255, 0.3);
+  color: #ffffff;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 2px solid var(--theme-main);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth image loading */
+img {
+  transition: opacity 0.3s ease;
+}
+
+/* Global link transitions */
+a {
+  transition: color 0.25s ease;
+}
+
+/* Utility animations */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(26, 111, 255, 0.2); }
+  50% { box-shadow: 0 0 24px rgba(26, 111, 255, 0.4), 0 0 48px rgba(26, 111, 255, 0.1); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Smooth scrollbar with gradient */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--theme-main), #0d4fbf);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #2563eb, var(--theme-main));
+}
+
+/* Page content animation */
+main, .lb-page, .vote-page, .maps-page, .profile-page, .contact-page, .rules-page {
+  animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}

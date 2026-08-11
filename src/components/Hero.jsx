@@ -3,26 +3,26 @@ import '../styles/Hero.css';
 import {
   MdContentCopy,
   MdCheckCircle,
-  MdDns,
-  MdPeople,
-  MdSignalWifi4Bar,
-  MdStar,
+  MdStorage,
+  MdGroups,
+  MdWhatshot,
+  MdPersonPin,
   MdPlayArrow,
   MdLeaderboard,
   MdTerminal,
   MdDesktopWindows,
   MdPhoneAndroid,
   MdPublic,
-  MdBolt,
-  MdShield,
+  MdEmojiEvents,
+  MdSatelliteAlt,
 } from 'react-icons/md';
 import { fetchPlayers, fetchServerInfo } from '../utils/api';
 import CountUp from './CountUp';
 
 // ── Server Info ──
-const JAVA_IP      = 'play.mralooyt.fun';
-const BEDROCK_IP   = 'play.mralooyt.fun';
-const BEDROCK_PORT = '25573';
+const JAVA_IP      = 'play.aloosmp.fun';
+const BEDROCK_IP   = 'play.aloosmp.fun';
+const BEDROCK_PORT = '19132';
 const MAX_PLAYERS  = 100; // shown as "X / 100" — change if your server slots differ
 
 const Hero = () => {
@@ -38,21 +38,34 @@ const Hero = () => {
   useEffect(() => {
     let cancelled = false;
 
-    Promise.all([
+    Promise.allSettled([
       fetchPlayers(200),
       fetchServerInfo(),
     ])
-      .then(([players, server]) => {
+      .then(([playersResult, serverResult]) => {
         if (cancelled) return;
-        const online = players.filter(p => p.is_online).length;
-        setOnlineCount(online);
-        setTotalPlayers(players.length);
-        // server.online may come from the API; fall back to "true if we have data"
-        setServerOnline(server?.online !== undefined ? server.online : true);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setServerOnline(false);
+
+        // ── Players ──
+        if (playersResult.status === 'fulfilled') {
+          const players = playersResult.value;
+          const online = players.filter(p => p.is_online).length;
+          setOnlineCount(online);
+          setTotalPlayers(players.length);
+        } else {
+          console.error('[Hero] fetchPlayers failed:', playersResult.reason);
+          setOnlineCount(0);
+          setTotalPlayers(0);
+        }
+
+        // ── Server status ──
+        if (serverResult.status === 'fulfilled') {
+          const server = serverResult.value;
+          // fetchServerInfo always injects online:true on success, online:false on failure
+          setServerOnline(server.online === true);
+        } else {
+          console.error('[Hero] fetchServerInfo failed:', serverResult.reason);
+          setServerOnline(false);
+        }
       })
       .finally(() => { if (!cancelled) setStatsLoading(false); });
 
@@ -83,12 +96,11 @@ const Hero = () => {
 
         {/* ════ LEFT — Main Content ════ */}
         <div className="hero-content">
-
           {/* Season badge */}
           <div className="hero-badge">
             <span className="hero-badge-dot" />
             <span className="hero-badge-text">
-              <MdBolt style={{ fontSize: '13px', marginRight: '4px', verticalAlign: 'middle' }} />
+              <MdWhatshot style={{ fontSize: '14px', marginRight: '4px', verticalAlign: 'middle' }} />
               Season 5 is Live
             </span>
           </div>
@@ -97,7 +109,7 @@ const Hero = () => {
           <h1 className="hero-title">
             Welcome to
             <span className="hero-title-accent">AlooSMP</span>
-            <span className="hero-title-outline">Survive.</span>
+            <span className="hero-title-outline">Survival.</span>
           </h1>
 
           {/* Subtitle */}
@@ -134,7 +146,7 @@ const Hero = () => {
               {currentIP}
               {currentPort && (
                 <span className="ip-box-port">
-                  <MdDns style={{ fontSize: '11px', verticalAlign: 'middle', marginRight: '3px' }} />
+                  <MdStorage style={{ fontSize: '11px', verticalAlign: 'middle', marginRight: '3px' }} />
                   Port: {currentPort}
                 </span>
               )}
@@ -169,10 +181,10 @@ const Hero = () => {
             Live Server Stats
           </div>
 
-          {/* Online status — live from API */}
-          <div className="hero-stat-row">
+          {/* Online status — live from API, animated entrance */}
+          <div className="hero-stat-row stat-anim" style={{ animationDelay: '0.05s' }}>
             <div className="stat-row-label">
-              <div className="stat-row-icon"><MdSignalWifi4Bar /></div>
+              <div className="stat-row-icon"><MdSatelliteAlt /></div>
               Server Status
             </div>
             {statsLoading ? (
@@ -186,9 +198,9 @@ const Hero = () => {
           </div>
 
           {/* Players online — live from API, animated */}
-          <div className="hero-stat-row">
+          <div className="hero-stat-row stat-anim" style={{ animationDelay: '0.15s' }}>
             <div className="stat-row-label">
-              <div className="stat-row-icon"><MdPeople /></div>
+              <div className="stat-row-icon"><MdGroups /></div>
               Players Online
             </div>
             <span className="stat-row-value green">
@@ -201,9 +213,9 @@ const Hero = () => {
           </div>
 
           {/* Total players — live from API, animated */}
-          <div className="hero-stat-row">
+          <div className="hero-stat-row stat-anim" style={{ animationDelay: '0.25s' }}>
             <div className="stat-row-label">
-              <div className="stat-row-icon"><MdStar /></div>
+              <div className="stat-row-icon"><MdPersonPin /></div>
               Total Players
             </div>
             <span className="stat-row-value blue">
@@ -214,9 +226,9 @@ const Hero = () => {
           </div>
 
           {/* Season */}
-          <div className="hero-stat-row">
+          <div className="hero-stat-row stat-anim" style={{ animationDelay: '0.35s' }}>
             <div className="stat-row-label">
-              <div className="stat-row-icon"><MdShield /></div>
+              <div className="stat-row-icon"><MdEmojiEvents /></div>
               Current Season
             </div>
             <span className="stat-row-value">Season 5</span>
@@ -225,7 +237,7 @@ const Hero = () => {
           <div className="hero-card-divider" />
 
           {/* Version tags */}
-          <div>
+          <div className="stat-anim" style={{ animationDelay: '0.45s' }}>
             <div className="hero-card-title" style={{ paddingBottom: '12px', marginBottom: '12px' }}>
               Supported Versions
             </div>

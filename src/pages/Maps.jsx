@@ -85,6 +85,7 @@ const Maps = () => {
           <div>
             <div className="maps-tag">
               <MdMap /> Live World Map
+              <span className="maps-coming-soon-badge">COMING SOON</span>
             </div>
             <h1 className="maps-title">
               Explore <span>AlooSMP</span>
@@ -93,9 +94,9 @@ const Maps = () => {
               Real-time interactive map powered by Squaremap. Find bases, claims, and hidden treasures.
             </p>
           </div>
-          <div className="maps-live-pill">
-            <span className="maps-live-dot" />
-            Map Live
+          <div className="maps-live-pill coming-soon">
+            <span className="maps-live-dot orange" />
+            Coming Soon
           </div>
         </div>
 
@@ -116,6 +117,18 @@ const Maps = () => {
         <div className="maps-viewer-frame">
           <div className="maps-viewer">
             
+            {/* ── COMING SOON OVERLAY BANNER ── */}
+            <div className="maps-coming-soon-overlay">
+              <div className="maps-cs-content">
+                <span className="maps-cs-icon">🗺️</span>
+                <span className="maps-cs-tag">UPDATING MAP</span>
+                <h3 className="maps-cs-title">Interactive Map Coming Soon!</h3>
+                <p className="maps-cs-desc">
+                  Season 5 live map rendering is currently in progress. Full 3D terrain and claims view will be live shortly!
+                </p>
+              </div>
+            </div>
+
             {/* ── SQUAREMAP IFRAME ── */}
             <iframe
               className="maps-iframe"

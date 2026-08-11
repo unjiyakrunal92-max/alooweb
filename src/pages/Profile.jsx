@@ -31,6 +31,7 @@ import {
   sortPlayers,
   isUsingMockData,
 } from '../utils/api';
+import bgImg from '../assets/bg.jpg';
 import PrefixBadge from '../components/PrefixBadge';
 import DemoBanner from '../components/DemoBanner';
 import CountUp from '../components/CountUp';
@@ -115,7 +116,7 @@ const Profile = () => {
     { icon: <MdTrendingUp />,   value: player.deaths === 0 ? player.kills : player.kills / player.deaths, label: 'K/D Ratio', color: 'cyan', decimals: 1 },
     { icon: <MdPets />,         value: player.mob_kills,        label: 'Mob Kills',   color: 'purple' },
     { icon: <MdConstruction />, value: player.blocks_mined / 1000, label: 'Blocks Mined', color: 'orange', decimals: 1, suffix: 'K', format: false },
-    { icon: <MdStar />,         value: Number(player.score),    label: 'Total Score', color: 'pink' },
+    { icon: <MdStar />,         value: Number(player.score),    label: 'Total Scpre', color: 'pink' },
   ];
 
   return (
@@ -128,10 +129,14 @@ const Profile = () => {
 
         {demoMode && <DemoBanner />}
 
-        {/* ══ HERO CARD — compact ══ */}
+        {/* ══ HERO CARD ══ */}
         <div className="profile-hero-card">
 
-          <div className="profile-banner">
+          <div
+            className="profile-banner"
+            style={{ backgroundImage: `url(${bgImg})` }}
+          >
+            <div className="profile-banner-overlay" />
             <div className="profile-banner-rank">
               <MdLeaderboard /> {rank ? `Rank #${rank}` : 'Unranked'}
             </div>

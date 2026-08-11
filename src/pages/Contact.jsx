@@ -18,6 +18,9 @@ import {
 
 const getAvatarUrl = (name) => `https://mc-heads.net/avatar/${name}/64`;
 
+const DISCORD_LINK = 'https://discord.gg/Ecf6UJq8MR';
+const DISCORD_CODE = 'Ecf6UJq8MR';
+
 // ── Support channel cards ──
 const CHANNELS = [
   {
@@ -48,10 +51,10 @@ const CHANNELS = [
 
 // ── Staff team ──
 const STAFF = [
-  { name: 'MrAlooYT',    role: 'owner',  roleLabel: 'Owner' },
-  { name: 'ShadowArcher', role: 'admin',  roleLabel: 'Admin' },
-  { name: 'CrimsonBlade', role: 'mod',    roleLabel: 'Moderator' },
-  { name: 'PyroStrike',   role: 'helper', roleLabel: 'Helper' },
+  { name: 'MrAlooYT',    role: 'owner',  roleLabel: 'Owner', ign: "TheBiswas001" },
+  { name: 'ITZ_KRUNAL', role: 'admin',  roleLabel: 'Admin' , ign: "goku"},
+  { name: 'Gtronnn',   role: 'admin', roleLabel: 'admin', ign: "Jpanoz" },
+  { name: 'DHIRAJ & PARAS', role: 'mod',    roleLabel: 'Moderator', ign: "Notch" },
 ];
 
 const ROLE_ICON = {
@@ -77,7 +80,7 @@ const Contact = () => {
     const fetchDiscordStats = async () => {
       try {
         const response = await fetch(
-          'https://discord.com/api/v10/invites/Vay8KmxWy?with_counts=true'
+          `https://discord.com/api/v10/invites/${DISCORD_CODE}?with_counts=true`
         );
         const data = await response.json();
         
@@ -113,7 +116,7 @@ const Contact = () => {
           </div>
 
           <h1 className="contact-hero-title">
-            Join Our <span>Discord</span>
+            Join Our &nbsp;<span>Discord</span>
           </h1>
           <p className="contact-hero-desc">
             The official AlooSMP Discord is where the community lives —
@@ -133,7 +136,7 @@ const Contact = () => {
           </div>
 
           <a
-            href="https://discord.gg/Vay8KmxWy"
+            href={DISCORD_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className="contact-discord-btn"
@@ -150,7 +153,7 @@ const Contact = () => {
         <div className="contact-channels-grid">
           {CHANNELS.map(ch => (
             <a
-              href="https://discord.gg/Vay8KmxWy"
+              href={DISCORD_LINK}
               target="_blank"
               rel="noopener noreferrer"
               className={`contact-channel-card ${ch.cls}`}
@@ -174,7 +177,7 @@ const Contact = () => {
           {STAFF.map(s => (
             <div className="contact-staff-card" key={s.name}>
               <div className="contact-staff-avatar">
-                <img src={getAvatarUrl(s.name)} alt={s.name} />
+                <img src={getAvatarUrl(s.ign)} alt={s.ign} />
               </div>
               <div className="contact-staff-name">{s.name}</div>
               <span className={`contact-staff-role ${s.role}`}>
@@ -206,7 +209,7 @@ const Contact = () => {
         </p>
         <div className="contact-socials-grid">
           <a
-            href="https://discord.gg/Vay8KmxWy"
+            href={DISCORD_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className="contact-social-card discord"
@@ -214,11 +217,11 @@ const Contact = () => {
             <div className="contact-social-icon"><MdChat /></div>
             <div>
               <div className="contact-social-name">Discord</div>
-              <div className="contact-social-handle">discord.gg/Vay8KmxWy</div>
+              <div className="contact-social-handle">discord.gg/{DISCORD_CODE}</div>
             </div>
           </a>
           <a
-            href="https://youtube.com/@mralooyt"
+            href="https://www.youtube.com/channel/UC6HSmmedr66rzh-goYViNIw"
             target="_blank"
             rel="noopener noreferrer"
             className="contact-social-card youtube"

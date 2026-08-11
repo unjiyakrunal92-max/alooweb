@@ -7,10 +7,16 @@
 import { MOCK_PLAYERS, getMockPlayer } from './mockData';
 
 // ── Config ──
+// Using Vercel rewrite proxy: vercel.json routes /api/proxy/* → your real API
 export const API_BASE = '/api/proxy';
 export const API_KEY  = 'mralooyt-2026-x7Kp9-secret';
 
-const FETCH_TIMEOUT_MS = 5000;
+// Increased timeout — Vercel's edge proxy to a custom port can be slower
+// than a direct connection, especially on cold starts.
+const FETCH_TIMEOUT_MS = 10000;
+
+// Set to true temporarily to see exactly what's failing in the browser console
+const DEBUG = true;
 
 let usingMockData = false;
 export const isUsingMockData = () => usingMockData;
@@ -21,16 +27,27 @@ export const getAvatarUrl = (username) =>
 export const getBodyUrl = (username) =>
   `https://mc-heads.net/body/${username}/100`;
 
+function log(...args) {
+  if (DEBUG) console.log('[api.js]', ...args);
+}
+
 async function fetchWithTimeout(url, ms = FETCH_TIMEOUT_MS) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), ms);
+  log('Fetching:', url);
   try {
     const res = await fetch(url, { signal: controller.signal });
     clearTimeout(timer);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    log('Response status:', res.status, 'for', url);
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      log('Response body (error):', text.slice(0, 300));
+      throw new Error(`HTTP ${res.status}`);
+    }
     return res;
   } catch (err) {
     clearTimeout(timer);
+    log('Fetch FAILED:', err.name, err.message, 'for', url);
     throw err;
   }
 }
@@ -41,10 +58,13 @@ export async function fetchPlayers(limit = 100) {
     const res = await fetchWithTimeout(`${API_BASE}/players?api_key=${API_KEY}&limit=${limit}`);
     const data = await res.json();
     usingMockData = false;
+    log('fetchPlayers SUCCESS — real data, count:', Array.isArray(data) ? data.length : (data.players || []).length);
     return Array.isArray(data) ? data : (data.players || []);
   } catch (err) {
     usingMockData = true;
-    return MOCK_PLAYERS.slice(0, limit);
+    log('fetchPlayers FALLBACK to mock data. Reason:', err.message);
+    // Mark all mock players as offline so Hero shows "0 / 100" not fake counts
+    return MOCK_PLAYERS.slice(0, limit).map(p => ({ ...p, is_online: false }));
   }
 }
 
@@ -57,6 +77,7 @@ export async function fetchPlayer(username) {
     return data.player || data;
   } catch (err) {
     usingMockData = true;
+    log('fetchPlayer FALLBACK to mock data. Reason:', err.message);
     const mock = getMockPlayer(username);
     if (mock) return mock;
     throw new Error('Server offline — demo data only has sample players');
@@ -67,16 +88,22 @@ export async function fetchPlayer(username) {
 export async function fetchServerInfo() {
   try {
     const res = await fetchWithTimeout(`${API_BASE}/server?api_key=${API_KEY}`);
+    const data = await res.json();
     usingMockData = false;
-    return res.json();
+    log('fetchServerInfo SUCCESS — real data:', data);
+    // If the API responds at all → server is online regardless of player count
+    // Inject online:true so Hero badge shows correctly even with 0 players
+    return { ...data, online: true };
   } catch (err) {
     usingMockData = true;
+    log('fetchServerInfo FALLBACK to mock data. Reason:', err.message);
+    // API is unreachable → server is genuinely offline
     return {
-      online: true,
-      players_online: MOCK_PLAYERS.filter(p => p.is_online).length,
+      online: false,
+      players_online: 0,
       max_players: 100,
       version: '1.21.4',
-      motd: 'AlooSMP — Demo Mode',
+      motd: 'AlooSMP — Offline',
     };
   }
 }
@@ -90,6 +117,7 @@ export async function fetchLeaderboard(type = 'kills', page = 1, limit = 10) {
     return Array.isArray(data) ? data : (data.players || data.leaderboard || []);
   } catch (err) {
     usingMockData = true;
+    log('fetchLeaderboard FALLBACK to mock data. Reason:', err.message);
     const sorted = sortPlayers(MOCK_PLAYERS, type === 'money' ? 'money' : 'kills');
     return sorted.slice((page - 1) * limit, page * limit);
   }

@@ -116,7 +116,11 @@
   z-index: 1;
 }
 
-.contact-hero-title span { color: #5865f2; }
+.contact-hero-title span {
+  color: #5865f2;
+  margin-left: 10px;
+  display: inline-block;
+}
 
 .contact-hero-desc {
   font-family: var(--font-body);

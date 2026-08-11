@@ -12,11 +12,10 @@ import {
 // Replace src with your actual screenshot paths e.g. import img1 from '../assets/gallery/spawn.jpg'
 // For now using placeholder gradients
 const SLIDES = [
-  { id: 1, location: 'Spawn',    src: null, gradient: 'linear-gradient(135deg,#0d2a4a,#1a4a7a,#0d2a4a)' },
-  { id: 2, location: 'Market',   src: null, gradient: 'linear-gradient(135deg,#1a0d2e,#3d1a6e,#1a0d2e)' },
-  { id: 3, location: 'Nether',   src: null, gradient: 'linear-gradient(135deg,#2e0d0d,#6e1a1a,#2e0d0d)' },
-  { id: 4, location: 'End City', src: null, gradient: 'linear-gradient(135deg,#0d1a0d,#1a3d2a,#0d1a0d)' },
-  { id: 5, location: 'PvP Arena',src: null, gradient: 'linear-gradient(135deg,#1a1a0d,#3d3a1a,#1a1a0d)' },
+  { id: 1, location: 'Spawn',    src: "https://i.ibb.co/SX37s3vD/2026-08-11-20-07-12.png", gradient: 'linear-gradient(135deg,#0d2a4a,#1a4a7a,#0d2a4a)' },
+  { id: 2, location: 'District',   src: "https://i.ibb.co/jP6qHRn6/2026-08-11-20-08-05.png", gradient: 'linear-gradient(135deg,#1a0d2e,#3d1a6e,#1a0d2e)' },
+  { id: 3, location: 'Leaderboard',   src: "https://i.ibb.co/rK09sLrk/2026-08-11-20-08-56.png", gradient: 'linear-gradient(135deg,#2e0d0d,#6e1a1a,#2e0d0d)' },
+  { id: 4, location: 'PvP Arena',src: "https://i.ibb.co/Qv8Djkkm/2026-08-11-20-08-27.png", gradient: 'linear-gradient(135deg,#1a1a0d,#3d3a1a,#1a1a0d)' },
 ];
 
 const Gallery = () => {

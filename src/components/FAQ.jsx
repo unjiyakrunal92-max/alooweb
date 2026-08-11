@@ -28,7 +28,7 @@ export const FAQ = () => {
       id: 'version',
       icon: <MdDesktopWindows />,
       question: 'What version do I need to join?',
-      answer: 'Java Edition 1.21 or above is required. Bedrock Edition players can join using IP play.mralooyt.fun and port 25573.',
+      answer: 'Java Edition 1.21 or above is required. Bedrock Edition players can join using IP play.aloosmp.fun and port 19132.',
     },
     {
       id: 'free',

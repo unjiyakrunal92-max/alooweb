@@ -20,7 +20,7 @@ function App() {
         <Route path="/maps"                element={<Maps />} />
         <Route path="/leaderboard"         element={<Leaderboard />} />
         <Route path="/profile/:username"   element={<Profile />} />
-        <Route path="/vote"                element={<Vote />} />
+        {/* <Route path="/vote"                element={<Vote />} /> */}
         <Route path="/rules"               element={<Rules />} />
         <Route path="/contact"             element={<Contact />} />
       </Routes>

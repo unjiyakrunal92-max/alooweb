@@ -47,7 +47,7 @@ const Footer = () => {
 
           <div className="footer-ip-pill">
             <MdDns />
-            <span>play.mralooyt.fun</span>
+            <span>play.aloosmp.fun</span>
           </div>
 
           {/* Socials */}
