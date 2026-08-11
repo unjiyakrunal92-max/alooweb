@@ -1,13 +1,21 @@
 {
   "functions": {
-    "api/**/*.js": {
+    "api/*.js": {
       "maxDuration": 15
     }
   },
   "rewrites": [
     {
+      "source": "/api/proxy/(.*)",
+      "destination": "/api/proxy?path=$1"
+    },
+    {
+      "source": "/api/proxy",
+      "destination": "/api/proxy"
+    },
+    {
       "source": "/live-map-proxy/(.*)",
-      "destination": "/api/live-map-proxy/$1"
+      "destination": "/api/live-map-proxy?path=$1"
     },
     {
       "source": "/live-map-proxy",
