@@ -6,6 +6,7 @@ import Home        from './pages/Home'
 import Maps        from './pages/Maps'
 import Leaderboard from './pages/Leaderboard'
 import Profile     from './pages/Profile'
+import Donators    from './pages/Donators'
 import Vote        from './pages/Vote'
 import Rules       from './pages/Rules'
 import Contact     from './pages/Contact'
@@ -20,7 +21,7 @@ function App() {
         <Route path="/maps"                element={<Maps />} />
         <Route path="/leaderboard"         element={<Leaderboard />} />
         <Route path="/profile/:username"   element={<Profile />} />
-        {/* <Route path="/vote"                element={<Vote />} /> */}
+        <Route path="/donators"            element={<Donators />} />
         <Route path="/rules"               element={<Rules />} />
         <Route path="/contact"             element={<Contact />} />
       </Routes>

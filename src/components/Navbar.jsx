@@ -14,6 +14,7 @@ import {
   MdGroups,
   MdContentCopy,
   MdCheckCircle,
+  MdWorkspacePremium,
 } from 'react-icons/md';
 import { fetchPlayers } from '../utils/api';
 
@@ -21,12 +22,12 @@ const LOGO =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Ccircle cx='25' cy='25' r='25' fill='%231a6fff'/%3E%3Ctext x='25' y='31' font-size='13' font-weight='900' font-family='Arial' fill='white' text-anchor='middle'%3ESMP%3C/text%3E%3C/svg%3E";
 
 const NAV_LINKS = [
-  { id: 'home',        label: 'Home',        icon: <MdHome />,        path: '/',            special: null   },
-  { id: 'maps',        label: 'Maps',        icon: <MdMap />,         path: '/maps',        special: null   },
-  { id: 'leaderboard', label: 'Leaderboard', icon: <MdLeaderboard />, path: '/leaderboard', special: null   },
-  // { id: 'vote',        label: 'Vote',        icon: <MdHowToVote />,   path: '/vote',        special: 'vote' },
-  { id: 'rules',       label: 'Rules',       icon: <MdRule />,        path: '/rules',       special: null   },
-  { id: 'contact',     label: 'Contact',     icon: <MdEmail />,       path: '/contact',     special: null   },
+  { id: 'home',        label: 'Home',        icon: <MdHome />,             path: '/',            special: null   },
+  { id: 'maps',        label: 'Maps',        icon: <MdMap />,              path: '/maps',        special: null   },
+  { id: 'leaderboard', label: 'Leaderboard', icon: <MdLeaderboard />,      path: '/leaderboard', special: null   },
+  { id: 'donators',   label: 'Donators',    icon: <MdWorkspacePremium />, path: '/donators',     special: null   },
+  { id: 'rules',       label: 'Rules',       icon: <MdRule />,             path: '/rules',       special: null   },
+  { id: 'contact',     label: 'Contact',     icon: <MdEmail />,            path: '/contact',     special: null   },
 ];
 
 const SERVER_IP = 'play.aloosmp.fun';
