@@ -24,10 +24,10 @@ import { getAvatarUrl } from '../utils/api';
 export const DONATORS = [
   {
     id: 'donator-1',
-    username: 'Ryannnn',
-    amount: 120,
-    items: ['Spawner Key'],
-    tier: 'VIP Supporter',
+    username: 'Rayaann',
+    amount: 320,
+    items: ['Spawner Key', 'Banana Rank'],
+    tier: 'VIP+ Supporter',
     badge: '🥇 Top Donator',
     badgeClass: 'badge-gold',
     note: '120 rs Spawner Key',
