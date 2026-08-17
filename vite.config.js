@@ -7,9 +7,9 @@ export default defineConfig({
     proxy: {
       // 1. Leaderboard / Players / Server API Proxy
       '/api/proxy': {
-        target: 'http://in2.primenodes.in:19145/api',
+        target: 'http://in2.primenodes.in:19145',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/proxy/, ''),
+        rewrite: (path) => path.replace(/^\/api\/proxy/, '/api'),
         configure: (proxy, options) => {
           proxy.on('proxyReq', (proxyReq, req, res) => {
             console.log('[VITE PROXY →]', req.method, req.url, '  →  ', options.target + proxyReq.path);

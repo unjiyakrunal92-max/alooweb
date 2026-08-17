@@ -47,26 +47,36 @@ const Profile = () => {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
+    setError(null);
 
-    Promise.all([
-      fetchPlayer(username),
-      fetchPlayers(200),
-    ])
-      .then(([playerData, allPlayers]) => {
+    async function loadProfile() {
+      try {
+        const playerData = await fetchPlayer(username);
         if (cancelled) return;
         setPlayer(playerData);
         setDemoMode(isUsingMockData());
 
-        const sorted = sortPlayers(allPlayers, 'kills');
-        const idx = sorted.findIndex(
-          p => p.username.toLowerCase() === username.toLowerCase()
-        );
-        setRank(idx >= 0 ? idx + 1 : null);
-        setError(null);
-      })
-      .catch(err => { if (!cancelled) setError(err.message); })
-      .finally(() => { if (!cancelled) setLoading(false); });
+        // Secondary: rank calculation (non-blocking)
+        try {
+          const allPlayers = await fetchPlayers(200);
+          if (!cancelled && Array.isArray(allPlayers)) {
+            const sorted = sortPlayers(allPlayers, 'kills');
+            const idx = sorted.findIndex(
+              p => p.username && p.username.toLowerCase() === username.toLowerCase()
+            );
+            setRank(idx >= 0 ? idx + 1 : null);
+          }
+        } catch (rankErr) {
+          console.warn('[Profile] Rank calc skipped:', rankErr.message);
+        }
+      } catch (err) {
+        if (!cancelled) setError(err.message);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
 
+    loadProfile();
     return () => { cancelled = true; };
   }, [username]);
 
@@ -108,15 +118,19 @@ const Profile = () => {
   }
 
   // ── ALL stat cards — raw value + optional formatter for CountUp animation ──
+  const kills = Number(player.kills) || 0;
+  const deaths = Number(player.deaths) || 0;
+  const kdRatio = deaths === 0 ? kills : (kills / deaths);
+
   const STAT_CARDS = [
-    { icon: <MdFlashOn />,      value: player.kills,            label: 'Kills',       color: 'green'  },
-    { icon: <MdGavel />,        value: player.deaths,           label: 'Deaths',      color: 'red'    },
-    { icon: <MdAttachMoney />,  value: player.money,            label: 'Net Worth',   color: 'gold',   formatter: formatMoney },
-    { icon: <MdAccessTime />,   value: player.playtime_minutes, label: 'Playtime',    color: 'blue',   formatter: formatPlaytime },
-    { icon: <MdTrendingUp />,   value: player.deaths === 0 ? player.kills : player.kills / player.deaths, label: 'K/D Ratio', color: 'cyan', decimals: 1 },
-    { icon: <MdPets />,         value: player.mob_kills,        label: 'Mob Kills',   color: 'purple' },
-    { icon: <MdConstruction />, value: player.blocks_mined / 1000, label: 'Blocks Mined', color: 'orange', decimals: 1, suffix: 'K', format: false },
-    { icon: <MdStar />,         value: Number(player.score),    label: 'Total Scpre', color: 'pink' },
+    { icon: <MdFlashOn />,      value: kills,                   label: 'Kills',       color: 'green'  },
+    { icon: <MdGavel />,        value: deaths,                  label: 'Deaths',      color: 'red'    },
+    { icon: <MdAttachMoney />,  value: player.money || 0,       label: 'Net Worth',   color: 'gold',   formatter: formatMoney },
+    { icon: <MdAccessTime />,   value: player.playtime_minutes || 0, label: 'Playtime',    color: 'blue',   formatter: formatPlaytime },
+    { icon: <MdTrendingUp />,   value: kdRatio,                 label: 'K/D Ratio',   color: 'cyan', decimals: 1 },
+    { icon: <MdPets />,         value: player.mob_kills || 0,   label: 'Mob Kills',   color: 'purple' },
+    { icon: <MdConstruction />, value: (player.blocks_mined || 0) / 1000, label: 'Blocks Mined', color: 'orange', decimals: 1, suffix: 'K', format: false },
+    { icon: <MdStar />,         value: Number(player.score || 0), label: 'Total Score', color: 'pink' },
   ];
 
   return (

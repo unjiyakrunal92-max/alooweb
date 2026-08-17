@@ -45,42 +45,79 @@ async function fetchWithTimeout(url, ms = FETCH_TIMEOUT_MS) {
     return inFlightPromises.get(url);
   }
 
-  // 3. Initiate new fetch
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), ms);
-  log('Fetching:', url);
-
+  // 3. Initiate fetch with auto-retry
   const fetchPromise = (async () => {
-    try {
-      const res = await fetch(url, { signal: controller.signal });
-      clearTimeout(timer);
-      log('Response status:', res.status, 'for', url);
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
+    let lastErr = null;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), ms);
+      try {
+        log(`Fetching (attempt ${attempt}):`, url);
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timer);
+        log('Response status:', res.status, 'for', url);
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        responseCache.set(url, { data, timestamp: Date.now() });
+        return data;
+      } catch (err) {
+        clearTimeout(timer);
+        lastErr = err;
+        if (attempt < 2) {
+          await new Promise(r => setTimeout(r, 300));
+        }
       }
-      const data = await res.json();
-      responseCache.set(url, { data, timestamp: Date.now() });
-      return data;
-    } catch (err) {
-      clearTimeout(timer);
-      throw err;
-    } finally {
-      inFlightPromises.delete(url);
     }
+    throw lastErr;
   })();
 
   inFlightPromises.set(url, fetchPromise);
-  return fetchPromise;
+  try {
+    return await fetchPromise;
+  } finally {
+    inFlightPromises.delete(url);
+  }
 }
 
-// GET /api/players?limit=N
-export async function fetchPlayers(limit = 100) {
+// GET /api/players?limit=N — Unified fetch combining /players + leaderboards so all players are captured
+export async function fetchPlayers(limit = 200) {
   try {
-    const data = await fetchWithTimeout(`${API_BASE}/players?api_key=${API_KEY}&limit=${limit}`);
-    usingMockData = false;
-    const playersList = Array.isArray(data) ? data : (data && data.players ? data.players : []);
-    log('fetchPlayers SUCCESS — real data, count:', playersList.length);
-    return playersList;
+    // Fetch players list and leaderboards in parallel to capture all players (Bedrock + Java)
+    const [playersRes, moneyRes, killsRes, timeRes] = await Promise.allSettled([
+      fetchWithTimeout(`${API_BASE}/players?api_key=${API_KEY}&limit=100`),
+      fetchWithTimeout(`${API_BASE}/leaderboard/money?api_key=${API_KEY}`),
+      fetchWithTimeout(`${API_BASE}/leaderboard/kills?api_key=${API_KEY}`),
+      fetchWithTimeout(`${API_BASE}/leaderboard/playtime?api_key=${API_KEY}`),
+    ]);
+
+    const playerMap = new Map();
+
+    const addPlayers = (res) => {
+      if (res.status === 'fulfilled' && res.value) {
+        const list = Array.isArray(res.value) ? res.value : (res.value.players || res.value.leaderboard || []);
+        list.forEach(p => {
+          if (p && p.username) {
+            const key = p.username.toLowerCase();
+            playerMap.set(key, { ...(playerMap.get(key) || {}), ...p });
+          }
+        });
+      }
+    };
+
+    addPlayers(playersRes);
+    addPlayers(moneyRes);
+    addPlayers(killsRes);
+    addPlayers(timeRes);
+
+    const merged = Array.from(playerMap.values());
+    if (merged.length > 0) {
+      usingMockData = false;
+      log('fetchPlayers SUCCESS — real merged count:', merged.length);
+      return merged.slice(0, limit);
+    }
+    throw new Error('No players found in API');
   } catch (err) {
     usingMockData = true;
     log('fetchPlayers FALLBACK to mock data. Reason:', err.message);
@@ -90,21 +127,66 @@ export async function fetchPlayers(limit = 100) {
 
 // GET /api/player/:username
 export async function fetchPlayer(username) {
+  if (!username) throw new Error('No username provided');
+
+  // Strategy 1: Direct player endpoint (/api/player/:username)
   try {
     const data = await fetchWithTimeout(`${API_BASE}/player/${encodeURIComponent(username)}?api_key=${API_KEY}`);
-    usingMockData = false;
-    const pData = data.player || data;
+    const pData = data?.player || data;
     if (pData && !pData.error && pData.username) {
+      log('fetchPlayer direct SUCCESS for:', username);
+      usingMockData = false;
       return pData;
     }
-    throw new Error('Player object not found in API response');
   } catch (err) {
-    usingMockData = true;
-    log('fetchPlayer FALLBACK to mock data. Reason:', err.message);
-    const mock = getMockPlayer(username);
-    if (mock) return mock;
-    throw new Error('Player not found or server offline');
+    log('fetchPlayer direct fetch failed for:', username, 'Reason:', err.message);
   }
+
+  // Strategy 2: Lookup in merged players list
+  try {
+    const playersList = await fetchPlayers(200);
+    const found = playersList.find(
+      p => p.username && p.username.toLowerCase() === username.toLowerCase()
+    );
+    if (found) {
+      log('fetchPlayer found in players list for:', username);
+      usingMockData = false;
+      return found;
+    }
+  } catch (err) {
+    log('fetchPlayer lookup in players list failed:', err.message);
+  }
+
+  // Strategy 3: Mock data fallback
+  const mock = getMockPlayer(username);
+  if (mock) {
+    usingMockData = true;
+    log('fetchPlayer fallback to mock for:', username);
+    return mock;
+  }
+
+  // Strategy 4: Clean default profile
+  usingMockData = false;
+  return {
+    uuid: `player-${username}`,
+    username: username,
+    money: 0,
+    kills: 0,
+    deaths: 0,
+    mob_kills: 0,
+    playtime_minutes: 0,
+    blocks_mined: 0,
+    rank: 'default',
+    prefix: '',
+    first_join: Date.now(),
+    last_join: Date.now(),
+    last_seen: Date.now(),
+    is_online: false,
+    ping: 0,
+    world: 'world',
+    player_level: 1,
+    score: 0,
+  };
 }
 
 // GET /api/server
@@ -127,17 +209,21 @@ export async function fetchServerInfo() {
   }
 }
 
-// GET /api/leaderboard/:type  (money | kills)
-export async function fetchLeaderboard(type = 'kills', page = 1, limit = 10) {
+// GET /api/leaderboard/:type (money | kills | playtime)
+export async function fetchLeaderboard(type = 'money', page = 1, limit = 50) {
+  const endpointType = (type === 'time' || type === 'playtime') ? 'playtime' : type;
   try {
-    const data = await fetchWithTimeout(`${API_BASE}/leaderboard/${type}?api_key=${API_KEY}&page=${page}&limit=${limit}`);
+    const data = await fetchWithTimeout(`${API_BASE}/leaderboard/${endpointType}?api_key=${API_KEY}&page=${page}&limit=${limit}`);
     usingMockData = false;
     const list = Array.isArray(data) ? data : (data && (data.players || data.leaderboard) ? (data.players || data.leaderboard) : []);
-    return list;
+    if (list.length > 0) {
+      return list;
+    }
+    throw new Error('Empty leaderboard response');
   } catch (err) {
     usingMockData = true;
     log('fetchLeaderboard FALLBACK to mock data. Reason:', err.message);
-    const sorted = sortPlayers(MOCK_PLAYERS, type === 'money' ? 'money' : 'kills');
+    const sorted = sortPlayers(MOCK_PLAYERS, type === 'money' ? 'money' : (type === 'time' ? 'playtime' : 'kills'));
     return sorted.slice((page - 1) * limit, page * limit);
   }
 }

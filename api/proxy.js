@@ -26,32 +26,39 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  try {
-    const fetchOptions = {
-      method: req.method,
-      headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'AlooSMP-Web/1.0',
-      },
-    };
+  const fetchOptions = {
+    method: req.method,
+    headers: {
+      'Content-Type': 'application/json',
+      'User-Agent': 'AlooSMP-Web/1.0',
+    },
+  };
 
-    // Forward body for non-GET requests
-    if (req.method !== 'GET' && req.method !== 'HEAD' && req.body) {
-      fetchOptions.body = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
-    }
-
-    const response = await fetch(url.toString(), fetchOptions);
-    const data = await response.text();
-
-    // Forward status code and content type
-    res.setHeader('Content-Type', response.headers.get('content-type') || 'application/json');
-    res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate=30');
-    return res.status(response.status).send(data);
-  } catch (error) {
-    console.error('[API Proxy Error]', error.message);
-    return res.status(502).json({
-      error: 'Backend server unreachable',
-      message: error.message,
-    });
+  if (req.method !== 'GET' && req.method !== 'HEAD' && req.body) {
+    fetchOptions.body = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
   }
+
+  // Retry up to 2 times on connection hiccups / ECONNRESET
+  let lastError = null;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const response = await fetch(url.toString(), fetchOptions);
+      const data = await response.text();
+
+      res.setHeader('Content-Type', response.headers.get('content-type') || 'application/json');
+      res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate=30');
+      return res.status(response.status).send(data);
+    } catch (error) {
+      lastError = error;
+      if (attempt < 2) {
+        await new Promise(r => setTimeout(r, 200));
+      }
+    }
+  }
+
+  console.error('[API Proxy Error]', lastError?.message);
+  return res.status(502).json({
+    error: 'Backend server unreachable',
+    message: lastError?.message || 'Unknown error',
+  });
 }
