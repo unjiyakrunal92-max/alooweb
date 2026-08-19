@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Donators.css';
 import bgImg from '../assets/bg.jpg';
@@ -14,52 +14,112 @@ import {
   MdCardMembership,
   MdAutoAwesome,
   MdVolunteerActivism,
+  MdTrendingUp,
+  MdFlag,
+  MdDiamond,
 } from 'react-icons/md';
 import { getAvatarUrl } from '../utils/api';
 
 // ─────────────────────────────────────────────────────────
-// MANUALLY ADD / EDIT DONATORS HERE
-// Simply add new player objects to this array whenever a purchase is made!
+// CONFIGURATION — Edit these values to update the page
 // ─────────────────────────────────────────────────────────
+const DONATION_GOAL = 2000; // ₹2000 goal
+
+// MANUALLY ADD / EDIT DONATORS HERE
+// Simply add new player objects whenever a purchase is made!
 export const DONATORS = [
   {
     id: 'donator-1',
-    username: 'Rayaann',
-    amount: 320,
-    items: ['Spawner Key', 'Banana Rank'],
-    tier: 'VIP+ Supporter',
+    username: 'Mr_ANKIT_322',
+    purchases: [
+      { item: 'Aloo Rank', amount: 300, date: '2026-08-19' },
+      { item: 'Banana Rank', amount: 59, date: '2026-08-12' },
+    ],
+    tier: 'Aloo Supporter',
     badge: '🥇 Top Donator',
     badgeClass: 'badge-gold',
-    note: '120 rs Spawner Key',
   },
   {
     id: 'donator-2',
-    username: 'MR_ANKIT_Yt',
-    amount: 59,
-    items: ['BANANA RANK'],
-    tier: 'Banana Supporter',
+    username: 'rayyan',
+    purchases: [
+      { item: 'Spawner Key', amount: 320, date: '2026-08-01' },
+    ],
+    tier: 'Supporter',
     badge: '🥈 Supporter',
-    badgeClass: 'badge-amber',
-    note: 'BANANA RANK 59 rs',
+    badgeClass: 'badge-silver',
   },
 ];
+
+// ─────────────────────────────────────────────────────────
+
+// Animated counter hook
+function useAnimatedCounter(target, duration = 1500) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !startedRef.current) {
+          startedRef.current = true;
+          const start = performance.now();
+          const animate = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.round(eased * target));
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [target, duration]);
+
+  return [count, ref];
+}
 
 const Donators = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Calculate totals
-  const totalRaised = DONATORS.reduce((sum, d) => sum + d.amount, 0);
+  const totalRaised = DONATORS.reduce(
+    (sum, d) => sum + d.purchases.reduce((s, p) => s + p.amount, 0),
+    0
+  );
   const totalDonators = DONATORS.length;
+  const totalItems = DONATORS.reduce((sum, d) => sum + d.purchases.length, 0);
+  const goalPercent = Math.min((totalRaised / DONATION_GOAL) * 100, 100);
+  const goalRemaining = Math.max(DONATION_GOAL - totalRaised, 0);
+
+  // Sort donators by total amount (highest first)
+  const sortedDonators = [...DONATORS]
+    .map(d => ({
+      ...d,
+      totalAmount: d.purchases.reduce((s, p) => s + p.amount, 0),
+    }))
+    .sort((a, b) => b.totalAmount - a.totalAmount);
+
+  const topDonator = sortedDonators[0];
 
   // Filter donators by search term
-  const filteredDonators = DONATORS.filter(d => {
+  const filteredDonators = sortedDonators.filter(d => {
     const term = searchTerm.toLowerCase();
     return (
       d.username.toLowerCase().includes(term) ||
-      d.items.some(item => item.toLowerCase().includes(term)) ||
+      d.purchases.some(p => p.item.toLowerCase().includes(term)) ||
       d.tier.toLowerCase().includes(term)
     );
   });
+
+  // Animated counters
+  const [animRaised, raisedRef] = useAnimatedCounter(totalRaised);
+  const [animPercent, percentRef] = useAnimatedCounter(Math.round(goalPercent));
 
   return (
     <div className="donators-page">
@@ -68,6 +128,13 @@ const Donators = () => {
         <img src={bgImg} alt="AlooSMP Background" className="donators-bg-img" />
         <div className="donators-bg-overlay" />
         <div className="donators-grid-pattern" />
+      </div>
+
+      {/* Floating particles */}
+      <div className="donators-particles">
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className={`d-particle d-particle-${i + 1}`} />
+        ))}
       </div>
 
       <div className="donators-container">
@@ -83,37 +150,107 @@ const Donators = () => {
           <p className="donators-sub">
             Honoring the legendary supporters of <strong>AlooSMP</strong>. Every purchase directly helps maintain high-performance hardware, custom plugins, and lag-free gameplay!
           </p>
+        </div>
 
-          {/* STATS OVERVIEW CARDS */}
-          <div className="donators-stats-grid">
-            <div className="donators-stat-card">
-              <div className="donators-stat-icon gold">
-                <MdWorkspacePremium />
-              </div>
-              <div className="donators-stat-info">
-                <span className="donators-stat-value">₹{totalRaised}</span>
-                <span className="donators-stat-label">Total Raised</span>
-              </div>
+        {/* ── DONATION GOAL PROGRESS ── */}
+        <div className="goal-section" ref={raisedRef}>
+          <div className="goal-header">
+            <div className="goal-title-row">
+              <MdFlag className="goal-flag-icon" />
+              <h2 className="goal-title">Donation <span>Goal</span></h2>
             </div>
-
-            <div className="donators-stat-card">
-              <div className="donators-stat-icon green">
-                <MdFavorite />
-              </div>
-              <div className="donators-stat-info">
-                <span className="donators-stat-value">{totalDonators}</span>
-                <span className="donators-stat-label">Total Donators</span>
-              </div>
+            <div className="goal-amounts">
+              <span className="goal-raised">₹{animRaised}</span>
+              <span className="goal-separator">/</span>
+              <span className="goal-target">₹{DONATION_GOAL}</span>
             </div>
+          </div>
 
-            <div className="donators-stat-card">
-              <div className="donators-stat-icon blue">
-                <MdEmojiEvents />
-              </div>
-              <div className="donators-stat-info">
-                <span className="donators-stat-value">Ryannnn</span>
-                <span className="donators-stat-label">Top Supporter (₹120)</span>
-              </div>
+          <div className="goal-bar-track">
+            <div
+              className="goal-bar-fill"
+              style={{ width: `${goalPercent}%` }}
+            >
+              <div className="goal-bar-shimmer" />
+            </div>
+            <div className="goal-bar-glow" style={{ left: `${goalPercent}%` }} />
+          </div>
+
+          <div className="goal-stats-row" ref={percentRef}>
+            <div className="goal-stat-chip">
+              <MdTrendingUp />
+              <span>{animPercent}% Complete</span>
+            </div>
+            <div className="goal-stat-chip remaining">
+              <MdDiamond />
+              <span>₹{goalRemaining} Remaining</span>
+            </div>
+            <div className="goal-stat-chip donors">
+              <MdFavorite />
+              <span>{totalDonators} Supporters</span>
+            </div>
+          </div>
+
+          {/* Goal milestones */}
+          <div className="goal-milestones">
+            {[25, 50, 75, 100].map(milestone => {
+              const reached = goalPercent >= milestone;
+              return (
+                <div
+                  key={milestone}
+                  className={`milestone-marker ${reached ? 'reached' : ''}`}
+                >
+                  <div className="milestone-dot" />
+                  <span className="milestone-label">
+                    {milestone === 100 ? '🎯' : `${milestone}%`}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── STATS OVERVIEW CARDS ── */}
+        <div className="donators-stats-grid">
+          <div className="donators-stat-card stat-raised">
+            <div className="donators-stat-icon gold">
+              <MdWorkspacePremium />
+            </div>
+            <div className="donators-stat-info">
+              <span className="donators-stat-value">₹{totalRaised}</span>
+              <span className="donators-stat-label">Total Raised</span>
+            </div>
+          </div>
+
+          <div className="donators-stat-card stat-donators">
+            <div className="donators-stat-icon green">
+              <MdFavorite />
+            </div>
+            <div className="donators-stat-info">
+              <span className="donators-stat-value">{totalDonators}</span>
+              <span className="donators-stat-label">Total Donators</span>
+            </div>
+          </div>
+
+          <div className="donators-stat-card stat-items">
+            <div className="donators-stat-icon purple">
+              <MdShoppingBag />
+            </div>
+            <div className="donators-stat-info">
+              <span className="donators-stat-value">{totalItems}</span>
+              <span className="donators-stat-label">Items Purchased</span>
+            </div>
+          </div>
+
+          <div className="donators-stat-card stat-top">
+            <div className="donators-stat-icon blue">
+              <MdEmojiEvents />
+            </div>
+            <div className="donators-stat-info">
+              <Link to={`/profile/${topDonator?.username}`} className="stat-top-link">
+                {topDonator?.username}
+              </Link>
+              <span className="donators-stat-label">Top Supporter (₹{topDonator?.totalAmount})</span>
             </div>
           </div>
         </div>
@@ -126,38 +263,45 @@ const Donators = () => {
           </div>
 
           <div className="featured-cards-grid">
-            {DONATORS.map((donator, idx) => (
+            {sortedDonators.map((donator, idx) => (
               <div key={donator.id} className={`featured-donator-card ${donator.badgeClass}`}>
                 <div className="featured-card-glow" />
                 <div className="featured-badge-tag">{donator.badge}</div>
 
-                <div className="featured-avatar-frame">
-                  <img
-                    src={getAvatarUrl(donator.username)}
-                    alt={donator.username}
-                    className="featured-avatar-img"
-                  />
-                </div>
+                <Link to={`/profile/${donator.username}`} className="featured-avatar-link">
+                  <div className="featured-avatar-frame">
+                    <img
+                      src={getAvatarUrl(donator.username)}
+                      alt={donator.username}
+                      className="featured-avatar-img"
+                    />
+                  </div>
+                </Link>
 
-                <h3 className="featured-player-name">{donator.username}</h3>
+                <Link to={`/profile/${donator.username}`} className="featured-player-name-link">
+                  <h3 className="featured-player-name">{donator.username}</h3>
+                </Link>
                 <span className="featured-tier-label">{donator.tier}</span>
 
-                <div className="featured-items-list">
-                  {donator.items.map((item, i) => (
-                    <span key={i} className="featured-item-tag">
-                      <MdShoppingBag /> {item}
-                    </span>
+                <div className="featured-purchases-list">
+                  {donator.purchases.map((purchase, i) => (
+                    <div key={i} className="featured-purchase-row">
+                      <span className="purchase-item-name">
+                        <MdShoppingBag /> {purchase.item}
+                      </span>
+                      <span className="purchase-item-amount">₹{purchase.amount}</span>
+                    </div>
                   ))}
                 </div>
 
                 <div className="featured-amount-badge">
-                  <span className="amount-label">Contributed</span>
-                  <span className="amount-value">₹{donator.amount}</span>
+                  <span className="amount-label">Total Contributed</span>
+                  <span className="amount-value">₹{donator.totalAmount}</span>
                 </div>
 
-                {/* <Link to={`/profile/${donator.username}`} className="featured-profile-btn">
+                <Link to={`/profile/${donator.username}`} className="featured-profile-btn">
                   View Profile <MdOpenInNew />
-                </Link> */}
+                </Link>
               </div>
             ))}
           </div>
@@ -204,8 +348,8 @@ const Donators = () => {
                   filteredDonators.map((d, index) => (
                     <tr key={d.id} className="donator-table-row">
                       <td className="col-rank">
-                        <span className={`rank-num ${index === 0 ? 'top-1' : index === 1 ? 'top-2' : ''}`}>
-                          #{index + 1}
+                        <span className={`rank-num ${index === 0 ? 'top-1' : index === 1 ? 'top-2' : index === 2 ? 'top-3' : ''}`}>
+                          {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
                         </span>
                       </td>
 
@@ -226,21 +370,21 @@ const Donators = () => {
 
                       <td className="col-items">
                         <div className="items-tags-group">
-                          {d.items.map((item, i) => (
+                          {d.purchases.map((p, i) => (
                             <span key={i} className="purchase-item-chip">
-                              {item}
+                              {p.item} — ₹{p.amount}
                             </span>
                           ))}
                         </div>
                       </td>
 
                       <td className="col-amount">
-                        <span className="amount-pill">₹{d.amount}</span>
+                        <span className="amount-pill">₹{d.totalAmount}</span>
                       </td>
 
                       <td className="col-action">
                         <Link to={`/profile/${d.username}`} className="table-profile-link">
-                          Profile
+                          View <MdOpenInNew />
                         </Link>
                       </td>
                     </tr>
