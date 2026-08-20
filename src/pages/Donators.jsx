@@ -29,24 +29,34 @@ const DONATION_GOAL = 2000; // ₹2000 goal
 // Simply add new player objects whenever a purchase is made!
 export const DONATORS = [
   {
-    id: 'donator-1',
+    id: 'donator-2',
     username: 'Mr_ANKIT_322',
     purchases: [
       { item: 'Aloo Rank', amount: 300, date: '2026-08-19' },
       { item: 'Banana Rank', amount: 59, date: '2026-08-12' },
     ],
     tier: 'Aloo Supporter',
-    badge: '🥇 Top Donator',
+    badge: '🥈 Top Donator',
     badgeClass: 'badge-gold',
   },
   {
-    id: 'donator-2',
+    id: 'donator-1',
     username: 'rayyan',
     purchases: [
-      { item: 'Spawner Key', amount: 320, date: '2026-08-01' },
+      { item: 'Spawner Key', amount: 420, date: '2026-08-01' },
     ],
     tier: 'Supporter',
-    badge: '🥈 Supporter',
+    badge: '🥇 Supporter',
+    badgeClass: 'badge-diamond',
+  },  
+    {
+    id: 'donator-1',
+    username: 'Shorekeeper12',
+    purchases: [
+      { item: 'Spawner Key', amount: 180, date: '2026-08-01' },
+    ],
+    tier: 'Supporter',
+    badge: '🥉 Supporter',
     badgeClass: 'badge-silver',
   },
 ];
