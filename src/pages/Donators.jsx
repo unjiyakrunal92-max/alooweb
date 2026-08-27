@@ -43,7 +43,7 @@ export const DONATORS = [
     id: 'donator-1',
     username: 'rayyan',
     purchases: [
-      { item: 'Spawner Key', amount: 420, date: '2026-08-01' },
+      { item: 'Spawner Key', amount: 520, date: '2026-08-27' },
     ],
     tier: 'Supporter',
     badge: '🥇 Supporter',
