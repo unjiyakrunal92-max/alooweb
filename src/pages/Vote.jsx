@@ -1,135 +1,183 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/Vote.css';
 import {
   MdHowToVote,
-  MdLocalFireDepartment,
-  MdStar,
-  MdAccessTime,
-  MdLink,
-  MdCardGiftcard,
-  MdLeaderboard,
+  MdOpenInNew,
+  MdContentCopy,
   MdCheckCircle,
-  MdPublic,
-  MdGames,
-  MdRocketLaunch,
+  MdStar,
+  MdCardGiftcard,
+  MdPerson,
+  MdStorefront,
+  MdLeaderboard,
+  MdDone,
+  MdHelpOutline,
+  MdBookmark,
+  MdWorkspacePremium,
+  MdDiamond,
+  MdKey,
   MdAttachMoney,
-  MdInventory,
-  MdEmojiEvents,
-  MdSchedule,
+  MdBolt,
+  MdArrowForward,
 } from 'react-icons/md';
+import { getAvatarUrl } from '../utils/api';
 
-const getAvatarUrl = (name) => `https://mc-heads.net/avatar/${name}/64`;
-
-// ── Vote Sites Config ──
-// Replace href with your real vote links!
-const VOTE_SITES = [
+// ── VOTE SITES (Supplied by Server Owner) ──
+export const VOTE_LINKS = [
   {
-    id: 'minecraft-mp',
-    name: 'Minecraft-MP',
-    desc: 'Vote on the largest Minecraft server list and help us climb the rankings.',
-    icon: <MdPublic />,
-    reward: '+500 Coins',
-    cooldown: false,
-    href: 'https://minecraft-mp.com/server/your-id/vote/',
+    id: 1,
+    number: '#1',
+    name: 'Vote Link #1',
+    site: 'Minecraft-MP',
+    domain: 'minecraft-mp.com',
+    url: 'https://minecraft-mp.com/server/362586/vote',
+    reward: '5k Money + Vote Key',
+    badgeColor: '#8b5cf6', // Vibrant purple like PikaNetwork
   },
   {
-    id: 'topg',
-    name: 'TopG',
-    desc: 'A quick vote here boosts our visibility on TopG server list.',
-    icon: <MdRocketLaunch />,
-    reward: '+500 Coins',
-    cooldown: false,
-    href: 'https://topg.org/minecraft-servers/server-your-id',
+    id: 2,
+    number: '#2',
+    name: 'Vote Link #2',
+    site: 'Minecraft ServerList',
+    domain: 'minecraft-serverlist.com',
+    url: 'https://minecraft-serverlist.com/server/6140/vote',
+    reward: '5k Money + Vote Key',
+    badgeColor: '#6366f1', // Indigo
   },
   {
-    id: 'minecraftservers',
-    name: 'Minecraft Servers',
-    desc: 'Help AlooSMP trend on MinecraftServers.org with one click.',
-    icon: <MdGames />,
-    reward: '+750 Coins',
-    cooldown: true,
-    href: 'https://minecraftservers.org/server/your-id',
+    id: 3,
+    number: '#3',
+    name: 'Vote Link #3',
+    site: 'Minecraft Buzz',
+    domain: 'minecraft.buzz',
+    url: 'https://minecraft.buzz/vote/aloo-smp',
+    reward: '5k Money + Vote Key',
+    badgeColor: '#3b82f6', // Royal blue
   },
   {
-    id: 'planetminecraft',
-    name: 'Planet Minecraft',
-    desc: 'Support us on PMC — the home of the Minecraft community.',
-    icon: <MdEmojiEvents />,
-    reward: '+500 Coins',
-    cooldown: false,
-    href: 'https://planetminecraft.com/server/aloosmp/vote',
+    id: 4,
+    number: '#4',
+    name: 'Vote Link #4',
+    site: 'TopG Servers',
+    domain: 'topg.org',
+    url: 'https://topg.org/minecraft-servers/server-685238',
+    reward: '5k Money + Vote Key',
+    badgeColor: '#0ea5e9', // Sky blue
   },
   {
-    id: 'servers-minecraft',
-    name: 'Servers-Minecraft',
-    desc: 'Daily vote = daily rewards. Quick and easy.',
-    icon: <MdInventory />,
-    reward: '+500 Coins',
-    cooldown: false,
-    href: 'https://servers-minecraft.net/server-aloosmp.html',
-  },
-  {
-    id: 'minecraft-server-list',
-    name: 'MC Server List',
-    desc: 'One of the oldest server lists — vote and earn instantly.',
-    icon: <MdLink />,
-    reward: '+500 Coins',
-    cooldown: true,
-    href: 'https://minecraft-server-list.com/server/your-id/vote/',
+    id: 5,
+    number: '#5',
+    name: 'Vote Link #5',
+    site: 'Minecraft Servers Org',
+    domain: 'minecraftservers.org',
+    url: 'https://minecraftservers.org/vote/691896',
+    reward: '5k Money + Vote Key',
+    badgeColor: '#10b981', // Emerald
   },
 ];
 
-// ── How it works steps ──
-const HOW_STEPS = [
-  {
-    icon: <MdHowToVote />,
-    title: 'Click & Vote',
-    desc: 'Click any vote button above. You\'ll be redirected to the voting site — sign in or complete a captcha.',
-  },
-  {
-    icon: <MdCardGiftcard />,
-    title: 'Claim Rewards',
-    desc: 'Rewards are sent automatically to your in-game account within 1-2 minutes of voting.',
-  },
-  {
-    icon: <MdLocalFireDepartment />,
-    title: 'Build Your Streak',
-    desc: 'Vote on all sites every day to build your streak. 7-day streaks unlock bonus crates!',
-  },
-];
-
-// ── Mock top voters ──
+// Top voters list
 const TOP_VOTERS = [
-  { name: 'xDarkKnight',  votes: 142 },
-  { name: 'ShadowArcher', votes: 128 },
-  { name: 'CrimsonBlade', votes: 109 },
-  { name: 'PyroStrike',   votes: 94 },
-  { name: 'NightWalker',  votes: 81 },
+  { name: 'HARISHMEENA7777', votes: 145, rank: 1 },
+  { name: 'rayyan',          votes: 132, rank: 2 },
+  { name: 'HyperPRO',        votes: 118, rank: 3 },
+  { name: 'Mr_ANKIT_322',    votes: 98,  rank: 4 },
+  { name: 'krunal23',        votes: 84,  rank: 5 },
+];
+
+const VOTE_REWARDS = [
+  { icon: <MdAttachMoney />, label: '5k Server Money', desc: 'Instant in-game cash deposited per vote' },
+  { icon: <MdKey />,         label: '1x Vote Crate Key', desc: 'Open vote crates for rare loot' },
+  { icon: <MdBolt />,        label: '+250 Level XP', desc: 'Level up faster & unlock perks' },
+  { icon: <MdDiamond />,     label: 'Rank Voucher Chance', desc: 'Rare drop for lucky voters' },
 ];
 
 const Vote = () => {
+  // Username management
+  const [usernameInput, setUsernameInput] = useState('');
+  const [savedUsername, setSavedUsername] = useState('');
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // Copy feedback state per link ID
+  const [copiedId, setCopiedId] = useState(null);
+  const [toastMessage, setToastMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
+
+  // Voted tracking in current session
+  const [votedMap, setVotedMap] = useState({});
+
+  // Floating particles
   const [particles, setParticles] = useState([]);
 
-  // Generate floating particles once
   useEffect(() => {
-    const arr = Array.from({ length: 24 }, (_, i) => ({
+    // Load saved username from localStorage
+    const stored = localStorage.getItem('aloosmp_vote_username');
+    if (stored) {
+      setSavedUsername(stored);
+      setUsernameInput(stored);
+    }
+
+    // Load voted session state
+    try {
+      const storedVoted = JSON.parse(sessionStorage.getItem('aloosmp_voted_map') || '{}');
+      setVotedMap(storedVoted);
+    } catch {
+      // ignore
+    }
+
+    // Generate background particles
+    const arr = Array.from({ length: 18 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
       size: 2 + Math.random() * 4,
-      duration: 8 + Math.random() * 12,
-      delay: Math.random() * 10,
-      drift: (Math.random() - 0.5) * 80,
+      duration: 8 + Math.random() * 10,
+      delay: Math.random() * 6,
+      drift: (Math.random() - 0.5) * 60,
     }));
     setParticles(arr);
   }, []);
 
-  // Mock streak — replace with real player data via API later
-  const currentStreak = 4;
+  const triggerToast = (msg) => {
+    setToastMessage(msg);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 2500);
+  };
+
+  const handleSaveUsername = (e) => {
+    e.preventDefault();
+    const clean = usernameInput.trim();
+    if (!clean) return;
+
+    localStorage.setItem('aloosmp_vote_username', clean);
+    setSavedUsername(clean);
+    setSaveSuccess(true);
+    triggerToast(`Username "${clean}" saved!`);
+    setTimeout(() => setSaveSuccess(false), 2500);
+  };
+
+  const handleCopyLink = (url, id) => {
+    navigator.clipboard.writeText(url);
+    setCopiedId(id);
+    triggerToast('Vote link copied to clipboard!');
+    setTimeout(() => setCopiedId(null), 2500);
+  };
+
+  const handleVoteClick = (id) => {
+    const updated = { ...votedMap, [id]: true };
+    setVotedMap(updated);
+    try {
+      sessionStorage.setItem('aloosmp_voted_map', JSON.stringify(updated));
+    } catch {
+      // ignore
+    }
+  };
+
+  const votedCount = Object.keys(votedMap).length;
 
   return (
     <div className="vote-page">
-
-      {/* Floating particles */}
+      {/* Ambient background particles */}
       <div className="vote-particles">
         {particles.map(p => (
           <div
@@ -149,127 +197,292 @@ const Vote = () => {
 
       <div className="vote-inner">
 
-        {/* ══ HEADER ══ */}
+        {/* ════════ HEADER ════════ */}
         <div className="vote-header">
           <div className="vote-tag">
-            <MdStar /> Support The Server
+            <MdStar /> Daily Support & Rewards
           </div>
           <h1 className="vote-title">
-            Vote for <span>AlooSMP</span>
+            Vote for <span>AlooSMP</span>: Best Server 2026
           </h1>
           <p className="vote-desc">
-            Help us grow by voting daily on the sites below. Every vote
-            earns you in-game rewards and helps new players discover the server.
+            Vote daily on all 5 server lists below to claim free in-game coins, vote keys, crate vouchers, and XP. Every single vote helps our community grow!
           </p>
         </div>
 
-        {/* ══ STREAK BAR ══ */}
-        <div className="vote-streak-bar">
-          <div className="vote-streak-left">
-            <div className="vote-streak-icon">
-              <MdLocalFireDepartment />
-            </div>
-            <div>
-              <div className="vote-streak-num">
-                {currentStreak} <span>Day Streak</span>
+        {/* ════════ MAIN LAYOUT (Links + Sidebar) ════════ */}
+        <div className="vote-layout">
+
+          {/* ── LEFT COLUMN: Links & Username ── */}
+          <div className="vote-main-col">
+
+            {/* Who is voting? Section (Pika-style) */}
+            <div className="vote-username-box">
+              <div className="vub-avatar-wrap">
+                {savedUsername ? (
+                  <img
+                    src={getAvatarUrl(savedUsername)}
+                    alt={savedUsername}
+                    className="vub-avatar-img"
+                  />
+                ) : (
+                  <div className="vub-avatar-placeholder">
+                    <MdPerson />
+                  </div>
+                )}
               </div>
-              <div className="vote-streak-label">
-                Vote daily to keep your streak alive!
+
+              <div className="vub-content">
+                <div className="vub-title-row">
+                  <h3 className="vub-title">Who is voting?</h3>
+                  {savedUsername && (
+                    <span className="vub-saved-badge">
+                      <MdCheckCircle /> Ready as <strong>{savedUsername}</strong>
+                    </span>
+                  )}
+                </div>
+                <p className="vub-desc">
+                  Enter your Minecraft username to vote. <strong>Bedrock</strong> players add a dot in front, e.g. <code>.Steve</code>
+                </p>
+
+                <form className="vub-form" onSubmit={handleSaveUsername}>
+                  <input
+                    type="text"
+                    className="vub-input"
+                    placeholder="Your Minecraft username..."
+                    value={usernameInput}
+                    onChange={(e) => setUsernameInput(e.target.value)}
+                  />
+                  <button type="submit" className={`vub-save-btn ${saveSuccess ? 'saved' : ''}`}>
+                    {saveSuccess ? (
+                      <>
+                        <MdDone /> Saved
+                      </>
+                    ) : (
+                      <>
+                        <MdBookmark /> Save
+                      </>
+                    )}
+                  </button>
+                </form>
               </div>
             </div>
+
+            {/* Voting Progress Banner */}
+            <div className="vote-progress-banner">
+              <div className="vpb-left">
+                <span className="vpb-dot" />
+                <span className="vpb-text">
+                  You've voted on <strong>{votedCount}</strong> of <strong>{VOTE_LINKS.length}</strong> links this session
+                </span>
+              </div>
+              <span className="vpb-hint">Links reset every 12–24h</span>
+            </div>
+
+            {/* Vote Links List (Cards 1 to 5) */}
+            <div className="vote-links-list">
+              {VOTE_LINKS.map((link) => {
+                const isVoted = votedMap[link.id];
+                const isCopied = copiedId === link.id;
+
+                return (
+                  <div
+                    key={link.id}
+                    className={`pika-vote-card ${isVoted ? 'voted' : ''}`}
+                    style={{ '--badge-color': link.badgeColor }}
+                  >
+                    {/* Left Purple Badge (#1, #2, etc.) */}
+                    <div className="pvc-number-badge">
+                      <span>{link.number}</span>
+                    </div>
+
+                    {/* Middle Info */}
+                    <div className="pvc-info">
+                      <div className="pvc-title-row">
+                        <h3 className="pvc-title">{link.name}</h3>
+                        <span className="pvc-site-pill">{link.site}</span>
+                        {isVoted && (
+                          <span className="pvc-voted-pill">
+                            <MdCheckCircle /> Voted
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="pvc-url-row">
+                        <span className="pvc-url">{link.url}</span>
+                      </div>
+
+                      <div className="pvc-reward-row">
+                        <MdCardGiftcard className="pvc-reward-icon" />
+                        <span>Reward: <strong>{link.reward}</strong></span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="pvc-actions">
+                      {/* Copy Link button */}
+                      <button
+                        className={`pvc-copy-btn ${isCopied ? 'copied' : ''}`}
+                        onClick={() => handleCopyLink(link.url, link.id)}
+                        title="Copy Vote URL"
+                      >
+                        {isCopied ? <MdCheckCircle /> : <MdContentCopy />}
+                        <span className="btn-text">{isCopied ? 'Copied!' : 'Copy'}</span>
+                      </button>
+
+                      {/* Click To Vote button */}
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="pvc-vote-btn"
+                        onClick={() => handleVoteClick(link.id)}
+                        title="Open vote site"
+                      >
+                        <span className="btn-text">Click To Vote</span>
+                        <MdOpenInNew className="btn-icon" />
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Voting Rewards Grid */}
+            <div className="vote-rewards-section">
+              <div className="vrs-header">
+                <MdWorkspacePremium className="vrs-icon" />
+                <h3>Every Vote Counts · In-Game Rewards</h3>
+              </div>
+              <div className="vrs-grid">
+                {VOTE_REWARDS.map((rew, i) => (
+                  <div className="vrs-card" key={i}>
+                    <div className="vrs-card-icon">{rew.icon}</div>
+                    <div className="vrs-card-info">
+                      <span className="vrs-card-title">{rew.label}</span>
+                      <span className="vrs-card-desc">{rew.desc}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
 
-          <div className="vote-streak-days">
-            {Array.from({ length: 7 }, (_, i) => (
-              <div
-                key={i}
-                className={`vote-streak-day ${i < currentStreak ? 'done' : ''}`}
-              >
-                {i < currentStreak ? <MdCheckCircle /> : i + 1}
-              </div>
-            ))}
-          </div>
-        </div>
+          {/* ── RIGHT COLUMN: Sidebar (Store + Top Voters + Help) ── */}
+          <div className="vote-sidebar-col">
 
-        {/* ══ VOTE SITES GRID ══ */}
-        <p className="vote-section-title">
-          <MdHowToVote /> Vote Links
-        </p>
-        <div className="vote-grid">
-          {VOTE_SITES.map((site, i) => (
-            <div
-              className="vote-card"
-              key={site.id}
-              style={{ animationDelay: `${i * 0.08}s` }}
+            {/* Gold Store CTA Banner (Like Pika's top right yellow button) */}
+            <a
+              href="https://discord.gg/Ecf6UJq8MR"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="vote-store-cta"
             >
-              <div className="vote-card-top">
-                <div className="vote-card-icon">{site.icon}</div>
-                <div className="vote-reward-badge">
-                  <MdAttachMoney />
-                  {site.reward}
-                </div>
+              <div className="vsc-icon">
+                <MdStorefront />
               </div>
+              <div className="vsc-text">
+                <span className="vsc-title">Click here to buy Ranks & Keys</span>
+                <span className="vsc-sub">Support AlooSMP · Exclusive in-game perks</span>
+              </div>
+              <MdOpenInNew className="vsc-arrow" />
+            </a>
 
-              <h3 className="vote-card-title">{site.name}</h3>
-              <p className="vote-card-desc">{site.desc}</p>
-
-              {site.cooldown ? (
-                <button className="vote-btn cooldown" disabled>
-                  <MdSchedule />
-                  Voted — 12h left
-                </button>
-              ) : (
-                <a
-                  href={site.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="vote-btn available"
-                >
-                  <MdHowToVote />
-                  Vote Now
-                </a>
-              )}
+            {/* Server Leaderboard Card with Button & Description */}
+            <div className="vote-sidebar-card vote-lb-card">
+              <div className="vsc-card-header">
+                <div className="vsc-header-left">
+                  <MdLeaderboard className="vsc-header-icon lb-icon" />
+                  <h4>Server Leaderboard</h4>
+                </div>
+                <span className="vsc-header-tag lb">Rankings</span>
+              </div>
+              <p className="vsc-card-text">
+                Check where you stand among the richest tycoons and top fighters on AlooSMP! View live stats for Net Worth, Player Kills, and Playtime.
+              </p>
+              <Link to="/leaderboard" className="vote-lb-cta-btn">
+                <MdLeaderboard className="btn-icon" />
+                <span>View Full Leaderboard</span>
+                <MdArrowForward className="btn-arrow" />
+              </Link>
             </div>
-          ))}
-        </div>
 
-        {/* ══ HOW VOTING WORKS ══ */}
-        <div className="vote-how-section">
-          <h2 className="vote-how-title">
-            How <span>Voting</span> Works
-          </h2>
-          <div className="vote-how-steps">
-            {HOW_STEPS.map((step, i) => (
-              <div className="vote-how-step" key={i}>
-                <div className="vote-how-icon">{step.icon}</div>
-                <div className="vote-how-step-title">{step.title}</div>
-                <p className="vote-how-step-desc">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ══ TOP VOTERS ══ */}
-        <p className="vote-section-title">
-          <MdLeaderboard /> Top Voters This Month
-        </p>
-        <div className="vote-top-list">
-          {TOP_VOTERS.map((voter, i) => {
-            const rankCls = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
-            return (
-              <div className={`vote-top-card ${rankCls}`} key={voter.name}>
-                <div className="vote-top-rank">{i + 1}</div>
-                <div className="vote-top-avatar">
-                  <img src={getAvatarUrl(voter.name)} alt={voter.name} />
+            {/* Top Voters Card */}
+            <div className="vote-sidebar-card">
+              <div className="vsc-card-header">
+                <div className="vsc-header-left">
+                  <MdLeaderboard className="vsc-header-icon" />
+                  <h4>Top Voters This Month</h4>
                 </div>
-                <div className="vote-top-name">{voter.name}</div>
-                <div className="vote-top-count">{voter.votes}</div>
-                <div className="vote-top-count-label">Votes</div>
+                <span className="vsc-header-tag">Live</span>
               </div>
-            );
-          })}
+
+              <div className="vsc-voters-list">
+                {TOP_VOTERS.map((voter) => {
+                  const medal = voter.rank === 1 ? '🥇' : voter.rank === 2 ? '🥈' : voter.rank === 3 ? '🥉' : `#${voter.rank}`;
+                  const rankClass = voter.rank === 1 ? 'top-1' : voter.rank === 2 ? 'top-2' : voter.rank === 3 ? 'top-3' : '';
+
+                  return (
+                    <div className={`vsc-voter-row ${rankClass}`} key={voter.name}>
+                      <div className="vsc-voter-rank">{medal}</div>
+                      <div className="vsc-voter-avatar">
+                        <img src={getAvatarUrl(voter.name)} alt={voter.name} />
+                      </div>
+                      <div className="vsc-voter-info">
+                        <span className="vsc-voter-name">{voter.name}</span>
+                        <span className="vsc-voter-sub">{voter.votes} votes</span>
+                      </div>
+                      <div className="vsc-voter-badge">
+                        {voter.votes}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Vote FAQ Card */}
+            <div className="vote-sidebar-card faq-card">
+              <div className="vsc-card-header">
+                <div className="vsc-header-left">
+                  <MdHelpOutline className="vsc-header-icon" />
+                  <h4>Voting Guide & FAQ</h4>
+                </div>
+              </div>
+
+              <div className="vsc-faq-list">
+                <div className="vsc-faq-item">
+                  <span className="faq-q">How often can I vote?</span>
+                  <p className="faq-a">
+                    Most sites allow 1 vote per 24 hours. Vote on all 5 links daily for maximum rewards!
+                  </p>
+                </div>
+                <div className="vsc-faq-item">
+                  <span className="faq-q">Bedrock Edition Players</span>
+                  <p className="faq-a">
+                    Add a dot in front of your Gamertag, for example <code>.Steve</code>, so rewards are delivered to your Bedrock character.
+                  </p>
+                </div>
+                <div className="vsc-faq-item">
+                  <span className="faq-q">How to claim in-game?</span>
+                  <p className="faq-a">
+                    Rewards are credited automatically within 60 seconds! If you were offline, type <code>/vote claim</code> when you log in.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
+      </div>
+
+      {/* Toast Alert */}
+      <div className={`vote-toast ${showToast ? 'show' : ''}`}>
+        <MdCheckCircle className="toast-icon" />
+        <span>{toastMessage}</span>
       </div>
     </div>
   );

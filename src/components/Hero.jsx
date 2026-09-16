@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/Hero.css';
 import {
   MdContentCopy,
@@ -15,6 +16,7 @@ import {
   MdPublic,
   MdEmojiEvents,
   MdSatelliteAlt,
+  MdHowToVote,
 } from 'react-icons/md';
 import { fetchPlayers, fetchServerInfo } from '../utils/api';
 import CountUp from './CountUp';
@@ -175,10 +177,14 @@ const Hero = () => {
               <MdPlayArrow />
               How to Join
             </a>
-            <a href="#leaderboard" className="btn-hero-secondary">
+            <Link to="/vote" className="btn-hero-vote">
+              <MdHowToVote />
+              Vote for Server
+            </Link>
+            <Link to="/leaderboard" className="btn-hero-secondary">
               <MdLeaderboard />
               Leaderboard
-            </a>
+            </Link>
           </div>
 
         </div>

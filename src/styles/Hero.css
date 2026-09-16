@@ -302,6 +302,37 @@
   box-shadow: 2px 2px 0 #000;
 }
 
+.btn-hero-vote {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #ffffff;
+  border: var(--border-thick);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: var(--shadow-flat);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.btn-hero-vote:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000, 0 0 20px rgba(245, 158, 11, 0.4);
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+.btn-hero-vote:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #000;
+}
+
 .btn-hero-secondary {
   display: inline-flex;
   align-items: center;
@@ -631,6 +662,8 @@
   padding: 10px 20px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35), 0 0 16px rgba(26, 111, 255, 0.18);
   transition: all 0.25s ease;
+  max-width: calc(100% - 48px);
+  box-sizing: border-box;
 }
 
 .hero-corner-dev-pill:hover {
@@ -716,6 +749,7 @@
   }
 
   .btn-hero-primary,
+  .btn-hero-vote,
   .btn-hero-secondary {
     justify-content: center;
     width: 100%;

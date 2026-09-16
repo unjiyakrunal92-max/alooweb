@@ -563,6 +563,15 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
+/* Container wrappers for desktop table layout */
+.lb-row-main {
+  display: contents;
+}
+
+.lb-stats-grid {
+  display: contents;
+}
+
 /* Gold/Silver/Bronze row accents */
 .lb-row.gold   { border-color: rgba(255, 215, 0, 0.18); }
 .lb-row.silver { border-color: rgba(192, 192, 192, 0.15); }
@@ -903,86 +912,444 @@
 /* ══════════════════════════════
    RESPONSIVE
 ══════════════════════════════ */
-@media (max-width: 900px) {
-  .lb-table-head { display: none; }
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
 
+/* Tablet & Smaller Laptops (<= 1024px) */
+@media (max-width: 1024px) {
+  .lb-table-head {
+    grid-template-columns: 50px 1.8fr 1fr 0.9fr 0.9fr 1fr;
+    padding: 8px 16px;
+  }
   .lb-row {
-    grid-template-columns: 48px 1fr;
-    grid-template-areas:
-      "rank player"
-      "stats stats";
-    padding: 14px 16px;
-    gap: 10px 12px;
+    grid-template-columns: 50px 1.8fr 1fr 0.9fr 0.9fr 1fr;
+    padding: 12px 16px;
   }
-
-  .lb-rank   { grid-area: rank; }
-  .lb-player { grid-area: player; }
-
-  .lb-row > .lb-cell { grid-area: stats; }
-
-  .lb-row {
-    display: grid;
-    grid-template-columns: 48px 1fr 1fr 1fr 1fr;
-    grid-template-areas:
-      "rank player player player player"
-      "stat1 stat2 stat3 stat4 stat4";
-  }
-
-  .lb-cell:nth-of-type(1) { grid-area: stat1; }
-  .lb-cell:nth-of-type(2) { grid-area: stat2; }
-  .lb-cell:nth-of-type(3) { grid-area: stat3; }
-  .lb-cell:nth-of-type(4) { grid-area: stat4; }
-
-  .lb-podium {
-    grid-template-columns: 1fr;
-  }
-
-  .podium-card.rank-2 { order: -1; }
-
-  .lb-controls { gap: 10px; }
-
-  .lb-tabs {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .lb-tab span { display: none; }
-  .lb-tab { padding: 10px 14px; }
-
-  .lb-search { width: 100%; }
-  .lb-search-wrap { width: 100%; }
-
-  .lb-header-right { flex-direction: row; }
 }
 
-@media (max-width: 600px) {
-  .lb-page { padding: 40px 14px 80px; }
+/* Tablet & Mobile (<= 768px) */
+@media (max-width: 768px) {
+  .lb-page {
+    padding: 40px 16px 80px;
+  }
 
   .lb-header {
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 32px;
+    gap: 16px;
   }
 
-  .lb-header-right { flex-direction: row; width: 100%; }
+  .lb-title {
+    font-size: clamp(32px, 7vw, 48px);
+  }
 
-  .lb-podium { gap: 10px; }
+  .lb-header-right {
+    flex-direction: row;
+    width: 100%;
+    gap: 10px;
+  }
 
-  .podium-stats-grid { gap: 4px; }
+  .lb-stat-pill {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 14px;
+    font-size: 11px;
+  }
 
-  .psc-val { font-size: 12px; }
+  /* ── Podium on Tablet & Mobile (Centered in the middle, Stacked 1st -> 2nd -> 3rd) ── */
+  .lb-podium {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
 
-  .lb-rank-badge { width: 36px; height: 36px; }
+  .podium-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
 
-  .lb-avatar-wrap { width: 42px; height: 42px; }
+  .podium-card.rank-1 {
+    order: 1;
+    padding: 24px 20px 20px;
+  }
 
-  .lb-player-name { font-size: 13px; }
+  .podium-card.rank-2 {
+    order: 2;
+    padding: 20px 16px 16px;
+  }
 
-  .lbc-val { font-size: 13px; }
+  .podium-card.rank-3 {
+    order: 3;
+    padding: 20px 16px 16px;
+  }
 
-  .lb-page-info { display: none; }
+  .podium-stats-grid {
+    display: flex;
+    width: 100%;
+    max-width: 380px;
+    margin: 6px auto 0;
+    gap: 6px;
+  }
 
-  .lb-pagination { gap: 5px; }
+  .psc-val {
+    font-size: 13px;
+  }
 
-  .lb-page-btn, .lb-page-num { width: 38px; height: 38px; font-size: 12px; }
+  /* ── Controls (Tabs & Search) ── */
+  .lb-controls {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .lb-tabs {
+    width: 100%;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    box-sizing: border-box;
+  }
+
+  .lb-tab {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 8px;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .lb-tab span {
+    display: inline !important;
+    font-size: 11px;
+  }
+
+  .lb-tab svg {
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .lb-search-wrap {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .lb-search {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* ── Table & Rows ── */
+  .lb-table-head {
+    display: none;
+  }
+
+  .lb-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .lb-row:hover {
+    transform: translateY(-2px);
+  }
+
+  .lb-row-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .lb-player {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .lb-player-name {
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* 4 stats in a row on tablet */
+  .lb-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+  }
+
+  .lb-cell {
+    padding: 8px 6px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .lbc-val {
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .lbc-lbl {
+    font-size: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Skeleton support on mobile */
+  .lb-row-skeleton .lb-row-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .lb-row-skeleton .lb-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+  }
+}
+
+/* Mobile Phones (<= 540px) */
+@media (max-width: 540px) {
+  .lb-page {
+    padding: 32px 14px 60px;
+  }
+
+  .lb-header {
+    margin-bottom: 24px;
+    gap: 12px;
+  }
+
+  .lb-title {
+    font-size: clamp(28px, 8vw, 36px);
+  }
+
+  .lb-subtitle {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  /* ── Podium on Phones (100% Centered in the middle, Stacked 1st -> 2nd -> 3rd) ── */
+  .lb-podium {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .podium-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
+  .podium-card.rank-1 {
+    order: 1;
+    padding: 20px 16px 16px;
+  }
+
+  .podium-card.rank-2 {
+    order: 2;
+    padding: 16px 14px 14px;
+  }
+
+  .podium-card.rank-3 {
+    order: 3;
+    padding: 16px 14px 14px;
+  }
+
+  .podium-avatar-ring.rank-1 {
+    width: 74px;
+    height: 74px;
+  }
+
+  .podium-avatar-ring.rank-2,
+  .podium-avatar-ring.rank-3 {
+    width: 62px;
+    height: 62px;
+  }
+
+  .podium-name {
+    font-size: 15px;
+  }
+
+  .podium-card.rank-1 .podium-name {
+    font-size: 17px;
+  }
+
+  .podium-stats-grid {
+    display: flex;
+    width: 100%;
+    max-width: 340px;
+    margin: 4px auto 0;
+    gap: 5px;
+  }
+
+  .podium-stat-chip {
+    padding: 6px 4px;
+  }
+
+  .psc-val {
+    font-size: 11.5px;
+  }
+
+  .psc-lbl {
+    font-size: 7px;
+  }
+
+  /* ── 2x2 Stats Grid for Phones (no squished numbers!) ── */
+  .lb-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .lb-row-skeleton .lb-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .lb-row {
+    padding: 12px 14px;
+    gap: 10px;
+    border-radius: 14px;
+  }
+
+  .lb-rank-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 12px;
+  }
+
+  .lb-rank-badge.gold,
+  .lb-rank-badge.silver,
+  .lb-rank-badge.bronze {
+    font-size: 17px;
+  }
+
+  .lb-avatar-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .lb-player-name {
+    font-size: 14px;
+  }
+
+  .lb-cell {
+    padding: 7px 10px;
+    border-radius: 9px;
+  }
+
+  .lbc-val {
+    font-size: 13px;
+  }
+
+  .lbc-lbl {
+    font-size: 7.5px;
+  }
+
+  /* ── Tabs & Search ── */
+  .lb-tab {
+    padding: 9px 4px;
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  .lb-tab span {
+    font-size: 10px !important;
+  }
+
+  .lb-tab svg {
+    font-size: 13px;
+  }
+
+  /* ── Pagination ── */
+  .lb-pagination {
+    gap: 4px;
+    margin-top: 24px;
+  }
+
+  .lb-page-info {
+    display: none;
+  }
+
+  .lb-page-btn,
+  .lb-page-num {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+}
+
+/* Small Screens (<= 380px) */
+@media (max-width: 380px) {
+  .lb-page {
+    padding: 28px 10px 50px;
+  }
+
+  .lb-title {
+    font-size: 26px;
+  }
+
+  .lb-tag {
+    font-size: 9px;
+    padding: 4px 10px;
+  }
+
+  .lb-stat-pill {
+    padding: 6px 8px;
+    font-size: 10px;
+    gap: 5px;
+  }
+
+  .lb-tab {
+    padding: 8px 2px;
+    gap: 3px;
+  }
+
+  .lb-tab span {
+    font-size: 9px !important;
+  }
+
+  .lb-row {
+    padding: 10px 10px;
+  }
+
+  .lb-avatar-wrap {
+    width: 36px;
+    height: 36px;
+  }
+
+  .lb-rank-badge {
+    width: 32px;
+    height: 32px;
+  }
+
+  .lb-player-name {
+    font-size: 13px;
+  }
+
+  .lbc-val {
+    font-size: 12px;
+  }
 }

@@ -53,18 +53,22 @@ const getStatValue = (player, tabId) => {
 // ── Skeleton row ──
 const SkeletonRow = ({ index }) => (
   <div className="lb-row lb-row-skeleton" style={{ animationDelay: `${index * 0.06}s` }}>
-    <div className="sk-rank" />
-    <div className="lb-player">
-      <div className="sk-avatar" />
-      <div className="sk-info">
-        <div className="sk-name" />
-        <div className="sk-level" />
+    <div className="lb-row-main">
+      <div className="sk-rank" />
+      <div className="lb-player">
+        <div className="sk-avatar" />
+        <div className="sk-info">
+          <div className="sk-name" />
+          <div className="sk-level" />
+        </div>
       </div>
     </div>
-    <div className="sk-cell" />
-    <div className="sk-cell" />
-    <div className="sk-cell" />
-    <div className="sk-cell" />
+    <div className="lb-stats-grid">
+      <div className="sk-cell" />
+      <div className="sk-cell" />
+      <div className="sk-cell" />
+      <div className="sk-cell" />
+    </div>
   </div>
 );
 
@@ -291,58 +295,64 @@ const Leaderboard = () => {
                     key={p.uuid || p.username}
                     style={{ animationDelay: `${idx * 0.05}s` }}
                   >
-                    {/* Rank */}
-                    <div className="lb-rank">
-                      <div className={`lb-rank-badge ${getRankBadgeClass(p.rank)}`}>
-                        {p.rank <= 3 ? RANK_MEDALS[p.rank - 1] : p.rank}
+                    {/* Player Main Info */}
+                    <div className="lb-row-main">
+                      {/* Rank */}
+                      <div className="lb-rank">
+                        <div className={`lb-rank-badge ${getRankBadgeClass(p.rank)}`}>
+                          {p.rank <= 3 ? RANK_MEDALS[p.rank - 1] : p.rank}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Player */}
-                    <div className="lb-player">
-                      <div className="lb-avatar-wrap">
-                        <img
-                          src={getAvatarUrl(p.username)}
-                          alt={p.username}
-                          className="lb-avatar-img"
-                        />
-                        {p.is_online && <span className="lb-online-dot" />}
-                      </div>
-                      <div className="lb-player-info">
-                        <div className="lb-player-name">{p.username}</div>
-                        <div className="lb-player-meta">
-                          <span className="lb-level-badge">
-                            <MdStar /> Lvl {p.player_level ?? '?'}
-                          </span>
-                          {p.is_online && (
-                            <span className="lb-online-badge">● Online</span>
-                          )}
+                      {/* Player */}
+                      <div className="lb-player">
+                        <div className="lb-avatar-wrap">
+                          <img
+                            src={getAvatarUrl(p.username)}
+                            alt={p.username}
+                            className="lb-avatar-img"
+                          />
+                          {p.is_online && <span className="lb-online-dot" />}
+                        </div>
+                        <div className="lb-player-info">
+                          <div className="lb-player-name">{p.username}</div>
+                          <div className="lb-player-meta">
+                            <span className="lb-level-badge">
+                              <MdStar /> Lvl {p.player_level ?? '?'}
+                            </span>
+                            {p.is_online && (
+                              <span className="lb-online-badge">● Online</span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* Net Worth */}
-                    <div className="lb-cell lb-cell-worth">
-                      <span className="lbc-val">{formatMoney(p.money)}</span>
-                      <span className="lbc-lbl">Net Worth</span>
-                    </div>
+                    {/* Stats Grid */}
+                    <div className="lb-stats-grid">
+                      {/* Net Worth */}
+                      <div className="lb-cell lb-cell-worth">
+                        <span className="lbc-val">{formatMoney(p.money)}</span>
+                        <span className="lbc-lbl">Net Worth</span>
+                      </div>
 
-                    {/* Kills */}
-                    <div className="lb-cell lb-cell-kills">
-                      <span className="lbc-val">{p.kills ?? 0}</span>
-                      <span className="lbc-lbl">Kills</span>
-                    </div>
+                      {/* Kills */}
+                      <div className="lb-cell lb-cell-kills">
+                        <span className="lbc-val">{p.kills ?? 0}</span>
+                        <span className="lbc-lbl">Kills</span>
+                      </div>
 
-                    {/* Deaths */}
-                    <div className="lb-cell lb-cell-deaths">
-                      <span className="lbc-val">{p.deaths ?? 0}</span>
-                      <span className="lbc-lbl">Deaths</span>
-                    </div>
+                      {/* Deaths */}
+                      <div className="lb-cell lb-cell-deaths">
+                        <span className="lbc-val">{p.deaths ?? 0}</span>
+                        <span className="lbc-lbl">Deaths</span>
+                      </div>
 
-                    {/* Playtime */}
-                    <div className="lb-cell lb-cell-time">
-                      <span className="lbc-val">{formatPlaytime(p.playtime_minutes)}</span>
-                      <span className="lbc-lbl">Playtime</span>
+                      {/* Playtime */}
+                      <div className="lb-cell lb-cell-time">
+                        <span className="lbc-val">{formatPlaytime(p.playtime_minutes)}</span>
+                        <span className="lbc-lbl">Playtime</span>
+                      </div>
                     </div>
                   </Link>
                 ))

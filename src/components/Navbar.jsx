@@ -25,7 +25,8 @@ const NAV_LINKS = [
   { id: 'home',        label: 'Home',        icon: <MdHome />,             path: '/',            special: null   },
   { id: 'maps',        label: 'Maps',        icon: <MdMap />,              path: '/maps',        special: null   },
   { id: 'leaderboard', label: 'Leaderboard', icon: <MdLeaderboard />,      path: '/leaderboard', special: null   },
-  { id: 'donators',   label: 'Donators',    icon: <MdWorkspacePremium />, path: '/donators',     special: null   },
+  { id: 'vote',        label: 'Vote',        icon: <MdHowToVote />,        path: '/vote',        special: 'vote' },
+  { id: 'donators',    label: 'Donators',    icon: <MdWorkspacePremium />, path: '/donators',     special: null   },
   { id: 'rules',       label: 'Rules',       icon: <MdRule />,             path: '/rules',       special: null   },
   { id: 'contact',     label: 'Contact',     icon: <MdEmail />,            path: '/contact',     special: null   },
 ];
