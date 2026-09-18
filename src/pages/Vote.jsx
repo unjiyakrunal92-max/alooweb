@@ -75,15 +75,45 @@ export const VOTE_LINKS = [
     reward: '5k Money + Vote Key',
     badgeColor: '#10b981', // Emerald
   },
+  {
+    id: 6,
+    number: '#6',
+    name: 'Vote Link #6',
+    site: 'Planet Minecraft',
+    domain: 'planetminecraft.com',
+    url: 'https://www.planetminecraft.com/server/aloo-smp/vote/',
+    reward: '5k Money + Vote Key',
+    badgeColor: '#FB2910', // maroon
+  },
+  {
+    id: 7,
+    number: '#7',
+    name: 'Vote Link #7',
+    site: 'Best Minecraft Servers',
+    domain: 'best-minecraft-servers.co',
+    url: 'https://best-minecraft-servers.co/server-aloo-smp.33349/vote',
+    reward: '5k Money + Vote Key',
+    badgeColor: '#FB7E10', // Orange
+  },
+  {
+    id: 8,
+    number: '#8',
+    name: 'Vote Link #8',
+    site: 'Minecraft Pocket-Servers',
+    domain: 'minecraftpocket-servers.com',
+    url: 'https://minecraftpocket-servers.com/server/134299/vote/',
+    reward: '5k Money + Vote Key',
+    badgeColor: '#FBBF24', // Yellow
+  }
 ];
 
 // Top voters list
 const TOP_VOTERS = [
-  { name: 'HARISHMEENA7777', votes: 145, rank: 1 },
-  { name: 'rayyan',          votes: 132, rank: 2 },
-  { name: 'HyperPRO',        votes: 118, rank: 3 },
-  { name: 'Mr_ANKIT_322',    votes: 98,  rank: 4 },
-  { name: 'krunal23',        votes: 84,  rank: 5 },
+  // { name: 'HARISHMEENA7777', votes: 145, rank: 1 },
+  // { name: 'rayyan',          votes: 132, rank: 2 },
+  // { name: 'HyperPRO',        votes: 118, rank: 3 },
+  // { name: 'Mr_ANKIT_322',    votes: 98,  rank: 4 },
+  // { name: 'krunal23',        votes: 84,  rank: 5 },
 ];
 
 const VOTE_REWARDS = [
