@@ -112,9 +112,10 @@
 ══════════════════════════════ */
 .vote-layout {
   display: grid;
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: minmax(0, 1fr) 340px;
   gap: 28px;
   align-items: start;
+  width: 100%;
 }
 
 /* ══════════════════════════════
@@ -124,152 +125,316 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 0;
+  width: 100%;
 }
 
-/* ── "Who is voting?" Section ── */
-.vote-username-box {
-  background: rgba(13, 26, 46, 0.85);
-  border: 1.5px solid rgba(26, 111, 255, 0.2);
+/* ══════════════════════════════
+   ADVERTISEMENT / PROMOTION BANNER
+══════════════════════════════ */
+.vote-ad-banner {
+  position: relative;
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.14) 0%, rgba(13, 26, 46, 0.9) 50%, rgba(10, 20, 38, 0.95) 100%);
+  border: 1.5px solid rgba(88, 101, 242, 0.35);
   border-radius: 20px;
-  padding: 22px 24px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35), 0 0 24px rgba(88, 101, 242, 0.12);
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.vote-ad-banner:hover {
+  transform: translateY(-2px);
+  border-color: rgba(88, 101, 242, 0.7);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 0 32px rgba(88, 101, 242, 0.3);
+}
+
+.vab-glow {
+  position: absolute;
+  top: -40px;
+  right: -30px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(88, 101, 242, 0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.vab-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.07),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: 0.75s;
+  pointer-events: none;
+}
+
+.vote-ad-banner:hover .vab-shimmer {
+  left: 200%;
+}
+
+.vab-left {
   display: flex;
   align-items: center;
   gap: 20px;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-}
-
-.vub-avatar-wrap {
-  width: 62px;
-  height: 62px;
-  border-radius: 16px;
-  background: #080e1a;
-  border: 2px solid rgba(26, 111, 255, 0.35);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 0 16px rgba(26, 111, 255, 0.2);
-}
-
-.vub-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  image-rendering: pixelated;
-}
-
-.vub-avatar-placeholder {
-  font-size: 32px;
-  color: #3b5578;
-}
-
-.vub-content {
   flex: 1;
   min-width: 0;
 }
 
-.vub-title-row {
+.vab-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+  border: 1.5px solid rgba(254, 240, 138, 0.4);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 4px;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35);
+  transition: transform 0.3s ease;
 }
 
-.vub-title {
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 900;
+.vote-ad-banner:hover .vab-icon-wrap {
+  transform: scale(1.06) rotate(-3deg);
+}
+
+.vab-promo-icon {
+  font-size: 36px;
   color: #ffffff;
+}
+
+.vab-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.vab-top-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.vab-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 900;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 999px;
+  padding: 3px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.vab-badge-icon {
+  font-size: 14px;
+}
+
+.vab-tag {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 999px;
+  padding: 3px 10px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.vub-saved-badge {
+.vab-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.vab-title span {
+  background: linear-gradient(135deg, #ffd700, #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.vab-desc {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: #8da4c4;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.vab-desc strong {
+  color: #ffffff;
+}
+
+.vab-cta {
+  flex-shrink: 0;
+}
+
+.vab-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  background: linear-gradient(135deg, #5865f2 0%, #4752c4 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 16px rgba(88, 101, 242, 0.35);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.vote-ad-banner:hover .vab-cta-btn {
+  background: linear-gradient(135deg, #6775f5 0%, #5865f2 100%);
+  box-shadow: 0 6px 22px rgba(88, 101, 242, 0.5);
+  transform: translateY(-1px);
+}
+
+.vab-cta-arrow {
+  font-size: 15px;
+  transition: transform 0.25s ease;
+}
+
+.vote-ad-banner:hover .vab-cta-arrow {
+  transform: translateX(2px) translateY(-1px);
+}
+
+/* ══════════════════════════════
+   CUSTOM ACTIVE SPONSOR BANNER (Image or Video)
+══════════════════════════════ */
+.vote-custom-ad-banner {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(13, 26, 46, 0.9);
+  border: 1.5px solid rgba(26, 111, 255, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  box-sizing: border-box;
+}
+
+.vote-custom-ad-banner:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 189, 248, 0.7);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55), 0 0 30px rgba(56, 189, 248, 0.3);
+}
+
+.vcab-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 3px 10px;
-  background: rgba(74, 222, 128, 0.1);
-  border: 1px solid rgba(74, 222, 128, 0.25);
+  padding: 4px 10px;
+  background: rgba(10, 20, 38, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(251, 191, 36, 0.45);
   border-radius: 999px;
+  color: #fbbf24;
   font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 800;
-  color: #4ade80;
+  font-size: 9.5px;
+  font-weight: 900;
   text-transform: uppercase;
+  letter-spacing: 0.6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
 }
 
-.vub-desc {
-  font-family: var(--font-body);
-  font-size: 12.5px;
-  color: #7a93b8;
-  margin-bottom: 12px;
-  line-height: 1.4;
-}
-
-.vub-desc code {
-  background: rgba(26, 111, 255, 0.15);
-  color: #93c5fd;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 11px;
-}
-
-.vub-form {
+.vcab-media-wrap {
+  width: 100%;
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  background: #060c18;
+  overflow: hidden;
 }
 
-.vub-input {
-  flex: 1;
-  background: rgba(6, 12, 24, 0.9);
-  border: 1.5px solid rgba(26, 111, 255, 0.25);
-  border-radius: 12px;
-  padding: 10px 16px;
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: #ffffff;
-  outline: none;
-  transition: all 0.25s ease;
+.vcab-media {
+  width: 100%;
+  height: auto;
+  max-height: 380px;
+  display: block;
+  object-fit: contain;
+  margin: 0 auto;
+  transition: transform 0.4s ease;
 }
 
-.vub-input:focus {
-  border-color: var(--theme-main);
-  box-shadow: 0 0 14px rgba(26, 111, 255, 0.25);
+.vote-custom-ad-banner:hover .vcab-media {
+  transform: scale(1.015);
 }
 
-.vub-save-btn {
+.vcab-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 16, 32, 0.4);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.vote-custom-ad-banner:hover .vcab-hover-overlay {
+  opacity: 1;
+}
+
+.vcab-hover-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 10px 22px;
-  background: #22c55e;
-  border: none;
+  padding: 9px 18px;
+  background: rgba(26, 111, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   color: #ffffff;
   font-family: var(--font-display);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  white-space: nowrap;
-  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
-}
-
-.vub-save-btn:hover {
-  background: #16a34a;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(34, 197, 94, 0.45);
-}
-
-.vub-save-btn.saved {
-  background: #15803d;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Voting Progress Banner ── */
@@ -318,6 +483,13 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Default desktop display for pvc-main: allows children to participate directly in pika-vote-card flexbox */
+.pvc-main {
+  display: contents;
 }
 
 .pika-vote-card {
@@ -332,6 +504,8 @@
   backdrop-filter: blur(16px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .pika-vote-card:hover {
@@ -927,6 +1101,22 @@
   border-radius: 8px;
 }
 
+.vsc-empty-voters {
+  padding: 16px 14px;
+  text-align: center;
+  background: rgba(6, 12, 24, 0.5);
+  border: 1px dashed rgba(26, 111, 255, 0.2);
+  border-radius: 12px;
+}
+
+.vsc-empty-voters p {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: #6c89af;
+  line-height: 1.5;
+  margin: 0;
+}
+
 /* ── FAQ Section ── */
 .vsc-faq-list {
   display: flex;
@@ -1006,14 +1196,22 @@
 ══════════════════════════════ */
 @media (max-width: 960px) {
   .vote-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 24px;
+    width: 100%;
+  }
+
+  .vote-main-col {
+    width: 100%;
+    min-width: 0;
   }
 
   .vote-sidebar-col {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
+    width: 100%;
+    min-width: 0;
   }
 
   .vote-store-cta {
@@ -1023,87 +1221,271 @@
 
 @media (max-width: 680px) {
   .vote-page {
-    padding: 40px 16px 80px;
+    padding: 32px 14px 70px;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .vote-inner {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   .vote-header {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
 
   .vote-title {
-    font-size: clamp(24px, 7vw, 32px);
+    font-size: clamp(22px, 6.5vw, 30px);
   }
 
   .vote-desc {
     font-size: 13px;
+    padding: 0 4px;
+    line-height: 1.5;
   }
 
-  .vote-username-box {
+  /* ── Ad Promotion Banner Mobile ── */
+  .vote-ad-banner {
     flex-direction: column;
     align-items: stretch;
-    padding: 18px 16px;
+    padding: 16px 14px;
     gap: 14px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .vub-avatar-wrap {
-    margin: 0 auto;
-    width: 54px;
-    height: 54px;
+  .vab-left {
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
   }
 
-  .vub-title-row {
+  .vab-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .vab-promo-icon {
+    font-size: 24px;
+  }
+
+  .vab-title {
+    font-size: 16px;
+  }
+
+  .vab-desc {
+    font-size: 11.5px;
+  }
+
+  .vab-cta {
+    width: 100%;
+  }
+
+  .vab-cta-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 11px 16px;
+    box-sizing: border-box;
+  }
+
+  /* ── Custom Active Ad Banner Mobile (No Crop, Full View) ── */
+  .vote-custom-ad-banner {
+    border-radius: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .vcab-badge {
+    top: 8px;
+    right: 8px;
+    font-size: 8.5px;
+    padding: 3px 8px;
+  }
+
+  .vcab-media {
+    max-height: 200px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .vcab-hover-overlay {
+    display: none;
+  }
+
+  /* ── Voting Progress Banner Mobile ── */
+  .vote-progress-banner {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
+    padding: 10px 14px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .vub-form {
-    flex-direction: column;
+  .vpb-left {
+    flex-wrap: wrap;
+    font-size: 11.5px;
+    line-height: 1.4;
   }
 
-  .vub-save-btn {
-    justify-content: center;
+  .vpb-hint {
+    font-size: 9.5px;
   }
 
   /* ── Vote Card Mobile ── */
   .pika-vote-card {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding: 16px;
-    gap: 14px;
+    padding: 14px;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Keep badge and middle info in an inline row on mobile */
+  .pvc-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
   }
 
   .pvc-number-badge {
-    width: 100%;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border-radius: 12px;
+    flex-shrink: 0;
+    margin: 0;
   }
 
+  .pvc-number-badge span {
+    font-size: 18px;
+  }
+
+  .pvc-info {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    gap: 4px;
+  }
+
+  .pvc-title-row {
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .pvc-title {
+    font-size: 14.5px;
+    word-break: break-word;
+  }
+
+  .pvc-site-pill {
+    font-size: 9px;
+    padding: 2px 7px;
+  }
+
+  .pvc-voted-pill {
+    font-size: 9px;
+    padding: 2px 7px;
+  }
+
+  .pvc-url-row {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .pvc-url {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    font-size: 11px;
+  }
+
+  .pvc-reward-row {
+    font-size: 10.5px;
+  }
+
+  /* ── Dual Action Buttons Mobile: Clean 2-column or stacked ── */
   .pvc-actions {
     display: grid;
-    grid-template-columns: 1fr 1.6fr;
+    grid-template-columns: 1fr 1.35fr;
     gap: 8px;
     width: 100%;
+    margin-top: 2px;
   }
 
   .pvc-copy-btn,
   .pvc-vote-btn {
     justify-content: center;
     width: 100%;
-    padding: 12px 10px;
+    padding: 10px 8px;
+    font-size: 11.5px;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+
+  .pvc-vote-btn .btn-icon {
+    font-size: 14px;
   }
 
   .vrs-grid {
     grid-template-columns: 1fr;
+    width: 100%;
   }
 
   .vote-sidebar-col {
     grid-template-columns: 1fr;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .vote-store-cta {
+    padding: 14px 16px;
+    border-radius: 16px;
+    gap: 12px;
+  }
+
+  .vsc-card-text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .vote-sidebar-card {
+    padding: 16px 14px;
+    border-radius: 16px;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 380px) {
   .pvc-actions {
     grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .pvc-main {
+    gap: 10px;
+  }
+
+  .pvc-number-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+
+  .pvc-number-badge span {
+    font-size: 16px;
   }
 }

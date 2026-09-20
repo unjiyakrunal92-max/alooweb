@@ -8,20 +8,42 @@ import {
   MdCheckCircle,
   MdStar,
   MdCardGiftcard,
-  MdPerson,
   MdStorefront,
   MdLeaderboard,
-  MdDone,
   MdHelpOutline,
-  MdBookmark,
   MdWorkspacePremium,
   MdDiamond,
   MdKey,
   MdAttachMoney,
   MdBolt,
   MdArrowForward,
+  MdCampaign,
 } from 'react-icons/md';
 import { getAvatarUrl } from '../utils/api';
+
+// ══════════════════════════════════════════════════════════════════
+// 📢 ACTIVE AD / PROMOTION BANNER CONFIGURATION
+//
+// 1. IF NO AD (Default):
+//    Leave enabled: false (or mediaSrc: '')
+//    -> It will automatically show the "You Can Ad Here" default banner
+//       with the "Advertise Here" button linking to your Discord!
+//
+// 2. IF YOU HAVE AN AD / SPONSOR:
+//    - Set enabled: true
+//    - mediaType: 'image' (for png, jpg, gif, webp) or 'video' (for mp4, webm)
+//    - mediaSrc: 'https://...' (paste image or video URL here)
+//    - link: 'https://...' (promoter's target link: Discord, store, website, etc.)
+//    - altText: 'Promoter Name / Brand'
+// ══════════════════════════════════════════════════════════════════
+export const ACTIVE_AD = {
+  enabled: false, // Set to true to show your custom ad banner, false to show default "You Can Ad Here"
+  mediaType: 'image', // 'image' or 'video'
+  mediaSrc: '', // Paste image/gif URL or video URL here (e.g. 'https://i.imgur.com/example.png' or '/banners/ad.gif')
+  link: 'https://discord.gg/gXPwdwdB7F', // Promoter's target redirect URL
+  altText: 'Sponsored Partner Banner', // Accessibility / hover title text
+  showBadge: true, // Shows small "SPONSORED" badge on the banner
+};
 
 // ── VOTE SITES (Supplied by Server Owner) ──
 export const VOTE_LINKS = [
@@ -124,11 +146,6 @@ const VOTE_REWARDS = [
 ];
 
 const Vote = () => {
-  // Username management
-  const [usernameInput, setUsernameInput] = useState('');
-  const [savedUsername, setSavedUsername] = useState('');
-  const [saveSuccess, setSaveSuccess] = useState(false);
-
   // Copy feedback state per link ID
   const [copiedId, setCopiedId] = useState(null);
   const [toastMessage, setToastMessage] = useState('');
@@ -141,13 +158,6 @@ const Vote = () => {
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
-    // Load saved username from localStorage
-    const stored = localStorage.getItem('aloosmp_vote_username');
-    if (stored) {
-      setSavedUsername(stored);
-      setUsernameInput(stored);
-    }
-
     // Load voted session state
     try {
       const storedVoted = JSON.parse(sessionStorage.getItem('aloosmp_voted_map') || '{}');
@@ -172,18 +182,6 @@ const Vote = () => {
     setToastMessage(msg);
     setShowToast(true);
     setTimeout(() => setShowToast(false), 2500);
-  };
-
-  const handleSaveUsername = (e) => {
-    e.preventDefault();
-    const clean = usernameInput.trim();
-    if (!clean) return;
-
-    localStorage.setItem('aloosmp_vote_username', clean);
-    setSavedUsername(clean);
-    setSaveSuccess(true);
-    triggerToast(`Username "${clean}" saved!`);
-    setTimeout(() => setSaveSuccess(false), 2500);
   };
 
   const handleCopyLink = (url, id) => {
@@ -246,57 +244,86 @@ const Vote = () => {
           {/* ── LEFT COLUMN: Links & Username ── */}
           <div className="vote-main-col">
 
-            {/* Who is voting? Section (Pika-style) */}
-            <div className="vote-username-box">
-              <div className="vub-avatar-wrap">
-                {savedUsername ? (
-                  <img
-                    src={getAvatarUrl(savedUsername)}
-                    alt={savedUsername}
-                    className="vub-avatar-img"
-                  />
-                ) : (
-                  <div className="vub-avatar-placeholder">
-                    <MdPerson />
-                  </div>
+            {/* ── Advertisement / Promotion Banner ── */}
+            {ACTIVE_AD.enabled && ACTIVE_AD.mediaSrc ? (
+              /* ACTIVE SPONSOR BANNER (Custom Image or Video with Promoter Link) */
+              <a
+                href={ACTIVE_AD.link || 'https://discord.gg/gXPwdwdB7F'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="vote-custom-ad-banner"
+                title={ACTIVE_AD.altText || 'Sponsored Partner Banner'}
+              >
+                {ACTIVE_AD.showBadge && (
+                  <span className="vcab-badge">
+                    <MdCampaign /> SPONSORED
+                  </span>
                 )}
-              </div>
-
-              <div className="vub-content">
-                <div className="vub-title-row">
-                  <h3 className="vub-title">Who is voting?</h3>
-                  {savedUsername && (
-                    <span className="vub-saved-badge">
-                      <MdCheckCircle /> Ready as <strong>{savedUsername}</strong>
-                    </span>
+                <div className="vcab-media-wrap">
+                  {ACTIVE_AD.mediaType === 'video' ? (
+                    <video
+                      src={ACTIVE_AD.mediaSrc}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="vcab-media"
+                    />
+                  ) : (
+                    <img
+                      src={ACTIVE_AD.mediaSrc}
+                      alt={ACTIVE_AD.altText || 'Sponsored Partner Banner'}
+                      className="vcab-media"
+                      loading="lazy"
+                    />
                   )}
                 </div>
-                <p className="vub-desc">
-                  Enter your Minecraft username to vote. <strong>Bedrock</strong> players add a dot in front, e.g. <code>.Steve</code>
-                </p>
+                <div className="vcab-hover-overlay">
+                  <span className="vcab-hover-btn">
+                    Visit Sponsor <MdOpenInNew />
+                  </span>
+                </div>
+              </a>
+            ) : (
+              /* DEFAULT "YOU CAN AD HERE" BANNER */
+              <a
+                href="https://discord.gg/gXPwdwdB7F"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="vote-ad-banner"
+                title="You can ad here — Promote your server or brand on Website & Discord both!"
+              >
+                <div className="vab-shimmer" />
+                <div className="vab-glow" />
 
-                <form className="vub-form" onSubmit={handleSaveUsername}>
-                  <input
-                    type="text"
-                    className="vub-input"
-                    placeholder="Your Minecraft username..."
-                    value={usernameInput}
-                    onChange={(e) => setUsernameInput(e.target.value)}
-                  />
-                  <button type="submit" className={`vub-save-btn ${saveSuccess ? 'saved' : ''}`}>
-                    {saveSuccess ? (
-                      <>
-                        <MdDone /> Saved
-                      </>
-                    ) : (
-                      <>
-                        <MdBookmark /> Save
-                      </>
-                    )}
-                  </button>
-                </form>
-              </div>
-            </div>
+                <div className="vab-left">
+                  <div className="vab-icon-wrap">
+                    <MdCampaign className="vab-promo-icon" />
+                  </div>
+                  <div className="vab-info">
+                    <div className="vab-top-row">
+                      <span className="vab-badge">
+                        <MdCampaign className="vab-badge-icon" /> Ad Promotion
+                      </span>
+                      <span className="vab-tag">Website & Discord Both</span>
+                    </div>
+                    <h3 className="vab-title">
+                      You Can <span>Ad Here</span>
+                    </h3>
+                    <p className="vab-desc">
+                      Promote your Minecraft server, Discord, YouTube, or brand across our <strong>Website & Discord</strong>!
+                    </p>
+                  </div>
+                </div>
+
+                <div className="vab-cta">
+                  <span className="vab-cta-btn">
+                    <span>Advertise Here</span>
+                    <MdOpenInNew className="vab-cta-arrow" />
+                  </span>
+                </div>
+              </a>
+            )}
 
             {/* Voting Progress Banner */}
             <div className="vote-progress-banner">
@@ -321,30 +348,32 @@ const Vote = () => {
                     className={`pika-vote-card ${isVoted ? 'voted' : ''}`}
                     style={{ '--badge-color': link.badgeColor }}
                   >
-                    {/* Left Purple Badge (#1, #2, etc.) */}
-                    <div className="pvc-number-badge">
-                      <span>{link.number}</span>
-                    </div>
-
-                    {/* Middle Info */}
-                    <div className="pvc-info">
-                      <div className="pvc-title-row">
-                        <h3 className="pvc-title">{link.name}</h3>
-                        <span className="pvc-site-pill">{link.site}</span>
-                        {isVoted && (
-                          <span className="pvc-voted-pill">
-                            <MdCheckCircle /> Voted
-                          </span>
-                        )}
+                    <div className="pvc-main">
+                      {/* Left Purple Badge (#1, #2, etc.) */}
+                      <div className="pvc-number-badge">
+                        <span>{link.number}</span>
                       </div>
 
-                      <div className="pvc-url-row">
-                        <span className="pvc-url">{link.url}</span>
-                      </div>
+                      {/* Middle Info */}
+                      <div className="pvc-info">
+                        <div className="pvc-title-row">
+                          <h3 className="pvc-title">{link.name}</h3>
+                          <span className="pvc-site-pill">{link.site}</span>
+                          {isVoted && (
+                            <span className="pvc-voted-pill">
+                              <MdCheckCircle /> Voted
+                            </span>
+                          )}
+                        </div>
 
-                      <div className="pvc-reward-row">
-                        <MdCardGiftcard className="pvc-reward-icon" />
-                        <span>Reward: <strong>{link.reward}</strong></span>
+                        <div className="pvc-url-row">
+                          <span className="pvc-url">{link.url}</span>
+                        </div>
+
+                        <div className="pvc-reward-row">
+                          <MdCardGiftcard className="pvc-reward-icon" />
+                          <span>Reward: <strong>{link.reward}</strong></span>
+                        </div>
                       </div>
                     </div>
 
@@ -449,26 +478,32 @@ const Vote = () => {
               </div>
 
               <div className="vsc-voters-list">
-                {TOP_VOTERS.map((voter) => {
-                  const medal = voter.rank === 1 ? '🥇' : voter.rank === 2 ? '🥈' : voter.rank === 3 ? '🥉' : `#${voter.rank}`;
-                  const rankClass = voter.rank === 1 ? 'top-1' : voter.rank === 2 ? 'top-2' : voter.rank === 3 ? 'top-3' : '';
+                {TOP_VOTERS.length > 0 ? (
+                  TOP_VOTERS.map((voter) => {
+                    const medal = voter.rank === 1 ? '🥇' : voter.rank === 2 ? '🥈' : voter.rank === 3 ? '🥉' : `#${voter.rank}`;
+                    const rankClass = voter.rank === 1 ? 'top-1' : voter.rank === 2 ? 'top-2' : voter.rank === 3 ? 'top-3' : '';
 
-                  return (
-                    <div className={`vsc-voter-row ${rankClass}`} key={voter.name}>
-                      <div className="vsc-voter-rank">{medal}</div>
-                      <div className="vsc-voter-avatar">
-                        <img src={getAvatarUrl(voter.name)} alt={voter.name} />
+                    return (
+                      <div className={`vsc-voter-row ${rankClass}`} key={voter.name}>
+                        <div className="vsc-voter-rank">{medal}</div>
+                        <div className="vsc-voter-avatar">
+                          <img src={getAvatarUrl(voter.name)} alt={voter.name} />
+                        </div>
+                        <div className="vsc-voter-info">
+                          <span className="vsc-voter-name">{voter.name}</span>
+                          <span className="vsc-voter-sub">{voter.votes} votes</span>
+                        </div>
+                        <div className="vsc-voter-badge">
+                          {voter.votes}
+                        </div>
                       </div>
-                      <div className="vsc-voter-info">
-                        <span className="vsc-voter-name">{voter.name}</span>
-                        <span className="vsc-voter-sub">{voter.votes} votes</span>
-                      </div>
-                      <div className="vsc-voter-badge">
-                        {voter.votes}
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                ) : (
+                  <div className="vsc-empty-voters">
+                    <p>Monthly voter rankings reset every month. Vote on all links above to claim #1!</p>
+                  </div>
+                )}
               </div>
             </div>
 
