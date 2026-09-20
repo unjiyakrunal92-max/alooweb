@@ -15,6 +15,7 @@ import {
   MdContentCopy,
   MdCheckCircle,
   MdWorkspacePremium,
+  MdOpenInNew,
 } from 'react-icons/md';
 import { fetchPlayers } from '../utils/api';
 
@@ -32,6 +33,27 @@ const NAV_LINKS = [
 ];
 
 const SERVER_IP = 'play.aloosmp.fun';
+
+// ══════════════════════════════════════════════════════════════════
+// 📢 TOP ANNOUNCEMENT BAR CONFIGURATION
+// Edit text, link, or set enabled: false to hide
+// ══════════════════════════════════════════════════════════════════
+export const TOP_BAR = {
+  enabled: true, // Set to false to hide
+  badge: 'COLLAB',
+  brandText: 'ALOOSMP',
+  partnerText: 'VeloraCloud',
+  descText: '(Join VeloraCloud Discord for rare key in smp!)',
+  buttonText: 'Join Discord',
+  link: 'https://discord.gg/X2zfTGVbqM',
+};
+
+// ══════════════════════════════════════════════════════════════════
+// 📌 NAVBAR & TOP BAR SCROLL BEHAVIOR
+// Set to true  -> Top Bar & Navbar stay permanently stuck at the top on scroll
+// Set to false -> Top Bar & Navbar hide when scrolling down, reappear on scroll up
+// ══════════════════════════════════════════════════════════════════
+export const STAY_STUCK_ON_SCROLL = true;
 
 const Navbar = () => {
   const [drawerOpen, setDrawer] = useState(false);
@@ -56,7 +78,7 @@ const Navbar = () => {
       .catch(() => setOnlineCount(null));
   }, []);
 
-  // Smart scroll handler
+  // Scroll handler
   const handleScroll = useCallback(() => {
     const currentY = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -65,20 +87,25 @@ const Navbar = () => {
     setScrollProgress(docHeight > 0 ? (currentY / docHeight) * 100 : 0);
     
     // Scrolled state (for glassmorphism)
-    setScrolled(currentY > 30);
+    setScrolled(currentY > 20);
     
-    // Smart show/hide: only hide after scrolling 80px down, show immediately on scroll up
-    const delta = currentY - lastScrollY.current;
-    if (delta > 0) {
-      // Scrolling down
-      scrollThreshold.current += delta;
-      if (scrollThreshold.current > 80 && currentY > 120) {
-        setNavVisible(false);
-      }
-    } else {
-      // Scrolling up
-      scrollThreshold.current = 0;
+    if (STAY_STUCK_ON_SCROLL) {
+      // Stay permanently stuck at top on scroll
       setNavVisible(true);
+    } else {
+      // Smart show/hide: only hide after scrolling 80px down, show immediately on scroll up
+      const delta = currentY - lastScrollY.current;
+      if (delta > 0) {
+        // Scrolling down
+        scrollThreshold.current += delta;
+        if (scrollThreshold.current > 80 && currentY > 120) {
+          setNavVisible(false);
+        }
+      } else {
+        // Scrolling up
+        scrollThreshold.current = 0;
+        setNavVisible(true);
+      }
     }
     
     lastScrollY.current = currentY;
@@ -140,6 +167,30 @@ const Navbar = () => {
     <>
       {/* ════════ NAVBAR ════════ */}
       <div className={`navbar-outer ${scrolled ? 'navbar-scrolled' : ''} ${navVisible ? '' : 'navbar-hidden'}`}>
+        {/* Top Announcement Bar */}
+        {TOP_BAR.enabled && (
+          <a
+            href={TOP_BAR.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-announcement-bar"
+            title="Join VeloraCloud Discord for rare rewards & perks!"
+          >
+            <div className="nab-inner">
+              <span className="nab-badge">{TOP_BAR.badge}</span>
+              <span className="nab-text">
+                <span className="nab-brand">{TOP_BAR.brandText}</span>
+                <span className="nab-cross">×</span>
+                <span className="nab-partner">{TOP_BAR.partnerText}</span>
+                <span className="nab-desc">{TOP_BAR.descText}</span>
+              </span>
+              <span className="nab-btn">
+                {TOP_BAR.buttonText} <MdOpenInNew className="nab-arrow" />
+              </span>
+            </div>
+          </a>
+        )}
+
         {/* Scroll Progress Bar */}
         <div className="navbar-progress" style={{ width: `${scrollProgress}%` }} />
         

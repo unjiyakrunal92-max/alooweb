@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Vote.css';
+import promotionBanner from '../assets/promotion.jpeg';
 import {
   MdHowToVote,
   MdOpenInNew,
@@ -37,10 +38,10 @@ import { getAvatarUrl } from '../utils/api';
 //    - altText: 'Promoter Name / Brand'
 // ══════════════════════════════════════════════════════════════════
 export const ACTIVE_AD = {
-  enabled: false, // Set to true to show your custom ad banner, false to show default "You Can Ad Here"
+  enabled: true, // Set to true to show your custom ad banner, false to show default "You Can Ad Here"
   mediaType: 'image', // 'image' or 'video'
-  mediaSrc: '', // Paste image/gif URL or video URL here (e.g. 'https://i.imgur.com/example.png' or '/banners/ad.gif')
-  link: 'https://discord.gg/gXPwdwdB7F', // Promoter's target redirect URL
+  mediaSrc: promotionBanner, // Paste image/gif URL or video URL here (e.g. 'https://i.imgur.com/example.png' or '/banners/ad.gif')
+  link: 'https://discord.gg/X2zfTGVbqM', // Promoter's target redirect URL
   altText: 'Sponsored Partner Banner', // Accessibility / hover title text
   showBadge: true, // Shows small "SPONSORED" badge on the banner
 };
@@ -248,7 +249,7 @@ const Vote = () => {
             {ACTIVE_AD.enabled && ACTIVE_AD.mediaSrc ? (
               /* ACTIVE SPONSOR BANNER (Custom Image or Video with Promoter Link) */
               <a
-                href={ACTIVE_AD.link || 'https://discord.gg/gXPwdwdB7F'}
+                href={ACTIVE_AD.link || 'https://discord.gg/X2zfTGVbqM'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="vote-custom-ad-banner"
