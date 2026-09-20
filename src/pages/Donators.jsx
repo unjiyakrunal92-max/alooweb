@@ -64,6 +64,18 @@ export const DONATORS = [
     username: '.Devendra_422',
     purchases: [
       { item: 'Banana Rank', amount: 59, date: '2026-08-01' },
+      { item: 'Warrior Rank', amount: 149, date: '2026-09-19'}
+    ],
+    tier: 'Supporter',
+    badge: 'Supporter',
+    badgeClass: 'badge-silver',
+  },
+    {
+    id: 'donator-5',
+    username: '.GamesBond5411',
+    purchases: [
+
+      { item: 'Warrior Rank', amount: 149, date: '2026-09-20'}
     ],
     tier: 'Supporter',
     badge: 'Supporter',

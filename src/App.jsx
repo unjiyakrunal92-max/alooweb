@@ -26,6 +26,7 @@ function App() {
         <Route path="/donators"            element={<Donators />} />
         <Route path="/rules"               element={<Rules />} />
         <Route path="/contact"             element={<Contact />} />
+        <Analytics />
       </Routes>
     </BrowserRouter>
   )
