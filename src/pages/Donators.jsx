@@ -34,6 +34,7 @@ export const DONATORS = [
     purchases: [
       { item: 'Aloo Rank', amount: 300, date: '2026-08-19' },
       { item: 'Banana Rank', amount: 59, date: '2026-08-12' },
+
     ],
     tier: 'Aloo Supporter',
     badge: '🥈 Top Donator',
@@ -44,6 +45,7 @@ export const DONATORS = [
     username: 'rayyan',
     purchases: [
       { item: 'Spawner Key', amount: 520, date: '2026-08-27' },
+        { item: 'Ultimate Key', amount: 160, date: '2026-09-21' },
     ],
     tier: 'Supporter',
     badge: '🥇 Supporter',
