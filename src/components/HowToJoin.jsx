@@ -87,18 +87,18 @@ export const HowToJoin = () => (
       {/* CTA Box */}
       <div className="join-cta-box">
         <div className="join-cta-left">
-          <p className="join-cta-label">Server IP</p>
+          <p className="join-cta-label">Server IP (Java &amp; Bedrock)</p>
           <p className="join-cta-ip">
-            <span>play</span>.mralooyt.fun
+            <span>play</span>.aloosmp.fun
           </p>
         </div>
         <div className="join-cta-right">
-          <a href="#" className="btn-join-primary">
+          <a href="#about-server" className="btn-join-primary">
             <MdPlayArrow />
-            Play Now
+            View Server Specs
           </a>
           <a
-            href="https://discord.gg/your-invite"
+            href="https://discord.gg/Ecf6UJq8MR"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-join-secondary"

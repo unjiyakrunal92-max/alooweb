@@ -125,9 +125,9 @@ const Hero = () => {
 
           {/* Subtitle */}
           <p className="hero-subtitle">
-            India's most exciting Hardcore Survival SMP. Custom economy,
-            clan wars, live leaderboards and a community built for warriors.
-            Free to join — one life only.
+            India's premier 24/7 public Minecraft Survival SMP. Full cross-play support
+            for Java &amp; Bedrock (Port 19132), custom economy, crates, clan wars, and
+            live leaderboards. Free to join — no whitelist required!
           </p>
 
           {/* Java / Bedrock tabs */}

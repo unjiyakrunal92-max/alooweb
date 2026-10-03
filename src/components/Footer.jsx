@@ -53,7 +53,7 @@ const Footer = () => {
           {/* Socials */}
           <div className="footer-socials">
             <a
-              href="https://discord.gg/your-invite"
+              href="https://discord.gg/Ecf6UJq8MR"
               target="_blank"
               rel="noopener noreferrer"
               className="footer-social-btn discord"
@@ -129,7 +129,7 @@ const Footer = () => {
             <li><a href="#"><MdChevronRight /> Bedrock Support</a></li>
             <li><a href="#"><MdChevronRight /> India Hosted</a></li>
             <li><a href="#"><MdChevronRight /> 99.9% Uptime</a></li>
-            <li><a href="https://discord.gg/your-invite" target="_blank" rel="noopener noreferrer">
+            <li><a href="https://discord.gg/Ecf6UJq8MR" target="_blank" rel="noopener noreferrer">
               <MdChevronRight /> Support Ticket
             </a></li>
           </ul>

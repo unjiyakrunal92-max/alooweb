@@ -1,0 +1,10 @@
+# robots.txt for AlooSMP (Official Website)
+User-agent: *
+Allow: /
+
+# Host
+Host: https://site.aloosmp.fun
+
+# Sitemaps
+Sitemap: https://site.aloosmp.fun/sitemap.xml
+Sitemap: https://aloosmp.fun/sitemap.xml
