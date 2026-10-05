@@ -39,13 +39,13 @@ const SERVER_IP = 'play.aloosmp.fun';
 // Edit text, link, or set enabled: false to hide
 // ══════════════════════════════════════════════════════════════════
 export const TOP_BAR = {
-  enabled: true, // Set to false to hide
-  badge: 'COLLAB',
+  enabled: false, // Set to true to show an active announcement or partner collab
+  badge: 'ANNOUNCEMENT',
   brandText: 'ALOOSMP',
-  partnerText: 'VeloraCloud',
-  descText: '(Join VeloraCloud Discord for rare key in smp!)',
+  partnerText: '',
+  descText: '',
   buttonText: 'Join Discord',
-  link: 'https://discord.gg/X2zfTGVbqM',
+  link: 'https://discord.gg/Ecf6UJq8MR',
 };
 
 // ══════════════════════════════════════════════════════════════════
@@ -174,7 +174,7 @@ const Navbar = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="nav-announcement-bar"
-            title="Join VeloraCloud Discord for rare rewards & perks!"
+            title={TOP_BAR.descText || 'Server Announcement'}
           >
             <div className="nab-inner">
               <span className="nab-badge">{TOP_BAR.badge}</span>
