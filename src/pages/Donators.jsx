@@ -23,18 +23,37 @@ import { getAvatarUrl } from '../utils/api';
 // ─────────────────────────────────────────────────────────
 // CONFIGURATION — Edit these values to update the page
 // ─────────────────────────────────────────────────────────
-const DONATION_GOAL = 2000; // ₹2000 goal
-
+const DONATION_GOAL = 3000; // ₹3000 goal
+ 
 // MANUALLY ADD / EDIT DONATORS HERE
 // Simply add new player objects whenever a purchase is made!
 export const DONATORS = [
+  {
+    id: 'donator-ajstars',
+    username: 'AJStars',
+    purchases: [
+      { item: 'Aloo Rank', amount: 299, date: '2026-10-30' },
+    ],
+    tier: 'Aloo Supporter',
+    badge: '👑 Aloo Rank',
+    badgeClass: 'badge-gold',
+  },
+  {
+    id: 'donator-not-dip-patel',
+    username: 'NOT_DIP_PATEL',
+    purchases: [
+      { item: 'Aloo Rank', amount: 299, date: '2026-10-30' },
+    ],
+    tier: 'Aloo Supporter',
+    badge: '👑 Aloo Rank',
+    badgeClass: 'badge-gold',
+  },
   {
     id: 'donator-2',
     username: 'Mr_ANKIT_322',
     purchases: [
       { item: 'Aloo Rank', amount: 300, date: '2026-08-19' },
       { item: 'Banana Rank', amount: 59, date: '2026-08-12' },
-
     ],
     tier: 'Aloo Supporter',
     badge: '🥈 Top Donator',
@@ -45,23 +64,23 @@ export const DONATORS = [
     username: 'rayyan',
     purchases: [
       { item: 'Spawner Key', amount: 520, date: '2026-08-27' },
-        { item: 'Ultimate Key', amount: 160, date: '2026-09-21' },
+      { item: 'Ultimate Key', amount: 160, date: '2026-09-21' },
     ],
     tier: 'Supporter',
     badge: '🥇 Supporter',
     badgeClass: 'badge-diamond',
   },  
-    {
-    id: 'donator-1',
+  {
+    id: 'donator-3',
     username: 'Shorekeeper12',
     purchases: [
       { item: 'Spawner Key', amount: 180, date: '2026-08-01' },
     ],
     tier: 'Supporter',
-    badge: '🥉 Supporter',
+    badge: 'Supporter',
     badgeClass: 'badge-silver',
   },
-    {
+  {
     id: 'donator-4',
     username: '.Devendra_422',
     purchases: [
@@ -72,11 +91,10 @@ export const DONATORS = [
     badge: 'Supporter',
     badgeClass: 'badge-silver',
   },
-    {
+  {
     id: 'donator-5',
     username: '.GamesBond5411',
     purchases: [
-
       { item: 'Warrior Rank', amount: 149, date: '2026-09-20'}
     ],
     tier: 'Supporter',

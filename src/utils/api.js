@@ -81,6 +81,9 @@ async function fetchWithTimeout(url, ms = FETCH_TIMEOUT_MS) {
   }
 }
 
+// Booster to show an extra 15-20 players online (requested by owner)
+export const EXTRA_ONLINE_BOOST = 18;
+
 // GET /api/players?limit=N — Unified fetch combining /players + leaderboards so all players are captured
 export async function fetchPlayers(limit = 200) {
   try {
@@ -115,13 +118,28 @@ export async function fetchPlayers(limit = 200) {
     if (merged.length > 0) {
       usingMockData = false;
       log('fetchPlayers SUCCESS — real merged count:', merged.length);
-      return merged.slice(0, limit);
+
+      // Boost online player count by 15-20 players
+      let extraNeeded = EXTRA_ONLINE_BOOST;
+      const boosted = merged.map(p => {
+        if (p.is_online) return p;
+        if (extraNeeded > 0) {
+          extraNeeded--;
+          return { ...p, is_online: true };
+        }
+        return p;
+      });
+
+      return boosted.slice(0, limit);
     }
     throw new Error('No players found in API');
   } catch (err) {
     usingMockData = true;
     log('fetchPlayers FALLBACK to mock data. Reason:', err.message);
-    return MOCK_PLAYERS.slice(0, limit).map(p => ({ ...p, is_online: false }));
+    return MOCK_PLAYERS.slice(0, limit).map((p, idx) => ({
+      ...p,
+      is_online: idx < EXTRA_ONLINE_BOOST,
+    }));
   }
 }
 
@@ -195,13 +213,17 @@ export async function fetchServerInfo() {
     const data = await fetchWithTimeout(`${API_BASE}/server?api_key=${API_KEY}`);
     usingMockData = false;
     log('fetchServerInfo SUCCESS — real data:', data);
-    return { ...(data || {}), online: true };
+    return {
+      ...(data || {}),
+      online: true,
+      players_online: (data?.players_online || 0) + EXTRA_ONLINE_BOOST,
+    };
   } catch (err) {
     usingMockData = true;
     log('fetchServerInfo FALLBACK to mock data. Reason:', err.message);
     return {
       online: false,
-      players_online: 0,
+      players_online: EXTRA_ONLINE_BOOST,
       max_players: 100,
       version: '1.21.4',
       motd: 'AlooSMP — Offline',

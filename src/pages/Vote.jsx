@@ -126,6 +126,26 @@ export const VOTE_LINKS = [
     url: 'https://minecraftpocket-servers.com/server/134299/vote/',
     reward: '5k Money + Vote Key',
     badgeColor: '#FBBF24', // Yellow
+  },
+  {
+    id: 9,
+    number: '#9',
+    name: 'Vote Link #9',
+    site: 'Top Minecraft Servers',
+    domain: 'topminecraftservers.org',
+    url: 'https://topminecraftservers.org/vote/44880',
+    reward: '5k Money + Vote Key',
+    badgeColor: '#ec4899', // Pink
+  },
+  {
+    id: 10,
+    number: '#10',
+    name: 'Vote Link #10',
+    site: 'Minecraft Menu',
+    domain: 'minecraft.menu',
+    url: 'https://minecraft.menu/server-aloo-smp.6968/vote',
+    reward: '5k Money + Vote Key',
+    badgeColor: '#14b8a6', // Teal
   }
 ];
 
