@@ -16,6 +16,7 @@ import {
   MdOndemandVideo,
   MdTag,
   MdCameraAlt,
+  MdLocalFireDepartment,
 } from 'react-icons/md';
 
 import LOGO from '../assets/potato.svg';
@@ -104,6 +105,7 @@ const Footer = () => {
         <div className="footer-col">
           <p className="footer-col-title">Server</p>
           <ul className="footer-links">
+            <li><Link to="/2b2t-india"><MdChevronRight /><MdLocalFireDepartment /> 2b2t India Anarchy</Link></li>
             <li><Link to="/"><MdChevronRight /><MdDns /> How to Join</Link></li>
             <li><Link to="/rules"><MdChevronRight /><MdRule /> Rules</Link></li>
             <li><Link to="/"><MdChevronRight /><MdHowToVote /> FAQ</Link></li>

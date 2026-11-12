@@ -396,6 +396,29 @@
   text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
 }
 
+/* ── 2B2T ANARCHY — special molten flame accent ── */
+.nav-btn.nav-anarchy,
+.drawer-btn.nav-anarchy {
+  color: #ff7700;
+}
+
+.nav-btn.nav-anarchy:hover,
+.drawer-btn.nav-anarchy:hover {
+  background: rgba(255, 85, 0, 0.08);
+  color: #ff9933;
+}
+
+.nav-btn.nav-anarchy::after {
+  background: linear-gradient(90deg, #ff4500, #ffaa00);
+  box-shadow: 0 0 10px rgba(255, 69, 0, 0.6);
+}
+
+.nav-btn.nav-anarchy.nav-active,
+.drawer-btn.nav-anarchy.nav-active {
+  color: #ffaa00;
+  text-shadow: 0 0 18px rgba(255, 69, 0, 0.5);
+}
+
 /* ══════════════════════════════
    RIGHT SIDE ACTIONS
 ══════════════════════════════ */

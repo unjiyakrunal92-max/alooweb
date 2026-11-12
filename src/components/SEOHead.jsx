@@ -3,9 +3,19 @@ import { useLocation } from 'react-router-dom';
 
 const ROUTE_SEO = {
   '/': {
-    title: 'AlooSMP | Official Minecraft SMP Server — Java & Bedrock (play.aloosmp.fun)',
+    title: 'Aloo SMP | 2b2t India Minecraft Anarchy & Survival Server (play.aloosmp.fun)',
     description:
-      'Welcome to AlooSMP (Aloo SMP), India\'s premier public 24/7 Minecraft Survival SMP network! Cross-play support for Java & Bedrock (Port 19132), custom economy, crates, land claiming & lag-free PvP.',
+      'Welcome to AlooSMP (Aloo SMP), home of 2b2t India — India\'s premier 24/7 public Minecraft Anarchy & Survival SMP network! Cross-play for Java & Bedrock (Port 19132), cracked & premium, pure anarchy with no rules, custom economy & lag-free PvP. Server IP: play.aloosmp.fun',
+  },
+  '/2b2t-india': {
+    title: '2b2t India | Official Minecraft Anarchy Server by AlooSMP (play.aloosmp.fun)',
+    description:
+      'Join 2b2t India, India\'s premier public Minecraft Anarchy server by AlooSMP! Pure anarchy with no rules, griefing & hacking allowed, Java & Bedrock crossplay (Port 19132), cracked & premium. Connect: play.aloosmp.fun or switch with /server 2b2t.',
+  },
+  '/2b2t': {
+    title: '2b2t India | Official Minecraft Anarchy Server by AlooSMP (play.aloosmp.fun)',
+    description:
+      'Join 2b2t India, India\'s premier public Minecraft Anarchy server by AlooSMP! Pure anarchy with no rules, griefing & hacking allowed, Java & Bedrock crossplay (Port 19132), cracked & premium. Connect: play.aloosmp.fun or switch with /server 2b2t.',
   },
   '/vote': {
     title: 'Vote for AlooSMP | Free Daily In-Game Rewards, Keys & Currency',

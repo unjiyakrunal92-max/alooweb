@@ -1,0 +1,244 @@
+/* ==========================================================================
+   2B2T INDIA — POPUP TOAST NOTIFICATION
+   Theme: Molten Anarchy, Compact Glassmorphism, Floating Corner Toast
+   ========================================================================== */
+
+.anarchy-popup-wrap {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 99999;
+  max-width: 360px;
+  width: calc(100% - 40px);
+  animation: apSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.anarchy-popup-wrap.closing {
+  animation: apSlideDown 0.3s ease forwards;
+}
+
+@keyframes apSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes apSlideDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+}
+
+.anarchy-popup-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(22, 10, 30, 0.95), rgba(12, 5, 16, 0.97));
+  border: 1.5px solid rgba(255, 85, 0, 0.45);
+  border-radius: 16px;
+  padding: 18px 20px 16px;
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(255, 69, 0, 0.25);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+
+/* Glowing Top Accent Line */
+.anarchy-popup-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ff4500, #ffaa00, #ff4500);
+}
+
+/* Close button on side/corner */
+.ap-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.ap-close-btn:hover {
+  background: rgba(255, 69, 0, 0.3);
+  border-color: #ff5500;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+/* Header / Pill */
+.ap-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ff9933;
+  margin-bottom: 6px;
+}
+
+.ap-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff4500;
+  box-shadow: 0 0 8px #ff4500;
+  animation: apBlink 1.5s infinite;
+}
+
+@keyframes apBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+/* Title & Description */
+.ap-title {
+  font-size: 17px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 4px;
+  letter-spacing: 0.3px;
+  line-height: 1.25;
+}
+
+.ap-title span {
+  background: linear-gradient(135deg, #ff4500, #ffaa00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ap-desc {
+  font-size: 12.5px;
+  color: #94a3b8;
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.ap-desc strong {
+  color: #ffbe0b;
+}
+
+/* Actions Row */
+.ap-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ap-btn-join {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 800;
+  text-decoration: none;
+  background: linear-gradient(135deg, #ff4500, #ff7700);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(255, 69, 0, 0.35);
+}
+
+.ap-btn-join:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(255, 69, 0, 0.55);
+}
+
+.ap-btn-cmd {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-family: 'Fira Code', monospace, Consolas, sans-serif;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 119, 0, 0.3);
+  color: #ffbe0b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.ap-btn-cmd:hover {
+  background: rgba(255, 119, 0, 0.15);
+  border-color: #ff8800;
+}
+
+/* 5-Second Timer Bar */
+.ap-timer-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ap-timer-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4500, #ffbe0b);
+  width: 100%;
+  animation: apTimer 5s linear forwards;
+}
+
+@keyframes apTimer {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  .anarchy-popup-wrap {
+    bottom: 16px;
+    right: 20px;
+    left: 20px;
+    width: auto;
+  }
+  .ap-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ap-btn-join,
+  .ap-btn-cmd {
+    width: 100%;
+    justify-content: center;
+  }
+}

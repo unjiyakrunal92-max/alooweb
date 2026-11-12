@@ -16,12 +16,14 @@ import {
   MdCheckCircle,
   MdWorkspacePremium,
   MdOpenInNew,
+  MdLocalFireDepartment,
 } from 'react-icons/md';
 import { fetchPlayers } from '../utils/api';
 import LOGO from '../assets/potato.svg';
 
 const NAV_LINKS = [
   { id: 'home',        label: 'Home',        icon: <MdHome />,             path: '/',            special: null   },
+  { id: '2b2t',        label: '2b2t India',  icon: <MdLocalFireDepartment />, path: '/2b2t-india', special: 'anarchy' },
   { id: 'maps',        label: 'Maps',        icon: <MdMap />,              path: '/maps',        special: null   },
   { id: 'leaderboard', label: 'Leaderboard', icon: <MdLeaderboard />,      path: '/leaderboard', special: null   },
   { id: 'vote',        label: 'Vote',        icon: <MdHowToVote />,        path: '/vote',        special: 'vote' },
@@ -151,6 +153,7 @@ const Navbar = () => {
     let cls = 'nav-btn';
     if (isActive) cls += ' nav-active';
     if (special === 'vote') cls += ' nav-vote';
+    if (special === 'anarchy') cls += ' nav-anarchy';
     return cls;
   };
 
@@ -158,6 +161,7 @@ const Navbar = () => {
     let cls = 'drawer-btn';
     if (isActive) cls += ' nav-active';
     if (special === 'vote') cls += ' nav-vote';
+    if (special === 'anarchy') cls += ' nav-anarchy';
     return cls;
   };
 

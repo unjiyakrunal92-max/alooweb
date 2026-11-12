@@ -12,6 +12,8 @@ import Donators from './pages/Donators';
 import Vote from './pages/Vote';
 import Rules from './pages/Rules';
 import Contact from './pages/Contact';
+import TwoBTwoT from './pages/TwoBTwoT';
+import AnarchyPopup from './components/AnarchyPopup';
 
 function App() {
   return (
@@ -28,7 +30,10 @@ function App() {
         <Route path="/donators" element={<Donators />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/2b2t-india" element={<TwoBTwoT />} />
+        <Route path="/2b2t" element={<TwoBTwoT />} />
       </Routes>
+      <AnarchyPopup />
       <Analytics />
     </BrowserRouter>
   );

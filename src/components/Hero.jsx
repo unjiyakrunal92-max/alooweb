@@ -125,7 +125,7 @@ const Hero = () => {
 
           {/* Subtitle */}
           <p className="hero-subtitle">
-            India's premier 24/7 public Minecraft Survival SMP. Full cross-play support
+            India's premier 24/7 public Minecraft SMP & 2b2t India Anarchy network. Full cross-play support
             for Java &amp; Bedrock (Port 19132), custom economy, crates, clan wars, and
             live leaderboards. Free to join — no whitelist required!
           </p>

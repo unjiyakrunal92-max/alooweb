@@ -17,6 +17,7 @@ import {
   MdStars,
   MdOpenInNew,
   MdHelpOutline,
+  MdLocalFireDepartment,
 } from 'react-icons/md';
 import { RiDiscordFill } from 'react-icons/ri';
 
@@ -103,6 +104,13 @@ const SERVER_PILLARS = [
     description:
       'In-game chat synchronized with Discord, interactive ChatGames, community giveaways, active staff support, and weekly community events.',
     badge: 'Community',
+  },
+  {
+    icon: <MdLocalFireDepartment />,
+    title: '2b2t India Anarchy Realm',
+    description:
+      'Pure anarchy mode with zero rules, griefing, hacking allowed, and permanent map history. Switch anytime in-game using /server 2b2t.',
+    badge: 'Anarchy Mode',
   },
 ];
 
