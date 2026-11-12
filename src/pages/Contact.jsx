@@ -54,7 +54,7 @@ const STAFF = [
   { name: 'MrAlooYT',    role: 'owner',  roleLabel: 'Owner', ign: "TheBiswas001" },
   { name: 'ITZ_KRUNAL', role: 'admin',  roleLabel: 'Admin' , ign: "goku"},
   { name: 'Gtronnn',   role: 'admin', roleLabel: 'admin', ign: "Jpanoz" },
-  { name: 'DHIRAJ & PARAS', role: 'mod',    roleLabel: 'Moderator', ign: "Notch" },
+  { name: 'JEET', role: 'mod',    roleLabel: 'Moderator', ign: "" },
 ];
 
 const ROLE_ICON = {

@@ -40,7 +40,7 @@ const RULES = {
     { title: 'No Griefing', desc: 'Destroying, altering, or stealing from another player\'s build without explicit permission is a bannable offense.', severity: 'ban' },
     { title: 'Claim Your Base', desc: 'Use /claim to protect your builds. AlooSMP staff cannot recover unclaimed builds that get griefed.', severity: 'low' },
     { title: 'No Offensive Builds', desc: 'Builds depicting hate symbols, NSFW content, or offensive imagery will be removed without warning.', severity: 'high' },
-    { title: 'No Spawn Camping Builds', desc: 'Do not build structures that block, trap, or interfere with the spawn area or other players\' access points.', severity: 'medium' },
+    { title: 'No Spawn Camping Builds', desc: 'Do not build structures that block or interfere with the protected spawn area.', severity: 'medium' },
     { title: 'Keep Builds Within Border', desc: 'All construction must remain within the 6000x6000 world border. Builds outside will be removed.', severity: 'low' },
   ],
   pvp: [
@@ -52,7 +52,7 @@ const RULES = {
   ],
   economy: [
     { title: 'No Real Money Trading', desc: 'Buying or selling in-game items, currency, or accounts for real-world money outside our official store is prohibited.', severity: 'ban' },
-    { title: 'No Scamming', desc: 'Deliberately deceiving players in trades, auctions, or shop transactions will result in a permanent ban and blacklist.', severity: 'ban' },
+
     { title: 'Shop Pricing Must Be Fair', desc: 'Extreme price manipulation to exploit new players (e.g. selling dirt for 1M coins) may be flagged and adjusted by staff.', severity: 'low' },
     { title: 'No Duping', desc: 'Any form of item or currency duplication results in an immediate permanent ban and rollback of affected accounts.', severity: 'ban' },
     { title: 'Auction House Etiquette', desc: 'Do not spam-list items to clog the auction house. Excessive listings may be auto-removed.', severity: 'low' },
