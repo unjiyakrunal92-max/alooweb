@@ -29,6 +29,16 @@ const DONATION_GOAL = 3000; // ₹3000 goal
 // Simply add new player objects whenever a purchase is made!
 export const DONATORS = [
   {
+    id: 'donator-suuvo5750',
+    username: '.Suuvo5750',
+    purchases: [
+      { item: 'Aloo Rank', amount: 299, date: '2026-11-24' },
+    ],
+    tier: 'Aloo Supporter',
+    badge: '👑 Aloo Rank',
+    badgeClass: 'badge-gold',
+  },
+  {
     id: 'donator-ajstars',
     username: 'AJStars',
     purchases: [
