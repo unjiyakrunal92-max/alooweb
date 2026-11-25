@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Vote.css';
+import Footer from '../components/Footer';
 import {
   MdHowToVote,
   MdOpenInNew,
@@ -254,7 +255,7 @@ const Vote = () => {
             Vote for <span>AlooSMP</span>: Best Server 2026
           </h1>
           <p className="vote-desc">
-            Vote daily on all 5 server lists below to claim free in-game coins, vote keys, crate vouchers, and XP. Every single vote helps our community grow!
+            Vote daily on all {VOTE_LINKS.length} server lists below to claim free in-game coins, vote keys, crate vouchers, and XP. Every single vote helps our community grow!
           </p>
         </div>
 
@@ -347,18 +348,31 @@ const Vote = () => {
 
             {/* Voting Progress Banner */}
             <div className="vote-progress-banner">
-              <div className="vpb-left">
-                <span className="vpb-dot" />
-                <span className="vpb-text">
-                  You've voted on <strong>{votedCount}</strong> of <strong>{VOTE_LINKS.length}</strong> links this session
-                </span>
+              <div className="vpb-top">
+                <div className="vpb-left">
+                  <span className="vpb-dot" />
+                  <span className="vpb-text">
+                    You&apos;ve voted on <strong>{votedCount}</strong> of <strong>{VOTE_LINKS.length}</strong> links this session
+                  </span>
+                </div>
+                <div className="vpb-right">
+                  <span className="vpb-percent">
+                    {Math.round((votedCount / VOTE_LINKS.length) * 100)}%
+                  </span>
+                  <span className="vpb-hint">Resets every 12–24h</span>
+                </div>
               </div>
-              <span className="vpb-hint">Links reset every 12–24h</span>
+              <div className="vpb-bar-track">
+                <div
+                  className="vpb-bar-fill"
+                  style={{ width: `${(votedCount / VOTE_LINKS.length) * 100}%` }}
+                />
+              </div>
             </div>
 
-            {/* Vote Links List (Cards 1 to 5) */}
+            {/* Vote Links List */}
             <div className="vote-links-list">
-              {VOTE_LINKS.map((link) => {
+              {VOTE_LINKS.map((link, idx) => {
                 const isVoted = votedMap[link.id];
                 const isCopied = copiedId === link.id;
 
@@ -366,7 +380,7 @@ const Vote = () => {
                   <div
                     key={link.id}
                     className={`pika-vote-card ${isVoted ? 'voted' : ''}`}
-                    style={{ '--badge-color': link.badgeColor }}
+                    style={{ '--badge-color': link.badgeColor, '--stagger': `${idx * 45}ms` }}
                   >
                     <div className="pvc-main">
                       {/* Left Purple Badge (#1, #2, etc.) */}
@@ -452,21 +466,19 @@ const Vote = () => {
           <div className="vote-sidebar-col">
 
             {/* Gold Store CTA Banner (Like Pika's top right yellow button) */}
-            <a
-              href="https://discord.gg/Ecf6UJq8MR"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/store"
               className="vote-store-cta"
             >
               <div className="vsc-icon">
                 <MdStorefront />
               </div>
               <div className="vsc-text">
-                <span className="vsc-title">Click here to buy Ranks & Keys</span>
+                <span className="vsc-title">Click here to buy Ranks &amp; Keys</span>
                 <span className="vsc-sub">Support AlooSMP · Exclusive in-game perks</span>
               </div>
-              <MdOpenInNew className="vsc-arrow" />
-            </a>
+              <MdArrowForward className="vsc-arrow" />
+            </Link>
 
             {/* Server Leaderboard Card with Button & Description */}
             <div className="vote-sidebar-card vote-lb-card">
@@ -540,7 +552,7 @@ const Vote = () => {
                 <div className="vsc-faq-item">
                   <span className="faq-q">How often can I vote?</span>
                   <p className="faq-a">
-                    Most sites allow 1 vote per 24 hours. Vote on all 5 links daily for maximum rewards!
+                    Most sites allow 1 vote per 24 hours. Vote on all {VOTE_LINKS.length} links daily for maximum rewards!
                   </p>
                 </div>
                 <div className="vsc-faq-item">
@@ -569,6 +581,8 @@ const Vote = () => {
         <MdCheckCircle className="toast-icon" />
         <span>{toastMessage}</span>
       </div>
+
+      <Footer />
     </div>
   );
 };

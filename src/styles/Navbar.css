@@ -419,6 +419,29 @@
   text-shadow: 0 0 18px rgba(255, 69, 0, 0.5);
 }
 
+/* ── RANKS / STORE — diamond cyan accent ── */
+.nav-btn.nav-store,
+.drawer-btn.nav-store {
+  color: #38bdf8;
+}
+
+.nav-btn.nav-store:hover,
+.drawer-btn.nav-store:hover {
+  background: rgba(56, 189, 248, 0.08);
+  color: #7dd3fc;
+}
+
+.nav-btn.nav-store::after {
+  background: linear-gradient(90deg, #38bdf8, #4ade80);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.55);
+}
+
+.nav-btn.nav-store.nav-active,
+.drawer-btn.nav-store.nav-active {
+  color: #7dd3fc;
+  text-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+}
+
 /* ══════════════════════════════
    RIGHT SIDE ACTIONS
 ══════════════════════════════ */

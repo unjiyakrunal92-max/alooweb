@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import '../styles/TwoBTwoT.css';
+import Footer from '../components/Footer';
 import {
   MdLocalFireDepartment,
   MdContentCopy,
   MdCheckCircle,
-  MdShield,
   MdBolt,
   MdDangerous,
   MdLayers,
@@ -14,21 +14,21 @@ import {
   MdExpandMore,
   MdTerminal,
   MdOpenInNew,
-  MdSupportAgent,
   MdSportsKabaddi,
   MdExplore,
+  MdDesktopWindows,
+  MdPhoneAndroid,
 } from 'react-icons/md';
 import { RiDiscordFill } from 'react-icons/ri';
 
 const SERVER_IP = 'play.aloosmp.fun';
 const BEDROCK_PORT = '19132';
 const ANARCHY_COMMAND = '/server 2b2t';
-const HALLMARK_COMMAND = '/hallmark';
 
 const TwoBTwoT = () => {
+  const [platform, setPlatform] = useState('java');
   const [copiedIP, setCopiedIP] = useState(false);
   const [copiedCmd, setCopiedCmd] = useState(false);
-  const [copiedHallmark, setCopiedHallmark] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
 
   const copyToClipboard = (text, setFn) => {
@@ -40,27 +40,23 @@ const TwoBTwoT = () => {
   const FAQS = [
     {
       q: 'What is 2b2t India and how does it connect to AlooSMP?',
-      a: '2b2t India is the premier official Minecraft Anarchy realm powered and hosted by the AlooSMP Network. It delivers the genuine, raw anarchy survival experience with no map resets, no gameplay rules, and full freedom to grief, raid, hack, and build monumental bases.',
+      a: '2b2t India is the official Minecraft Anarchy realm hosted on the AlooSMP Network. It delivers a raw, lawless survival experience with zero map resets, no gameplay rules, and complete freedom to grief, raid, hack, and build massive bases.',
     },
     {
-      q: 'How do I join 2b2t India using the /server 2b2t command?',
-      a: 'First, connect to the main AlooSMP server IP: play.aloosmp.fun (Bedrock Port: 19132). Once in the lobby or survival world, simply type "/server 2b2t" in chat or right-click the 2b2t NPC in the lobby to be instantly teleported into the anarchy realm.',
+      q: 'How do I join 2b2t India using /server 2b2t?',
+      a: 'Connect to the main AlooSMP IP (play.aloosmp.fun, Bedrock Port 19132). Once inside the lobby or survival hub, type "/server 2b2t" in chat or right-click the 2b2t NPC to enter the anarchy realm immediately.',
     },
     {
-      q: 'Can I join 2b2t India on Bedrock, MCPE, or PojavLauncher?',
-      a: 'Yes! 2b2t India features native cross-play support. Players using Minecraft Java Edition (1.16 - 1.21+), Bedrock Edition (Windows, Xbox, PlayStation, Switch), Minecraft Pocket Edition (PE/Mobile), and PojavLauncher can all join together using Port 19132.',
+      q: 'Can I play 2b2t India on Bedrock, MCPE, or PojavLauncher?',
+      a: 'Yes! 2b2t India supports full cross-play. Java Edition (1.16 - 1.21+), Bedrock Edition (Windows, Xbox, PlayStation, Switch), MCPE, and PojavLauncher players can all connect together using Port 19132.',
     },
     {
-      q: 'Is 2b2t India free to play and does it support cracked accounts?',
-      a: 'Yes, 2b2t India is 100% free with no whitelist required. Both premium and cracked Minecraft accounts (including TLauncher, PojavLauncher, and Feather) are fully supported.',
+      q: 'Is 2b2t India free and does it support cracked accounts?',
+      a: 'Yes, 2b2t India is 100% free with no whitelist required. Both premium and cracked Minecraft accounts (including TLauncher, PojavLauncher, and Feather) are welcome.',
     },
     {
-      q: 'Are hacked clients and utility mods allowed on 2b2t India?',
-      a: 'Yes! Utility and anarchy clients (such as Meteor, Aristois, LiquidBounce, and Wurst) are allowed. Combat, movement, and automation utilities will not get you banned from the 2b2t realm. However, packet-flood exploits intended to crash the physical server hardware are blocked.',
-    },
-    {
-      q: 'How do I get help or create a ticket using /hallmark?',
-      a: 'If you encounter any connection issues, account problems, or hardware bugs, run the command "/hallmark" in-game to instantly submit a support ticket to the moderation team, or open a ticket in our official Discord server.',
+      q: 'Are hacked clients and utility mods allowed?',
+      a: 'Yes! Utility and anarchy clients (such as Meteor, Aristois, LiquidBounce, and Wurst) are permitted. Combat, movement, and automation modules will not trigger bans on the 2b2t realm. Only packet-flood exploits meant to crash server hardware are blocked.',
     },
   ];
 
@@ -69,77 +65,121 @@ const TwoBTwoT = () => {
       <div className="tb-bg-ambient" />
       <div className="tb-grid-overlay" />
 
+      {/* Subtle Floating Embers */}
+      <div className="tb-embers" aria-hidden="true">
+        <span className="tb-ember" />
+        <span className="tb-ember" />
+        <span className="tb-ember" />
+        <span className="tb-ember" />
+        <span className="tb-ember" />
+        <span className="tb-ember" />
+        <span className="tb-ember" />
+        <span className="tb-ember" />
+      </div>
+
       <div className="tb-container">
         {/* ════════ HERO SECTION ════════ */}
         <section className="tb-hero">
-          <div className="tb-badge-row">
+          <div className="tb-badge-row tb-anim-1">
             <span className="tb-pill">
               <span className="tb-pill-dot" />
-              <MdLocalFireDepartment /> Official 2b2t India Realm
+              <MdLocalFireDepartment /> 2b2t India Anarchy • Online
             </span>
             <span className="tb-pill gold">
-              <MdBolt /> Hosted by AlooSMP Network
+              <MdBolt /> AlooSMP Network
             </span>
           </div>
 
-          <div className="tb-title-wrap">
-            <h1 className="tb-hero-title">
-              2B2T <span className="highlight">INDIA</span>
-            </h1>
-          </div>
+          <h1 className="tb-hero-title tb-anim-2">
+            2B2T <span className="highlight">INDIA</span>
+          </h1>
 
-          <p className="tb-hero-subtitle">
-            India's most notorious, lawless <strong>Minecraft Anarchy & Survival Server</strong>.
-            Zero rules, hacking & griefing allowed, never-resetting world, and true survival anarchy.
-            Connect via <strong>{SERVER_IP}</strong> or switch with <strong>{ANARCHY_COMMAND}</strong>.
+          <p className="tb-hero-subtitle tb-anim-3">
+            India&apos;s rawest <strong>Minecraft Anarchy &amp; Survival Server</strong>.
+            Zero rules, hacking &amp; griefing allowed, never-resetting world, and true anarchy survival.
+            Connect to <strong>{SERVER_IP}</strong> and run <strong>{ANARCHY_COMMAND}</strong>.
           </p>
 
-          {/* Quick Connect & Switch Boxes */}
-          <div className="tb-connect-cards">
-            {/* Box 1: Server IP */}
+          {/* Interactive Connect Panel */}
+          <div className="tb-connect-panel tb-anim-4">
+            {/* Server IP Box with Java / Bedrock Switch */}
             <div className="tb-connect-box">
-              <div className="tb-connect-info">
+              <div className="tb-box-top">
                 <span className="tb-connect-label">
-                  <MdPublic /> Direct Server IP (Java & Bedrock)
+                  <MdPublic /> Server Address
                 </span>
-                <span className="tb-connect-value">{SERVER_IP}</span>
+                <div className="tb-platform-tabs">
+                  <button
+                    type="button"
+                    className={`tb-platform-tab ${platform === 'java' ? 'active' : ''}`}
+                    onClick={() => setPlatform('java')}
+                  >
+                    <MdDesktopWindows /> Java
+                  </button>
+                  <button
+                    type="button"
+                    className={`tb-platform-tab ${platform === 'bedrock' ? 'active' : ''}`}
+                    onClick={() => setPlatform('bedrock')}
+                  >
+                    <MdPhoneAndroid /> Bedrock
+                  </button>
+                </div>
               </div>
-              <button
-                className={`tb-copy-btn ${copiedIP ? 'copied' : ''}`}
-                onClick={() => copyToClipboard(SERVER_IP, setCopiedIP)}
-              >
-                {copiedIP ? <MdCheckCircle /> : <MdContentCopy />}
-                {copiedIP ? 'IP Copied!' : 'Copy IP'}
-              </button>
+
+              <div className="tb-box-bottom">
+                <div className="tb-connect-value-wrap">
+                  <span className="tb-connect-value">{SERVER_IP}</span>
+                  <span className="tb-connect-port">
+                    {platform === 'java'
+                      ? 'Port: 25565 (1.16 – 1.21.x)'
+                      : `Port: ${BEDROCK_PORT} (MCPE / Pojav / Console)`}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className={`tb-copy-btn ${copiedIP ? 'copied' : ''}`}
+                  onClick={() => copyToClipboard(SERVER_IP, setCopiedIP)}
+                >
+                  {copiedIP ? <MdCheckCircle /> : <MdContentCopy />}
+                  {copiedIP ? 'Copied!' : 'Copy IP'}
+                </button>
+              </div>
             </div>
 
-            {/* Box 2: Quick Command Switch */}
+            {/* In-Game Realm Switch Box */}
             <div className="tb-connect-box command-box">
-              <div className="tb-connect-info">
+              <div className="tb-box-top">
                 <span className="tb-connect-label">
                   <MdTerminal /> Switch Realm In-Game
                 </span>
-                <span className="tb-connect-value">{ANARCHY_COMMAND}</span>
               </div>
-              <button
-                className={`tb-copy-btn ${copiedCmd ? 'copied' : ''}`}
-                onClick={() => copyToClipboard(ANARCHY_COMMAND, setCopiedCmd)}
-              >
-                {copiedCmd ? <MdCheckCircle /> : <MdContentCopy />}
-                {copiedCmd ? 'Command Copied!' : 'Copy Command'}
-              </button>
+
+              <div className="tb-box-bottom">
+                <div className="tb-connect-value-wrap">
+                  <span className="tb-connect-value">{ANARCHY_COMMAND}</span>
+                  <span className="tb-connect-port">Or right-click the 2b2t NPC</span>
+                </div>
+                <button
+                  type="button"
+                  className={`tb-copy-btn ${copiedCmd ? 'copied' : ''}`}
+                  onClick={() => copyToClipboard(ANARCHY_COMMAND, setCopiedCmd)}
+                >
+                  {copiedCmd ? <MdCheckCircle /> : <MdContentCopy />}
+                  {copiedCmd ? 'Copied!' : 'Copy Cmd'}
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Stats Bar */}
-          <div className="tb-stats-grid">
+          {/* Stats Strip */}
+          <div className="tb-stats-grid tb-anim-5">
             <div className="tb-stat-item">
               <div className="tb-stat-num">0 Rules</div>
-              <div className="tb-stat-lbl">Lawless Anarchy</div>
+              <div className="tb-stat-lbl">Pure Anarchy</div>
             </div>
             <div className="tb-stat-item">
               <div className="tb-stat-num">No Resets</div>
-              <div className="tb-stat-lbl">Permanent World</div>
+              <div className="tb-stat-lbl">Permanent Map</div>
             </div>
             <div className="tb-stat-item">
               <div className="tb-stat-num">Java + PE</div>
@@ -147,7 +187,7 @@ const TwoBTwoT = () => {
             </div>
             <div className="tb-stat-item">
               <div className="tb-stat-num">20.0 TPS</div>
-              <div className="tb-stat-lbl">High-Performance Host</div>
+              <div className="tb-stat-lbl">Low Ping India</div>
             </div>
           </div>
         </section>
@@ -156,30 +196,30 @@ const TwoBTwoT = () => {
         <section className="tb-section">
           <div className="tb-section-header">
             <span className="tb-section-tag">
-              <MdExplore /> Step-by-Step Connection Guide
+              <MdExplore /> Connection Guide
             </span>
             <h2 className="tb-section-title">
               How to Join <span>2b2t India</span>
             </h2>
             <p className="tb-section-desc">
-              Entering the lawless world of 2b2t India is quick and simple for both Java and Bedrock Edition players.
+              Enter the anarchy wasteland in under 30 seconds from Java Edition, Bedrock, or PojavLauncher.
             </p>
           </div>
 
           <div className="tb-steps-grid">
-            {/* Step 1 */}
             <div className="tb-step-card">
               <span className="tb-step-badge">01</span>
               <div className="tb-step-icon">
                 <MdPublic />
               </div>
-              <h3>Connect to AlooSMP</h3>
+              <h3>Join AlooSMP</h3>
               <p>
-                Open Minecraft multiplayer and add server IP <strong>{SERVER_IP}</strong>. Bedrock and PojavLauncher players use Port <strong>{BEDROCK_PORT}</strong>. Both cracked & premium are supported.
+                Open Minecraft Multiplayer and add <strong>{SERVER_IP}</strong>. Bedrock &amp; MCPE players connect using Port <strong>{BEDROCK_PORT}</strong>. Cracked &amp; premium accounts supported.
               </p>
               <div className="tb-command-chip">
                 <span>{SERVER_IP}</span>
                 <button
+                  type="button"
                   onClick={() => copyToClipboard(SERVER_IP, setCopiedIP)}
                   title="Copy IP"
                 >
@@ -188,19 +228,19 @@ const TwoBTwoT = () => {
               </div>
             </div>
 
-            {/* Step 2 */}
             <div className="tb-step-card">
               <span className="tb-step-badge">02</span>
               <div className="tb-step-icon">
                 <MdTerminal />
               </div>
-              <h3>Switch to 2b2t Anarchy</h3>
+              <h3>Enter 2b2t Realm</h3>
               <p>
-                Once you join the lobby/survival world, right-click the <strong>2b2t NPC</strong> or directly type <strong>{ANARCHY_COMMAND}</strong> in your in-game chat to instantly switch to the anarchy realm.
+                Once in the main server lobby, right-click the <strong>2b2t NPC</strong> or run <strong>{ANARCHY_COMMAND}</strong> in chat to teleport directly into the anarchy world.
               </p>
               <div className="tb-command-chip">
                 <span>{ANARCHY_COMMAND}</span>
                 <button
+                  type="button"
                   onClick={() => copyToClipboard(ANARCHY_COMMAND, setCopiedCmd)}
                   title="Copy Command"
                 >
@@ -209,18 +249,17 @@ const TwoBTwoT = () => {
               </div>
             </div>
 
-            {/* Step 3 */}
             <div className="tb-step-card">
               <span className="tb-step-badge">03</span>
               <div className="tb-step-icon">
                 <MdDangerous />
               </div>
-              <h3>Survive the Wasteland</h3>
+              <h3>Escape &amp; Dominate</h3>
               <p>
-                Spawn is a chaotic, cratered wasteland of obsidian and lava. Escape the spawn radius, gather food, build hidden bases thousands of blocks away, and dominate the anarchy realm!
+                Spawn is a cratered obsidian wasteland. Escape spawn, stash gear far from highways, raid rival bases, and carve your own history into 2b2t India.
               </p>
               <div className="tb-command-chip">
-                <span>Escape Spawn • Good Luck</span>
+                <span>No Rules • Pure Survival</span>
               </div>
             </div>
           </div>
@@ -230,13 +269,13 @@ const TwoBTwoT = () => {
         <section className="tb-section">
           <div className="tb-section-header">
             <span className="tb-section-tag">
-              <MdLocalFireDepartment /> Raw Minecraft Survival
+              <MdLocalFireDepartment /> Anarchy Features
             </span>
             <h2 className="tb-section-title">
-              Why <span>2b2t India</span> Is The Ultimate Anarchy Server
+              Built for <span>True Anarchy</span>
             </h2>
             <p className="tb-section-desc">
-              Experience Minecraft the way it was originally built for hardcore survivors. No moderators intervening, no land claims, no rollback.
+              No land claims, no moderation interference, no rollbacks — just raw Minecraft chaos on dedicated Indian hardware.
             </p>
           </div>
 
@@ -249,7 +288,7 @@ const TwoBTwoT = () => {
                 <h4 className="tb-feature-title">Pure Lawless Anarchy</h4>
               </div>
               <p className="tb-feature-desc">
-                No griefing bans, no stealing rules, and no combat restrictions. Everything built can be destroyed; every player you meet is a potential threat or ally.
+                Griefing, raiding, stealing, and PvP anywhere are completely unrestricted. Trust nobody and protect your coordinates.
               </p>
             </div>
 
@@ -258,10 +297,10 @@ const TwoBTwoT = () => {
                 <div className="tb-feature-icon">
                   <MdBolt />
                 </div>
-                <h4 className="tb-feature-title">Hacks & Clients Permitted</h4>
+                <h4 className="tb-feature-title">Hacks &amp; Clients Allowed</h4>
               </div>
               <p className="tb-feature-desc">
-                Utility clients and hacked clients (Meteor, Aristois, LiquidBounce, Wurst) are allowed. Enjoy freecam, baritone pathfinding, esp, and auto-crafting without bans.
+                Utility clients like Meteor, Aristois, LiquidBounce, and Wurst are permitted without unfair bans for movement or combat modules.
               </p>
             </div>
 
@@ -270,10 +309,10 @@ const TwoBTwoT = () => {
                 <div className="tb-feature-icon">
                   <MdLayers />
                 </div>
-                <h4 className="tb-feature-title">Never-Ending World</h4>
+                <h4 className="tb-feature-title">Never-Resetting World</h4>
               </div>
               <p className="tb-feature-desc">
-                The world map never wipes or resets. Massive obsidian monuments, ruined bases, player highways, and deep lore persist across months and years.
+                The map never wipes. Ruined monuments, nether highways, megabases, and server lore remain permanently etched in history.
               </p>
             </div>
 
@@ -282,10 +321,10 @@ const TwoBTwoT = () => {
                 <div className="tb-feature-icon">
                   <MdLockOpen />
                 </div>
-                <h4 className="tb-feature-title">Cracked & Premium Crossplay</h4>
+                <h4 className="tb-feature-title">Cracked &amp; Crossplay</h4>
               </div>
               <p className="tb-feature-desc">
-                Accessible to all Indian and global players whether you use official Minecraft or TLauncher, PojavLauncher mobile, or Bedrock Edition.
+                Play seamlessly across Java, Bedrock, MCPE, and PojavLauncher with full support for both cracked and premium accounts.
               </p>
             </div>
 
@@ -294,10 +333,10 @@ const TwoBTwoT = () => {
                 <div className="tb-feature-icon">
                   <MdSportsKabaddi />
                 </div>
-                <h4 className="tb-feature-title">Dupe & Clan Incursions</h4>
+                <h4 className="tb-feature-title">Crystal PvP &amp; Clan Wars</h4>
               </div>
               <p className="tb-feature-desc">
-                Join community dupe events, build impenetrable clan bases, fight high-stakes spawn incursions, and participate in legendary crystal PvP battles.
+                Form anarchy clans, control nether highways, hunt stashes, and battle in high-stakes crystal PvP skirmishes.
               </p>
             </div>
 
@@ -306,66 +345,51 @@ const TwoBTwoT = () => {
                 <div className="tb-feature-icon">
                   <MdPublic />
                 </div>
-                <h4 className="tb-feature-title">Ultra-Low Ping in India</h4>
+                <h4 className="tb-feature-title">Low-Ping Indian Host</h4>
               </div>
               <p className="tb-feature-desc">
-                Unlike overseas anarchy servers with 250ms+ ping and endless queues, 2b2t India runs on dedicated low-ping Indian hardware with instantaneous hit registration.
+                Skip 250ms overseas lag and hours-long queues — enjoy smooth 20 TPS performance hosted directly in India.
               </p>
             </div>
           </div>
         </section>
 
-        {/* ════════ HALLMARK TICKET & SUPPORT SYSTEM ════════ */}
-        <section className="tb-hallmark-card">
-          <div className="tb-hallmark-glow" />
-          <div className="tb-hallmark-inner">
-            <div className="tb-hallmark-content">
-              <span className="tb-hallmark-tag">
-                <MdSupportAgent /> Hallmark Ticket System
-              </span>
-              <h2 className="tb-hallmark-title">
-                Need Help? Use <span>/hallmark</span> In-Game
-              </h2>
-              <p className="tb-hallmark-desc">
-                Encountered network issues, hardware lag, or account problems on 2b2t India? Run the in-game command <strong>/hallmark</strong> to immediately open an automated support ticket, or connect directly with our 24/7 staff team on Discord.
-              </p>
-              <div className="tb-hallmark-cmd">
-                <span>{HALLMARK_COMMAND}</span>
-                <button
-                  style={{ background: 'transparent', border: 'none', color: '#ffbe0b', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-                  onClick={() => copyToClipboard(HALLMARK_COMMAND, setCopiedHallmark)}
-                  title="Copy /hallmark"
-                >
-                  {copiedHallmark ? <MdCheckCircle style={{ color: '#22c55e' }} /> : <MdContentCopy />}
-                </button>
-              </div>
-            </div>
-
-            <div className="tb-hallmark-actions">
-              <a
-                href="https://discord.gg/Ecf6UJq8MR"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="tb-btn-discord"
-              >
-                <RiDiscordFill style={{ fontSize: '22px' }} />
-                Open Discord Ticket <MdOpenInNew />
-              </a>
-            </div>
+        {/* ════════ DISCORD COMMUNITY BANNER ════════ */}
+        <section className="tb-discord-banner">
+          <div className="tb-discord-content">
+            <span className="tb-discord-tag">
+              <RiDiscordFill /> AlooSMP Community
+            </span>
+            <h2 className="tb-discord-title">
+              Join the <span>2b2t India</span> Discord
+            </h2>
+            <p className="tb-discord-desc">
+              Find anarchy teammates, trade coordinates, track server updates, or get help from the community in our official Discord server.
+            </p>
           </div>
+
+          <a
+            href="https://discord.gg/Ecf6UJq8MR"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tb-btn-discord"
+          >
+            <RiDiscordFill style={{ fontSize: '22px' }} />
+            Join Discord <MdOpenInNew />
+          </a>
         </section>
 
         {/* ════════ FAQ SECTION ════════ */}
         <section className="tb-section">
           <div className="tb-section-header">
             <span className="tb-section-tag">
-              <MdHelpOutline /> Answers & Information
+              <MdHelpOutline /> Questions &amp; Info
             </span>
             <h2 className="tb-section-title">
-              2b2t India <span>Frequently Asked Questions</span>
+              2b2t India <span>FAQ</span>
             </h2>
             <p className="tb-section-desc">
-              Everything you need to know about joining, hacking, commands, and rules on 2b2t India by AlooSMP.
+              Quick answers about joining, commands, cross-play, and anarchy rules on 2b2t India.
             </p>
           </div>
 
@@ -376,22 +400,25 @@ const TwoBTwoT = () => {
                 className={`tb-faq-item ${openFaq === idx ? 'open' : ''}`}
               >
                 <button
+                  type="button"
                   className="tb-faq-question"
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                 >
                   <span>{faq.q}</span>
                   <MdExpandMore className="tb-faq-chevron" />
                 </button>
-                {openFaq === idx && (
+                <div className="tb-faq-collapse">
                   <div className="tb-faq-answer">
                     <p>{faq.a}</p>
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
         </section>
       </div>
+
+      <Footer />
     </div>
   );
 };

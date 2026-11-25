@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Navbar.css';
 import {
   MdHome,
-  MdMap,
+  MdDiamond,
   MdLeaderboard,
   MdHowToVote,
   MdRule,
@@ -24,8 +24,8 @@ import LOGO from '../assets/potato.svg';
 const NAV_LINKS = [
   { id: 'home',        label: 'Home',        icon: <MdHome />,             path: '/',            special: null   },
   { id: '2b2t',        label: '2b2t India',  icon: <MdLocalFireDepartment />, path: '/2b2t-india', special: 'anarchy' },
-  { id: 'maps',        label: 'Maps',        icon: <MdMap />,              path: '/maps',        special: null   },
-  { id: 'leaderboard', label: 'Leaderboard', icon: <MdLeaderboard />,      path: '/leaderboard', special: null   },
+  { id: 'ranks',       label: 'Ranks',       icon: <MdDiamond />,             path: '/store',      special: 'store'   },
+  { id: 'leaderboard', label: 'Leaderboard', icon: <MdLeaderboard />,         path: '/leaderboard', special: null     },
   { id: 'vote',        label: 'Vote',        icon: <MdHowToVote />,        path: '/vote',        special: 'vote' },
   { id: 'donators',    label: 'Donators',    icon: <MdWorkspacePremium />, path: '/donators',     special: null   },
   { id: 'rules',       label: 'Rules',       icon: <MdRule />,             path: '/rules',       special: null   },
@@ -154,6 +154,7 @@ const Navbar = () => {
     if (isActive) cls += ' nav-active';
     if (special === 'vote') cls += ' nav-vote';
     if (special === 'anarchy') cls += ' nav-anarchy';
+    if (special === 'store') cls += ' nav-store';
     return cls;
   };
 
@@ -162,6 +163,7 @@ const Navbar = () => {
     if (isActive) cls += ' nav-active';
     if (special === 'vote') cls += ' nav-vote';
     if (special === 'anarchy') cls += ' nav-anarchy';
+    if (special === 'store') cls += ' nav-store';
     return cls;
   };
 
@@ -247,15 +249,13 @@ const Navbar = () => {
             </button>
 
             {/* Store button */}
-            <a
-              href="https://discord.gg/Ecf6UJq8MR"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/store"
               className="nav-btn-store"
             >
               <MdStorefront />
               <span className="nav-label">Store</span>
-            </a>
+            </Link>
 
             {/* Hamburger — mobile only */}
             <button
@@ -347,16 +347,14 @@ const Navbar = () => {
               {copied ? 'Copied!' : `Copy IP — ${SERVER_IP}`}
             </button>
 
-            <a
-              href="https://discord.gg/Ecf6UJq8MR"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/store"
               className="drawer-store-btn"
               onClick={() => setDrawer(false)}
             >
               <MdStorefront />
               Visit Store
-            </a>
+            </Link>
           </div>
         </div>
       </div>

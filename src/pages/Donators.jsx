@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Donators.css';
 import bgImg from '../assets/bg.jpg';
+import Footer from '../components/Footer';
 import {
   MdFavorite,
   MdWorkspacePremium,
@@ -17,6 +18,10 @@ import {
   MdTrendingUp,
   MdFlag,
   MdDiamond,
+  MdDns,
+  MdBolt,
+  MdCelebration,
+  MdRocketLaunch,
 } from 'react-icons/md';
 import { getAvatarUrl } from '../utils/api';
 
@@ -148,6 +153,8 @@ function useAnimatedCounter(target, duration = 1500) {
 
 const Donators = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [tierFilter, setTierFilter] = useState('all');
+  const pageRef = useRef(null);
 
   // Calculate totals
   const totalRaised = DONATORS.reduce(
@@ -169,22 +176,68 @@ const Donators = () => {
 
   const topDonator = sortedDonators[0];
 
-  // Filter donators by search term
+  // Filter donators by tier and search term
   const filteredDonators = sortedDonators.filter(d => {
+    const matchesTier = tierFilter === 'all' || d.tier === tierFilter;
     const term = searchTerm.toLowerCase();
-    return (
+    const matchesSearch =
       d.username.toLowerCase().includes(term) ||
       d.purchases.some(p => p.item.toLowerCase().includes(term)) ||
-      d.tier.toLowerCase().includes(term)
-    );
+      d.tier.toLowerCase().includes(term);
+    return matchesTier && matchesSearch;
   });
 
-  // Animated counters
+  // Animated counters & bar sweep
   const [animRaised, raisedRef] = useAnimatedCounter(totalRaised);
   const [animPercent, percentRef] = useAnimatedCounter(Math.round(goalPercent));
+  const [animBarWidth, setAnimBarWidth] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimBarWidth(goalPercent);
+    }, 220);
+    return () => clearTimeout(timer);
+  }, [goalPercent]);
+
+  // Curved left-to-right scroll reveal observer
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root) return;
+    const elements = Array.from(root.querySelectorAll('.reveal-curve'));
+    if (elements.length === 0) return;
+
+    if (!('IntersectionObserver' in window)) {
+      elements.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.05, rootMargin: '0px 0px -15px 0px' }
+    );
+
+    elements.forEach((el) => {
+      if (el.classList.contains('is-visible')) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.96) {
+        el.classList.add('is-visible');
+      } else {
+        observer.observe(el);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, [filteredDonators.length, tierFilter, searchTerm]);
 
   return (
-    <div className="donators-page">
+    <div className="donators-page" ref={pageRef}>
       {/* Background Image with Dark Gradient Overlays */}
       <div className="donators-bg-wrap">
         <img src={bgImg} alt="AlooSMP Background" className="donators-bg-img" />
@@ -202,70 +255,134 @@ const Donators = () => {
       <div className="donators-container">
 
         {/* ── HEADER ── */}
-        <div className="donators-header">
+        <div className="donators-header reveal-curve" style={{ '--reveal-delay': '0ms' }}>
           <div className="donators-tag">
-            <MdVolunteerActivism /> Server Wall of Fame
+            <MdVolunteerActivism /> Wall of Fame • Official Patrons
           </div>
           <h1 className="donators-title">
             Server <span>Donators</span>
           </h1>
           <p className="donators-sub">
-            Honoring the legendary supporters of <strong>AlooSMP</strong>. Every purchase directly helps maintain high-performance hardware, custom plugins, and lag-free gameplay!
+            Honoring the legendary supporters powering <strong>AlooSMP</strong>. Every rank and key contribution directly funds high-performance hardware, custom features, and lag-free gameplay!
           </p>
         </div>
 
         {/* ── DONATION GOAL PROGRESS ── */}
-        <div className="goal-section" ref={raisedRef}>
+        <div className="goal-section reveal-curve" style={{ '--reveal-delay': '80ms' }} ref={raisedRef}>
           <div className="goal-header">
-            <div className="goal-title-row">
-              <MdFlag className="goal-flag-icon" />
-              <h2 className="goal-title">Donation <span>Goal</span></h2>
+            <div className="goal-title-col">
+              <div className="goal-title-row">
+                <div className="goal-flag-badge">
+                  <MdFlag className="goal-flag-icon" />
+                </div>
+                <div>
+                  <h2 className="goal-title">Monthly Server <span>Goal</span></h2>
+                  <p className="goal-subtitle">
+                    Supporting 24/7 low-ping India servers, crate events &amp; new updates
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="goal-amounts">
-              <span className="goal-raised">₹{animRaised}</span>
-              <span className="goal-separator">/</span>
-              <span className="goal-target">₹{DONATION_GOAL}</span>
+
+            <div className="goal-amounts-box">
+              <div className="goal-amounts">
+                <span className="goal-raised">₹{animRaised.toLocaleString('en-IN')}</span>
+                <span className="goal-separator">/</span>
+                <span className="goal-target">₹{DONATION_GOAL.toLocaleString('en-IN')}</span>
+              </div>
+              <span className="goal-funded-pill">{animPercent}% Funded</span>
             </div>
           </div>
 
-          <div className="goal-bar-track">
-            <div
-              className="goal-bar-fill"
-              style={{ width: `${goalPercent}%` }}
+          <div className="goal-bar-wrap">
+            <div className="goal-bar-floating-tag" style={{ left: `${animBarWidth}%` }}>
+              <span>{animPercent}%</span>
+            </div>
+            <div className="goal-bar-track">
+              {/* Vertical Milestone Ticks */}
+              {[25, 50, 75].map((tick) => (
+                <span
+                  key={tick}
+                  className={`goal-track-tick ${goalPercent >= tick ? 'passed' : ''}`}
+                  style={{ left: `${tick}%` }}
+                />
+              ))}
+
+              <div
+                className="goal-bar-fill"
+                style={{ width: `${animBarWidth}%` }}
+              >
+                <div className="goal-bar-stripes" />
+                <div className="goal-bar-shimmer" />
+              </div>
+              <div className="goal-bar-glow" style={{ left: `${animBarWidth}%` }} />
+            </div>
+          </div>
+
+          <div className="goal-actions-bar" ref={percentRef}>
+            <div className="goal-stats-row">
+              <div className="goal-stat-chip">
+                <MdTrendingUp />
+                <span>{animPercent}% Goal Reached</span>
+              </div>
+              <div className="goal-stat-chip remaining">
+                <MdDiamond />
+                <span>₹{goalRemaining.toLocaleString('en-IN')} Left to Target</span>
+              </div>
+              <div className="goal-stat-chip donors">
+                <MdFavorite />
+                <span>{totalDonators} Active Patrons</span>
+              </div>
+            </div>
+
+            <a
+              href="https://discord.gg/Ecf6UJq8MR"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="goal-boost-btn"
             >
-              <div className="goal-bar-shimmer" />
-            </div>
-            <div className="goal-bar-glow" style={{ left: `${goalPercent}%` }} />
+              <MdBolt /> Boost Server Goal
+            </a>
           </div>
 
-          <div className="goal-stats-row" ref={percentRef}>
-            <div className="goal-stat-chip">
-              <MdTrendingUp />
-              <span>{animPercent}% Complete</span>
-            </div>
-            <div className="goal-stat-chip remaining">
-              <MdDiamond />
-              <span>₹{goalRemaining} Remaining</span>
-            </div>
-            <div className="goal-stat-chip donors">
-              <MdFavorite />
-              <span>{totalDonators} Supporters</span>
-            </div>
-          </div>
-
-          {/* Goal milestones */}
+          {/* Goal Milestone Perks */}
           <div className="goal-milestones">
-            {[25, 50, 75, 100].map(milestone => {
-              const reached = goalPercent >= milestone;
+            {[
+              { pct: 25,  icon: <MdDns />,          title: 'Host Active',      desc: 'Core 24/7 upkeep' },
+              { pct: 50,  icon: <MdBolt />,         title: 'Plugin Upgrades',  desc: 'New custom crates & features' },
+              { pct: 75,  icon: <MdCelebration />,  title: 'Drop Party Event', desc: 'Server-wide key giveaways' },
+              { pct: 100, icon: <MdRocketLaunch />, title: 'Mega Boost',       desc: 'Next-tier CPU & RAM upgrade' },
+            ].map((m, idx, arr) => {
+              const reached = goalPercent >= m.pct;
+              const isNext = !reached && (idx === 0 || goalPercent >= arr[idx - 1].pct);
               return (
                 <div
-                  key={milestone}
-                  className={`milestone-marker ${reached ? 'reached' : ''}`}
+                  key={m.pct}
+                  className={`milestone-card ${reached ? 'reached' : ''} ${isNext ? 'next-target' : ''}`}
                 >
-                  <div className="milestone-dot" />
-                  <span className="milestone-label">
-                    {milestone === 100 ? '🎯' : `${milestone}%`}
-                  </span>
+                  <div className="milestone-top">
+                    <div className="milestone-icon-box">
+                      {m.icon}
+                    </div>
+                    {reached ? (
+                      <span className="milestone-badge unlocked">
+                        <MdCheckCircle /> Unlocked
+                      </span>
+                    ) : isNext ? (
+                      <span className="milestone-badge next">
+                        Next Target
+                      </span>
+                    ) : (
+                      <span className="milestone-badge locked">
+                        {m.pct}%
+                      </span>
+                    )}
+                  </div>
+                  <div className="milestone-body">
+                    <span className="milestone-pct">{m.pct}% Milestone</span>
+                    <div className="milestone-name">{m.title}</div>
+                    <div className="milestone-desc">{m.desc}</div>
+                  </div>
                 </div>
               );
             })}
@@ -274,7 +391,7 @@ const Donators = () => {
 
         {/* ── STATS OVERVIEW CARDS ── */}
         <div className="donators-stats-grid">
-          <div className="donators-stat-card stat-raised">
+          <div className="donators-stat-card stat-raised reveal-curve" style={{ '--reveal-delay': '0ms' }}>
             <div className="donators-stat-icon gold">
               <MdWorkspacePremium />
             </div>
@@ -284,7 +401,7 @@ const Donators = () => {
             </div>
           </div>
 
-          <div className="donators-stat-card stat-donators">
+          <div className="donators-stat-card stat-donators reveal-curve" style={{ '--reveal-delay': '90ms' }}>
             <div className="donators-stat-icon green">
               <MdFavorite />
             </div>
@@ -294,7 +411,7 @@ const Donators = () => {
             </div>
           </div>
 
-          <div className="donators-stat-card stat-items">
+          <div className="donators-stat-card stat-items reveal-curve" style={{ '--reveal-delay': '180ms' }}>
             <div className="donators-stat-icon purple">
               <MdShoppingBag />
             </div>
@@ -304,7 +421,7 @@ const Donators = () => {
             </div>
           </div>
 
-          <div className="donators-stat-card stat-top">
+          <div className="donators-stat-card stat-top reveal-curve" style={{ '--reveal-delay': '270ms' }}>
             <div className="donators-stat-icon blue">
               <MdEmojiEvents />
             </div>
@@ -326,8 +443,13 @@ const Donators = () => {
 
           <div className="featured-cards-grid">
             {sortedDonators.map((donator, idx) => (
-              <div key={donator.id} className={`featured-donator-card ${donator.badgeClass}`}>
+              <div
+                key={donator.id}
+                className={`featured-donator-card ${donator.badgeClass} reveal-curve`}
+                style={{ '--reveal-delay': `${(idx % 3) * 110}ms` }}
+              >
                 <div className="featured-card-glow" />
+                <div className="featured-rank-pill">#{idx + 1}</div>
                 <div className="featured-badge-tag">{donator.badge}</div>
 
                 <Link to={`/profile/${donator.username}`} className="featured-avatar-link">
@@ -370,26 +492,45 @@ const Donators = () => {
         </div>
 
         {/* ── SEARCH & FULL DONATOR LIST TABLE ── */}
-        <div className="donators-list-section">
+        <div className="donators-list-section reveal-curve" style={{ '--reveal-delay': '60ms' }}>
           <div className="list-toolbar">
             <div className="toolbar-title">
               <MdCardMembership />
               <span>All Purchases & Donations ({filteredDonators.length})</span>
             </div>
 
-            <div className="donators-search-box">
-              <MdSearch className="search-icon" />
-              <input
-                type="text"
-                placeholder="Search player name or item..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              {searchTerm && (
-                <button className="clear-search" onClick={() => setSearchTerm('')}>
-                  ✕
-                </button>
-              )}
+            <div className="toolbar-controls">
+              <div className="tier-filter-pills">
+                {[
+                  { id: 'all', label: 'All' },
+                  { id: 'Aloo Supporter', label: 'Aloo Rank' },
+                  { id: 'Supporter', label: 'Supporters' },
+                ].map(t => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    className={`tier-filter-btn ${tierFilter === t.id ? 'active' : ''}`}
+                    onClick={() => setTierFilter(t.id)}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="donators-search-box">
+                <MdSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search player name or item..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                {searchTerm && (
+                  <button type="button" className="clear-search" onClick={() => setSearchTerm('')}>
+                    ✕
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
@@ -408,7 +549,11 @@ const Donators = () => {
               <tbody>
                 {filteredDonators.length > 0 ? (
                   filteredDonators.map((d, index) => (
-                    <tr key={d.id} className="donator-table-row">
+                    <tr
+                      key={d.id}
+                      className="donator-table-row reveal-curve"
+                      style={{ '--reveal-delay': `${index * 45}ms` }}
+                    >
                       <td className="col-rank">
                         <span className={`rank-num ${index === 0 ? 'top-1' : index === 1 ? 'top-2' : index === 2 ? 'top-3' : ''}`}>
                           {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
@@ -464,7 +609,7 @@ const Donators = () => {
         </div>
 
         {/* ── CALL TO ACTION / STORE BANNER ── */}
-        <div className="donators-cta-banner">
+        <div className="donators-cta-banner reveal-curve" style={{ '--reveal-delay': '80ms' }}>
           <div className="cta-content">
             <div className="cta-icon">💎</div>
             <div className="cta-text">
@@ -474,17 +619,17 @@ const Donators = () => {
               </p>
             </div>
           </div>
-          <a
-            href="https://discord.gg/Ecf6UJq8MR"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/store"
             className="cta-store-btn"
           >
             <MdShoppingBag /> Visit Store / Buy Ranks
-          </a>
+          </Link>
         </div>
 
       </div>
+
+      <Footer />
     </div>
   );
 };

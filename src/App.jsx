@@ -13,6 +13,7 @@ import Vote from './pages/Vote';
 import Rules from './pages/Rules';
 import Contact from './pages/Contact';
 import TwoBTwoT from './pages/TwoBTwoT';
+import Store from './pages/Store';
 import AnarchyPopup from './components/AnarchyPopup';
 
 function App() {
@@ -32,6 +33,8 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/2b2t-india" element={<TwoBTwoT />} />
         <Route path="/2b2t" element={<TwoBTwoT />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/ranks" element={<Store />} />
       </Routes>
       <AnarchyPopup />
       <Analytics />

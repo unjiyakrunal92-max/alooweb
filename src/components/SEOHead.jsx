@@ -42,6 +42,16 @@ const ROUTE_SEO = {
     description:
       'Support the AlooSMP network and unlock exclusive VIP ranks, cosmetic titles, chat badges, and perks in our official server store.',
   },
+  '/store': {
+    title: 'AlooSMP Store | Buy Ranks (Banana, Warrior, Champion, Aloo) & Crate Keys',
+    description:
+      'Browse official AlooSMP Ranks (Banana ₹59, Warrior ₹149, Champion ₹199, Aloo ₹299) and Crate Key bundles (Spawner, Rare, Ultimate, Fortune Keys). Purchase instantly via Discord.',
+  },
+  '/ranks': {
+    title: 'AlooSMP Store | Buy Ranks (Banana, Warrior, Champion, Aloo) & Crate Keys',
+    description:
+      'Browse official AlooSMP Ranks (Banana ₹59, Warrior ₹149, Champion ₹199, Aloo ₹299) and Crate Key bundles (Spawner, Rare, Ultimate, Fortune Keys). Purchase instantly via Discord.',
+  },
   '/contact': {
     title: 'Contact AlooSMP Staff & Support | Discord Ticket System',
     description:

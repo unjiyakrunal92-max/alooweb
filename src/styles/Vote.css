@@ -6,7 +6,7 @@
 .vote-page {
   min-height: 100vh;
   background: var(--theme-dark);
-  padding: 60px 24px 100px;
+  padding: 56px 24px 0;
   position: relative;
   overflow: hidden;
   color: #ffffff;
@@ -48,8 +48,14 @@
 .vote-inner {
   max-width: 1200px;
   margin: 0 auto;
+  padding-bottom: 84px;
   position: relative;
   z-index: 1;
+}
+
+@keyframes voteFadeUp {
+  0% { opacity: 0; transform: translateY(18px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 /* ══════════════════════════════
@@ -58,6 +64,7 @@
 .vote-header {
   text-align: center;
   margin-bottom: 44px;
+  animation: voteFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .vote-tag {
@@ -443,40 +450,90 @@
 /* ── Voting Progress Banner ── */
 .vote-progress-banner {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: linear-gradient(145deg, rgba(13, 26, 46, 0.85), rgba(8, 17, 32, 0.92));
+  border: 1.5px solid rgba(56, 189, 248, 0.22);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-size: 12.5px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  animation: voteFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+.vpb-top {
+  display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: rgba(13, 26, 46, 0.6);
-  border: 1px solid rgba(26, 111, 255, 0.12);
-  border-radius: 14px;
-  padding: 10px 18px;
-  font-size: 12px;
+  flex-wrap: wrap;
 }
 
 .vpb-left {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #8da4c4;
+  gap: 9px;
+  color: #93b0d8;
 }
 
 .vpb-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: #38bdf8;
-  box-shadow: 0 0 10px #38bdf8;
+  box-shadow: 0 0 12px #38bdf8;
+  flex-shrink: 0;
+  animation: vpbPulse 2s ease-in-out infinite;
+}
+
+@keyframes vpbPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.2); opacity: 0.7; }
 }
 
 .vpb-left strong { color: #ffffff; }
+
+.vpb-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vpb-percent {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 900;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.14);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  padding: 2px 9px;
+  border-radius: 999px;
+}
 
 .vpb-hint {
   font-family: var(--font-display);
   font-size: 10px;
   font-weight: 800;
-  color: #557299;
+  color: #6b88b0;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+.vpb-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.vpb-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1a6fff, #38bdf8, #4ade80);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* ══════════════════════════════
@@ -506,19 +563,44 @@
   gap: 18px;
   backdrop-filter: blur(16px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
   min-width: 0;
   box-sizing: border-box;
+  overflow: hidden;
+  animation: voteFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) var(--stagger, 0ms) both;
+}
+
+.pika-vote-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14%;
+  bottom: 14%;
+  width: 3px;
+  border-radius: 0 4px 4px 0;
+  background: var(--badge-color, #38bdf8);
+  opacity: 0.75;
+  transition: opacity 0.25s ease, top 0.25s ease, bottom 0.25s ease;
 }
 
 .pika-vote-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(26, 111, 255, 0.4);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--badge-color, #1a6fff) 55%, rgba(255, 255, 255, 0.2));
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.48), 0 0 22px color-mix(in srgb, var(--badge-color, #1a6fff) 16%, transparent);
+}
+
+.pika-vote-card:hover::before {
+  opacity: 1;
+  top: 8%;
+  bottom: 8%;
+}
+
+.pika-vote-card:hover .pvc-number-badge {
+  transform: scale(1.06) rotate(-2deg);
 }
 
 .pika-vote-card.voted {
-  border-color: rgba(74, 222, 128, 0.3);
+  border-color: rgba(74, 222, 128, 0.35);
   background: linear-gradient(160deg, rgba(13, 36, 42, 0.9) 0%, rgba(10, 26, 34, 0.95) 100%);
 }
 
@@ -527,13 +609,14 @@
   width: 58px;
   height: 58px;
   border-radius: 16px;
-  background: linear-gradient(135deg, var(--badge-color, #8b5cf6), rgba(13, 26, 46, 0.9));
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, var(--badge-color, #8b5cf6), rgba(13, 26, 46, 0.92));
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--badge-color, #8b5cf6) 28%, rgba(0, 0, 0, 0.4));
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .pvc-number-badge span {
@@ -749,13 +832,20 @@
 }
 
 .vrs-card {
-  background: rgba(6, 12, 24, 0.6);
-  border: 1px solid rgba(26, 111, 255, 0.12);
+  background: rgba(6, 12, 24, 0.65);
+  border: 1px solid rgba(26, 111, 255, 0.14);
   border-radius: 14px;
-  padding: 12px 14px;
+  padding: 13px 15px;
   display: flex;
   align-items: center;
   gap: 12px;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.vrs-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 215, 0, 0.35);
+  background: rgba(12, 22, 42, 0.85);
 }
 
 .vrs-card-icon {
@@ -1224,7 +1314,7 @@
 
 @media (max-width: 680px) {
   .vote-page {
-    padding: 32px 14px 70px;
+    padding: 28px 14px 0;
     overflow-x: hidden;
     width: 100%;
     box-sizing: border-box;
@@ -1233,6 +1323,7 @@
   .vote-inner {
     width: 100%;
     max-width: 100%;
+    padding-bottom: 56px;
     box-sizing: border-box;
     overflow-x: hidden;
   }
@@ -1323,12 +1414,16 @@
 
   /* ── Voting Progress Banner Mobile ── */
   .vote-progress-banner {
+    gap: 8px;
+    padding: 12px 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .vpb-top {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
-    padding: 10px 14px;
-    width: 100%;
-    box-sizing: border-box;
   }
 
   .vpb-left {

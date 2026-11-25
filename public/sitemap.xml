@@ -16,6 +16,12 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://site.aloosmp.fun/store</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
     <loc>https://site.aloosmp.fun/vote</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>daily</changefreq>
