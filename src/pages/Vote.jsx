@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Vote.css';
 import Footer from '../components/Footer';
+import voteCharImg from '../assets/vote-character.png';
+import voteProImg from '../assets/vote-pro-character.png';
 import {
   MdHowToVote,
   MdOpenInNew,
@@ -92,9 +94,9 @@ export const VOTE_LINKS = [
     id: 5,
     number: '#5',
     name: 'Vote Link #5',
-    site: 'Minecraft Servers Org',
-    domain: 'minecraftservers.org',
-    url: 'https://minecraftservers.org/vote/691896',
+    site: 'Minecraft Server List',
+    domain: 'minecraft-server-list.com',
+    url: 'https://minecraft-server-list.com/server/524684/vote/',
     reward: '5k Money + Vote Key',
     badgeColor: '#10b981', // Emerald
   },
@@ -132,9 +134,9 @@ export const VOTE_LINKS = [
     id: 9,
     number: '#9',
     name: 'Vote Link #9',
-    site: 'Top Minecraft Servers',
-    domain: 'topminecraftservers.org',
-    url: 'https://topminecraftservers.org/vote/44880',
+    site: 'MinecraftKrant',
+    domain: 'minecraftkrant.nl',
+    url: 'https://minecraftkrant.nl/server/aloo-smp/vote',
     reward: '5k Money + Vote Key',
     badgeColor: '#ec4899', // Pink
   },
@@ -246,17 +248,39 @@ const Vote = () => {
 
       <div className="vote-inner">
 
-        {/* ════════ HEADER ════════ */}
-        <div className="vote-header">
-          <div className="vote-tag">
-            <MdStar /> Daily Support & Rewards
+        {/* ════════ HERO BANNER WITH 3D VOTE CHARACTER ════════ */}
+        <div className="vote-hero-banner">
+          <div className="vhb-content">
+            <div className="vote-tag">
+              <MdStar /> Daily Support &amp; Rewards
+            </div>
+            <h1 className="vote-title">
+              Vote for <span>AlooSMP</span>:<br />Best Server 2026
+            </h1>
+            <p className="vote-desc">
+              Vote daily on all {VOTE_LINKS.length} server lists below to claim free in-game coins, vote keys, crate vouchers, and XP. Every single vote helps our community grow!
+            </p>
+            <div className="vhb-pills">
+              <span className="vhb-chip">
+                <MdHowToVote /> {VOTE_LINKS.length} Verified Sites
+              </span>
+              <span className="vhb-chip gold">
+                <MdKey /> 5k Cash + Vote Key / Vote
+              </span>
+              <span className="vhb-chip emerald">
+                <MdCheckCircle /> Instant In-Game Claim
+              </span>
+            </div>
           </div>
-          <h1 className="vote-title">
-            Vote for <span>AlooSMP</span>: Best Server 2026
-          </h1>
-          <p className="vote-desc">
-            Vote daily on all {VOTE_LINKS.length} server lists below to claim free in-game coins, vote keys, crate vouchers, and XP. Every single vote helps our community grow!
-          </p>
+
+          <div className="vhb-visual">
+            <div className="vhb-halo" />
+            <img
+              src={voteCharImg}
+              alt="AlooSMP Vote Character"
+              className="vhb-char-img"
+            />
+          </div>
         </div>
 
         {/* ════════ MAIN LAYOUT (Links + Sidebar) ════════ */}
@@ -537,6 +561,34 @@ const Vote = () => {
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* Pro Voter Champion Spotlight Card */}
+            <div className="vote-sidebar-card vote-pro-card">
+              <div className="vsc-card-header">
+                <div className="vsc-header-left">
+                  <MdWorkspacePremium className="vsc-header-icon pro-icon" />
+                  <h4>Monthly Voter Champion</h4>
+                </div>
+                <span className="vsc-header-tag pro">PRO Rewards</span>
+              </div>
+
+              <div className="vpro-visual">
+                <div className="vpro-halo" />
+                <img
+                  src={voteProImg}
+                  alt="AlooSMP Pro Voter Champion"
+                  className="vpro-char-img"
+                />
+              </div>
+
+              <p className="vpro-caption">
+                Vote every day across all {VOTE_LINKS.length} sites to top the leaderboard and unlock <strong>exclusive Rank Vouchers</strong> &amp; crate keys!
+              </p>
+
+              <Link to="/store" className="vpro-btn">
+                <MdDiamond /> Explore VIP Ranks
+              </Link>
             </div>
 
             {/* Vote FAQ Card */}
