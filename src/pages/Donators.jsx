@@ -38,10 +38,21 @@ export const DONATORS = [
     username: '.Suuvo5750',
     purchases: [
       { item: 'Aloo Rank', amount: 299, date: '2026-11-24' },
+      { item: 'Crate Keys (16x)', amount: 360, date: '2026-11-28' },
     ],
     tier: 'Aloo Supporter',
     badge: '👑 Aloo Rank',
     badgeClass: 'badge-gold',
+  },
+  {
+    id: 'donator-musfikar07',
+    username: 'musfikar07',
+    purchases: [
+      { item: 'Ultimate Crate Keys (8x)', amount: 290, date: '2026-11-28' },
+    ],
+    tier: 'Supporter',
+    badge: '🗝️ Ultimate Keys',
+    badgeClass: 'badge-diamond',
   },
   {
     id: 'donator-ajstars',
